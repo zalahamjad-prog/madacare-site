@@ -98,7 +98,7 @@
   const wf = $("waFloat");
   if (wa) ext(wf, wa); else wf.addEventListener("click", e => { e.preventDefault(); openBook(); });
   if (C.crNumber) $("crNo").textContent = C.crNumber;
-  if (C.vatNumber) $("vatNo").textContent = C.vatNumber;
+  if (C.vatNumber && $("vatNo")) $("vatNo").textContent = C.vatNumber;
 
   // Booking request: one new row in the dashboard's requests (Requests page, source "website", on hold until the call center calls).
   const ov = $("bookOv"), form = $("bookForm"), err = $("bkErr");

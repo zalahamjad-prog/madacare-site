@@ -7,9 +7,9 @@ const MADA_SITE = {
   whatsapp: "",        // e.g. "9665XXXXXXXX" (international, digits only)
   appStore: "",        // App Store link of the Mada Care app
   googlePlay: "",      // Google Play link of the Mada Care app
-  social: { tiktok: "", instagram: "", linkedin: "", x: "", email: "" },  // footer icons, left to right in the design: TikTok, (2nd icon), LinkedIn, X, email, WhatsApp
+  social: { tiktok: "", instagram: "", linkedin: "", x: "", email: "digital@madacare.sa" },  // footer icons, left to right in the design: TikTok, (2nd icon), LinkedIn, X, email, WhatsApp
   vatNumber: "000000",      // as in the design until the real number is given
-  crNumber: "0000000",      // as in the design until the real number is given
-  city: "الرياض",
+  crNumber: "7017170502",   // unified number of the commercial registration
+  city: "جدة",
   weather: "غائم"           // static in the design; no weather source is connected
 };
