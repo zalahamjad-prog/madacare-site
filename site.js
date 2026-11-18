@@ -17,7 +17,7 @@
 
   // Last modified, in Saudi time.
   const lm = new Date(document.lastModified);
-  if (!isNaN(lm)) {
+  if (!isNaN(lm) && $("lastMod")) {
     const d = parts(lm, { day: "2-digit", month: "2-digit", year: "numeric" }), t = parts(lm, { hour: "numeric", minute: "2-digit", hour12: true });
     $("lastMod").textContent = `تاريخ آخر تعديل: ${d.day}/${d.month}/${d.year} - ${t.hour}:${t.minute} ${/م|PM/i.test(t.dayPeriod || "") ? "م" : "ص"} بتوقيت السعودية`;
   }
@@ -53,7 +53,9 @@
   }));
 
   // Testimonials carousel.
-  const track = $("tst"), cards = [...track.children], dots = $("dots");
+  const track = $("tst");
+  if (track) {
+  const cards = [...track.children], dots = $("dots");
   cards.forEach((c, i) => { const b = document.createElement("button"); b.type = "button"; b.setAttribute("aria-label", `رأي ${i + 1}`); b.addEventListener("click", () => go(i)); dots.appendChild(b); });
   dots.removeAttribute("aria-hidden");
   let cur = 0;
@@ -72,6 +74,7 @@
   }, 80); });
   $$(".pg").forEach(b => b.addEventListener("click", () => go(cur + (b.dataset.dir === "next" ? 1 : -1))));
   mark();
+  }
 
   // Links from the settings. Empty settings keep the design's buttons and say the link is coming.
   const toast = msg => {
@@ -97,8 +100,10 @@
   $$("[data-help]").forEach(a => { if (wa) ext(a, wa); });
   const wf = $("waFloat");
   if (wa) ext(wf, wa); else wf.addEventListener("click", e => { e.preventDefault(); openBook(); });
-  if (C.crNumber) $("crNo").textContent = C.crNumber;
+  if (C.crNumber) ["crNo", "crNo2"].forEach(k => { if ($(k)) $(k).textContent = C.crNumber; });
+  $$("[data-soon]").forEach(a => a.addEventListener("click", e => { e.preventDefault(); toast("هذه الصفحة قيد البناء في الورشة"); }));
   if (C.vatNumber && $("vatNo")) $("vatNo").textContent = C.vatNumber;
+  if ($("vatRow") && !/[1-9]/.test(C.vatNumber || "")) $("vatRow").hidden = true;  // placeholder VAT stays hidden until the real number is set
 
   // Booking request: one new row in the dashboard's requests (Requests page, source "website", on hold until the call center calls).
   const ov = $("bookOv"), form = $("bookForm"), err = $("bkErr");
