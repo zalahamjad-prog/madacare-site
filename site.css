@@ -1,3 +1,9 @@
+@font-face { font-family: "Tajawal"; src: url("fonts/tajawal-arabic-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF; }
+@font-face { font-family: "Tajawal"; src: url("fonts/tajawal-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+2215; }
+@font-face { font-family: "Tajawal"; src: url("fonts/tajawal-arabic-500-normal.woff2") format("woff2"); font-weight: 500; font-display: swap; unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF; }
+@font-face { font-family: "Tajawal"; src: url("fonts/tajawal-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+2215; }
+@font-face { font-family: "Tajawal"; src: url("fonts/tajawal-arabic-700-normal.woff2") format("woff2"); font-weight: 700; font-display: swap; unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF; }
+@font-face { font-family: "Tajawal"; src: url("fonts/tajawal-latin-700-normal.woff2") format("woff2"); font-weight: 700; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+2215; }
 /* Mada Care website: built from the Figma file "Mada Care - Website Handoff" (Home Page - Desktop 1440, Mobile 375). */
 @font-face { font-family: "thmanyah sans"; src: local("thmanyah sans Bold"), local("thmanyahsans-Bold"), url("fonts/thmanyahsans-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
 @font-face { font-family: "thmanyah sans"; src: local("thmanyah sans Medium"), local("thmanyahsans-Medium"), url("fonts/thmanyahsans-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
@@ -5,7 +11,7 @@
   --primary: #4cb491; --heading: #194136; --text: #161616; --para: #384250; --para2: #6c737f; --display: #1f2a37; --sa: #14573a;
   --nav: #194136; --foot: #18371e; --b1: #d2d6db; --b2: #e5e7eb; --neutral: #f3f4f6; --body: #f9fafb; --soft: #f3fcf6;
   --r-sm: 4px; --r-md: 8px; --r-lg: 16px;
-  --fh: "thmanyah sans", "IBM Plex Sans Arabic", system-ui, sans-serif; --fb: "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --fh: "Tajawal", "IBM Plex Sans Arabic", system-ui, sans-serif; --fb: "Tajawal", "IBM Plex Sans Arabic", system-ui, sans-serif;
   --zoom: 1;
 }
 *, *::before, *::after { box-sizing: border-box; }
@@ -367,3 +373,42 @@ html.hc .hero .lead, html.hc .grad .lead { color: #fff; }
   .snav-acts { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { html, .tst-track { scroll-behavior: auto; } }
+
+/* Inner pages */
+.pg-hero { height: auto; padding: 72px 0 64px; }
+.pg-hero-in { display: grid; gap: 12px; max-width: 900px; position: relative; z-index: 1; }
+.crumbs { display: flex; gap: 8px; font-size: .95rem; opacity: .85; }
+.crumbs a:hover { text-decoration: underline; }
+.ph { margin-top: 8px; padding: 8px 12px; border: 1px dashed #d4a72c; background: #fffaeb; color: #93640b; border-radius: 8px; font-size: .9rem; position: relative; }
+.ph-v { color: #93640b; }
+.feat-grid.vm { margin-top: 0; }
+.facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.fact { background: #fff; border: 1px solid var(--b2); border-radius: var(--r-lg); padding: 20px 24px; display: grid; gap: 6px; }
+.fact small { color: var(--para2); font-size: .875rem; }
+.fact b { color: var(--heading); font-weight: 600; }
+@media (max-width: 900px) { .facts { grid-template-columns: 1fr; } .pg-hero { padding: 48px 0 40px; } }
+
+/* Figma type sizes (desktop design, node 2031:14720) */
+@media (min-width: 861px) {
+  .btn { font-size: 1rem; }
+  .hero-text { width: 720px; }
+  .tag-oc { height: 32px; padding: 0 12px; font-size: 1rem; }
+  .feat-text .p20, .tint .p20 { font-weight: 500; color: #6c737f; }
+  .fc h3 { font-weight: 500; font-size: 1.75rem; color: #1a1a35; }
+  .fc p { font-size: 1.125rem; line-height: 1.75rem; font-weight: 500; color: #65656f; }
+  .sc-t b { font-size: 1.25rem; line-height: 1.875rem; font-weight: 600; color: #1f2a37; }
+  .sc.why .sc-t p { font-size: 1rem; line-height: 1.5rem; font-weight: 500; color: #6c737f; }
+  .num-big { font-size: 3rem; line-height: 3.75rem; letter-spacing: -.96px; }
+  .svc .p16, .tst .p16, .faq .p16 { color: #161616; }
+  .vt h3 { font-size: 1.125rem; line-height: 1.75rem; font-weight: 700; color: #1f2a37; }
+  .vt p { font-size: 1rem; line-height: 1.5rem; color: #1f2a37; }
+  .qc-top b { font-family: var(--fh); font-weight: 700; font-size: 1.125rem; line-height: 1.75rem; color: var(--heading); }
+  .qc .qm { font-family: var(--fh); font-weight: 500; font-size: 2.875rem; }
+  .qc blockquote p { font-size: .875rem; line-height: 1.25rem; font-weight: 500; color: var(--heading); }
+  .st-card b { font-size: 1.125rem; line-height: 1.75rem; }
+  .st-card small { font-size: .875rem; line-height: 1.25rem; font-weight: 500; color: #6c737f; }
+  .qa-b p { font-weight: 500; line-height: 1.5rem; color: #5e5e5e; }
+  .fg-text p { font-size: .875rem; line-height: 1.25rem; font-weight: 500; opacity: 1; color: rgba(255,255,255,.7); }
+  .fg-links a { font-size: .875rem; font-weight: 500; opacity: 1; }
+  .sub label, .legal-ids { font-size: .875rem; font-weight: 500; }
+}
