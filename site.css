@@ -1,9 +1,3 @@
-@font-face { font-family: "Tajawal"; src: url("fonts/tajawal-arabic-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF; }
-@font-face { font-family: "Tajawal"; src: url("fonts/tajawal-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+2215; }
-@font-face { font-family: "Tajawal"; src: url("fonts/tajawal-arabic-500-normal.woff2") format("woff2"); font-weight: 500; font-display: swap; unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF; }
-@font-face { font-family: "Tajawal"; src: url("fonts/tajawal-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+2215; }
-@font-face { font-family: "Tajawal"; src: url("fonts/tajawal-arabic-700-normal.woff2") format("woff2"); font-weight: 700; font-display: swap; unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF; }
-@font-face { font-family: "Tajawal"; src: url("fonts/tajawal-latin-700-normal.woff2") format("woff2"); font-weight: 700; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+2215; }
 /* Mada Care website: built from the Figma file "Mada Care - Website Handoff" (Home Page - Desktop 1440, Mobile 375). */
 @font-face { font-family: "thmanyah sans"; src: local("thmanyah sans Bold"), local("thmanyahsans-Bold"), url("fonts/thmanyahsans-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
 @font-face { font-family: "thmanyah sans"; src: local("thmanyah sans Medium"), local("thmanyahsans-Medium"), url("fonts/thmanyahsans-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
@@ -11,7 +5,7 @@
   --primary: #4cb491; --heading: #194136; --text: #161616; --para: #384250; --para2: #6c737f; --display: #1f2a37; --sa: #14573a;
   --nav: #194136; --foot: #18371e; --b1: #d2d6db; --b2: #e5e7eb; --neutral: #f3f4f6; --body: #f9fafb; --soft: #f3fcf6;
   --r-sm: 4px; --r-md: 8px; --r-lg: 16px;
-  --fh: "Tajawal", "IBM Plex Sans Arabic", system-ui, sans-serif; --fb: "Tajawal", "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --fh: "Inter", "IBM Plex Sans Arabic", system-ui, sans-serif; --fb: "Inter", "IBM Plex Sans Arabic", system-ui, sans-serif;
   --zoom: 1;
 }
 *, *::before, *::after { box-sizing: border-box; }
