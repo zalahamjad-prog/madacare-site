@@ -127,7 +127,7 @@ h1, h2, h3, p, figure, blockquote { margin: 0; }
 .feat-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 56px; }
 .fc { position: relative; overflow: hidden; border-radius: var(--r-lg); padding: 24px 32px; min-height: 225px; display: flex; flex-direction: column; justify-content: flex-end; gap: 8px; }
 .fc-bg { position: absolute; inset-inline-end: 0; top: 10px; width: 330px; height: 330px; opacity: .14;
-  -webkit-mask: url("assets/mada-logo.png") center / contain no-repeat; mask: url("assets/mada-logo.png") center / contain no-repeat; pointer-events: none; }
+  -webkit-mask: url("assets/logo-mark.svg") center / contain no-repeat; mask: url("assets/logo-mark.svg") center / contain no-repeat; pointer-events: none; }
 .fc-ic { position: relative; width: 64px; height: 64px; border-radius: 12px; display: grid; place-items: center; margin-bottom: 16px; }
 .fc-ic img { width: 32px; height: 32px; }
 .fc h3 { position: relative; font-family: var(--fh); font-weight: 700; font-size: 1.75rem; line-height: 1.4; color: var(--display); }
@@ -187,7 +187,7 @@ h1, h2, h3, p, figure, blockquote { margin: 0; }
 .qc-top { display: flex; align-items: center; gap: 12px; }
 .qc-top b { flex: 1; font-size: 1.125rem; font-weight: 600; color: var(--text); }
 .av { width: 44px; height: 44px; border-radius: 50%; background: var(--av); display: grid; place-items: center; flex: none; }
-.av i { width: 24px; height: 26px; background: var(--ac, var(--primary)); -webkit-mask: url("assets/mada-logo.png") center / contain no-repeat; mask: url("assets/mada-logo.png") center / contain no-repeat; }
+.av i { width: 24px; height: 26px; background: var(--ac, var(--primary)); -webkit-mask: url("assets/logo-mark.svg") center / contain no-repeat; mask: url("assets/logo-mark.svg") center / contain no-repeat; }
 .av.g { background: #eaf6f0; }
 .av.g img { width: 24px; height: 24px; }
 .flag { width: 24px; height: 18px; object-fit: cover; border-radius: 2px; }
@@ -241,7 +241,7 @@ h1, h2, h3, p, figure, blockquote { margin: 0; }
 /* Footer */
 .foot { position: relative; overflow: hidden; background: var(--foot); color: #fff; }
 .foot-deco { position: absolute; width: 700px; height: 700px; left: 60px; top: -230px; transform: rotate(-34.41deg); opacity: .25; background: #6f8f74;
-  -webkit-mask: url("assets/mada-logo.png") center / contain no-repeat; mask: url("assets/mada-logo.png") center / contain no-repeat; pointer-events: none; }
+  -webkit-mask: url("assets/logo-mark.svg") center / contain no-repeat; mask: url("assets/logo-mark.svg") center / contain no-repeat; pointer-events: none; }
 .foot-in { position: relative; max-width: 1440px; margin: 0 auto; padding: 56px 80px 32px; }
 .foot-cols { display: flex; justify-content: space-between; align-items: flex-start; gap: 48px; }
 .fg-brand { display: grid; gap: 20px; max-width: 460px; }
@@ -406,4 +406,114 @@ html.hc .hero .lead, html.hc .grad .lead { color: #fff; }
   .fg-text p { font-size: .875rem; line-height: 1.25rem; font-weight: 500; opacity: 1; color: rgba(255,255,255,.7); }
   .fg-links a { font-size: .875rem; font-weight: 500; opacity: 1; }
   .sub label, .legal-ids { font-size: .875rem; font-weight: 500; }
+}
+
+/* Figma update (Nov 2026): new logo, swash headings, app download banner, mobile layout */
+.lg-svg { display: block; width: auto; height: 40px; }
+.logo-f .lg-svg { height: 52px; }
+.display, .h2, .fg-text h2, .qc-top b, .st-card b { font-feature-settings: "swsh" 1; }
+.faq-help-m { display: none; }
+.appcta { padding: 120px 80px 80px; background: #fff; }
+.appcta-in { position: relative; max-width: 1280px; margin: 0 auto; min-height: 297px; padding: 48px; border-radius: 24px; background: rgba(7,148,85,.1); display: flex; align-items: center; }
+.appcta-text { width: 620px; max-width: 52%; display: grid; gap: 16px; justify-items: start; }
+.appcta .h2 { font-size: 2.5rem; line-height: normal; letter-spacing: 0; }
+.appcta-text p { font-size: 1rem; line-height: 1.5rem; color: #161616; }
+.appcta .stores { gap: 16px; }
+.appcta .store { height: 60px; padding: 0 16px; border-radius: 9px; border-width: 1.5px; }
+.appcta .store .st-ic { width: 31px; height: 36px; }
+.appcta .store .st-tx small { font-size: .8125rem; }
+.appcta .store .st-tx { white-space: nowrap; }
+.appcta .store .st-tx b { font-size: 1.6rem; }
+.appcta-phone { position: absolute; left: 0; bottom: 0; width: 612px; max-width: 46%; height: auto; filter: drop-shadow(-48px -12px 30px rgba(0,0,0,.13)); }
+@media (max-width: 1200px) { .appcta { padding: 80px 40px; } }
+
+@media (max-width: 860px) {
+  .dsk { display: none; }
+  .pat { display: none; }
+  .display, .h2, .h2.lh64 { font-size: 1.25rem; line-height: normal; letter-spacing: 0; color: #194136; }
+  .eyebrow { font-size: 1.125rem; line-height: 1.75rem; font-weight: 600; }
+  .lead, .p20, .p16 { font-size: 1rem; line-height: 1.5rem; font-weight: 500; color: #6c737f; }
+  .sec-head { gap: 16px; }
+  .stack56, .stack32 { gap: 32px; }
+  .feat, .svc, .tst, .steps, .tint { padding: 40px 0; }
+  .eyebrow-row .btn { height: 32px; padding: 0 12px; font-size: .875rem; }
+  .eyebrow-row .btn img { width: 20px; height: 20px; }
+
+  /* Hero */
+  .hero .display { color: #fff; line-height: 51px; letter-spacing: -.4px; }
+  .hero .lead { color: #fff; opacity: 1; }
+  .hero .tags { gap: 8px; } .hero .tag-oc { font-size: .875rem; padding: 0 12px; height: 32px; }
+  .hero .tag-oc img { display: none; }
+  .hero-text { display: grid; gap: 8px; }
+  .hero-acts { align-items: flex-start; gap: 16px; margin-top: 16px; }
+  .hero-acts .btn-white { width: auto; height: 40px; padding: 0 16px; font-size: 1rem; }
+  .hero-acts .btn-white img { width: 24px; height: 24px; }
+  .stores { justify-content: flex-start; gap: 16px; }
+  .hero-vis { margin: 24px -16px 0; height: 324px; overflow: hidden; }
+  .hero-shot { left: -4px; right: auto; top: 4px; bottom: auto; transform: none; width: 368px; height: auto; }
+
+  /* Features */
+  .feat-grid { margin-top: 32px; }
+  .fc { padding: 16px; gap: 8px; border-radius: 16px; justify-content: flex-start; }
+  .fc-ic { width: 56px; height: 56px; border-radius: 12px; margin-bottom: 8px; } .fc-ic img { width: 28px; height: 28px; }
+  .fc h3 { font-size: 1.125rem; line-height: 1.5rem; font-weight: 700; color: #1a1a35; font-feature-settings: normal; }
+  .fc p { font-size: .875rem; line-height: 1.25rem; font-weight: 500; color: #65656f; }
+  .fc-bg { width: 210px; height: 172px; }
+
+  /* Achievements, why us */
+  .sc { padding: 20px 16px; gap: 16px; }
+  .fi { width: 56px; height: 56px; } .fi img { width: 28px; height: 28px; }
+  .sc-t { gap: 8px; }
+  .sc-t b { font-size: 1.125rem; line-height: 1.75rem; font-weight: 600; color: #1f2a37; }
+  .num-big { font-size: 2.5rem; line-height: 3.75rem; letter-spacing: -.8px; }
+  .sc.why .sc-t p { font-size: 1rem; line-height: 1.5rem; font-weight: 500; color: #6c737f; }
+
+  /* Services: swipe row, next card peeking */
+  .svc-cards { margin-inline: -16px; padding-inline: 16px; scroll-padding-inline: 16px; }
+  .svc-cards .vc { flex: 0 0 316px; border-color: #d2d6db; padding: 16px; gap: 24px; min-height: 0; }
+  .vt h3 { font-size: 1.125rem; line-height: 1.75rem; font-weight: 700; color: #1f2a37; }
+  .vt p { font-size: 1rem; line-height: 1.5rem; font-weight: 400; color: #1f2a37; }
+  .vtags { gap: 8px; } .vtags span { font-size: .75rem; line-height: 1.125rem; } .vtags img { width: 14px; height: 14px; }
+
+  /* Response banner */
+  .grad { padding: 32px 0; }
+  .grad-in { gap: 12px; }
+  .grad .lg-svg { height: 35px; }
+  .grad .display { color: #fff; line-height: 44px; letter-spacing: -.4px; margin-bottom: 8px; }
+  .grad .lead { color: #fff; font-size: .875rem; line-height: 1.25rem; opacity: 1; }
+  .grad .tag-oc { font-size: .875rem; height: 32px; padding: 0 12px; }
+  .grad .tag-oc img { width: 18px; height: 18px; }
+
+  /* Testimonials */
+  .qc { flex-basis: 312px; border: 0; background: #f3f4f6; padding: 4px; border-radius: 12px; }
+  .qc-in { background: #fff; border-radius: 8px; padding: 12px; }
+  .qc-top b { font-family: var(--fh); font-weight: 700; font-size: 1.125rem; line-height: 1.75rem; color: #194136; }
+  .qc blockquote { padding: 12px; gap: 8px; min-height: 0; }
+  .qc blockquote p { font-size: .875rem; line-height: 1.25rem; font-weight: 500; color: #194136; }
+  .tst .pager { display: none; }
+
+  /* FAQ */
+  .faq { padding: 40px 0; }
+  .faq-in { gap: 24px; }
+  .faq-btns { display: none; }
+  .qa:first-child { border-top: 1px solid #000; }
+  .qa-h { padding: 24px 0; font-size: 1.125rem; line-height: 1.75rem; font-weight: 700; color: #010205; gap: 40px; }
+  .qa-b p { font-size: 1rem; line-height: 1.5rem; font-weight: 500; color: #5e5e5e; }
+  .faq-help-m { display: flex; width: 100%; height: 40px; margin-top: 8px; justify-content: center; }
+
+  /* App download */
+  .appcta { padding: 40px 16px; }
+  .appcta-in { flex-direction: column; align-items: stretch; gap: 24px; padding: 24px 16px 0; border-radius: 16px; min-height: 0; overflow: hidden; }
+  .appcta-text { width: auto; max-width: none; }
+  .appcta .h2 { font-size: 1.25rem; }
+  .appcta-text p { font-weight: 500; color: #6c737f; }
+  .appcta .stores { width: 100%; }
+  .appcta .store { flex: 1; height: 49px; padding: 0 10px; border-radius: 7.4px; }
+  .appcta .store .st-ic { width: 25px; height: 29px; }
+  .appcta .store { justify-content: center; gap: 6px; }
+  .appcta .store .st-tx small { font-size: .625rem; }
+  .appcta .store .st-tx b { font-size: 1.125rem; }
+  .appcta-phone { position: static; width: 100%; max-width: none; }
+
+  .fg-text h2 { font-size: 1.25rem; line-height: normal; }
 }
