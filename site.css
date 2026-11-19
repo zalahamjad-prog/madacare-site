@@ -530,3 +530,6 @@ html.hc .hero .lead, html.hc .grad .lead { color: #fff; }
   .svc-dots i { width: 8px; height: 8px; border-radius: 50%; background: #e5e7eb; }
   .svc-dots i.on { background: var(--primary); }
 }
+
+.consent { margin: 10px 0 0; font-size: .8125rem; line-height: 1.6; color: var(--para2); text-align: center; }
+.consent a { color: #0b6b5c; text-decoration: underline; }
