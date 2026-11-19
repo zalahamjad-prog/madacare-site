@@ -105,6 +105,31 @@
   if (C.vatNumber && $("vatNo")) $("vatNo").textContent = C.vatNumber;
   if ($("vatRow") && !/[1-9]/.test(C.vatNumber || "")) $("vatRow").hidden = true;  // placeholder VAT stays hidden until the real number is set
 
+  // Where the visitor came from (ad campaign, search, another site). Kept 30 days; a plain direct visit does not overwrite an ad visit.
+  const ATTR_KEY = "mada_attr", ATTR_DAYS = 30;
+  (() => {
+    const q = new URLSearchParams(location.search), utm = {};
+    ["source", "medium", "campaign", "term", "content"].forEach(k => { const v = q.get("utm_" + k); if (v) utm[k] = v.slice(0, 120); });
+    const ids = {};
+    ["gclid", "gbraid", "wbraid", "fbclid", "ttclid", "ScCid", "twclid", "msclkid"].forEach(k => { const v = q.get(k); if (v) ids[k] = v.slice(0, 200); });
+    let ref = "";
+    try { const r = document.referrer && new URL(document.referrer); if (r && r.hostname !== location.hostname) ref = r.hostname; } catch (e) {}
+    const guess = ids.gclid || ids.gbraid || ids.wbraid ? ["google", "cpc"] : ids.fbclid ? ["meta", "paid_social"] : ids.ttclid ? ["tiktok", "paid_social"]
+      : ids.ScCid ? ["snapchat", "paid_social"] : ids.twclid ? ["x", "paid_social"] : ids.msclkid ? ["bing", "cpc"]
+      : /google\./.test(ref) ? ["google", "organic"] : /bing\./.test(ref) ? ["bing", "organic"] : ref ? [ref, "referral"] : null;
+    if (!utm.source && !guess) return;  // direct visit: keep what we had
+    const a = { source: utm.source || guess[0], medium: utm.medium || guess[1], campaign: utm.campaign || null, term: utm.term || null, content: utm.content || null,
+      ids: Object.keys(ids).length ? ids : null, referrer: ref || null, landing: location.pathname, at: new Date().toISOString() };
+    store.set(ATTR_KEY, JSON.stringify(a));
+  })();
+  const attribution = () => {
+    try {
+      const a = JSON.parse(store.get(ATTR_KEY) || "null");
+      if (a && Date.now() - Date.parse(a.at) < ATTR_DAYS * 864e5) return a;
+    } catch (e) {}
+    return { source: "direct", medium: null, campaign: null };
+  };
+
   // Booking request: one new row in the dashboard's requests (Requests page, source "website", on hold until the call center calls).
   const ov = $("bookOv"), form = $("bookForm"), err = $("bkErr");
   let lastFocus = null;
@@ -150,10 +175,10 @@
     if (!cloud.url || !cloud.key) { err.textContent = "الحجز من الموقع غير متاح حالياً، تواصل معنا عبر واتساب."; err.hidden = false; return; }
     const btn = $("bkSend"); btn.disabled = true;
     const now = new Date().toISOString(), id = "WEB-" + Date.now().toString(36).toUpperCase().slice(-5) + Math.random().toString(36).slice(2, 5).toUpperCase();
-    const name = $("bkName").value.trim(), mobile = $("bkMobile").value, service = $("bkSvc").value, note = $("bkNote").value.trim();
+    const ref = attribution(), name = $("bkName").value.trim(), mobile = $("bkMobile").value, service = $("bkSvc").value, note = $("bkNote").value.trim();
     const order = {
       id, createdAt: now, updatedAt: now, service, mobile, medical: "non", patient: { en: name, ar: name }, mrn: null, staff: null, staffId: null,
-      source: "website", status: "on_hold", decision: "pending", payment: null, web: { name, note: note || null, at: now },
+      source: "website", status: "on_hold", decision: "pending", payment: null, web: { name, note: note || null, at: now, ref },
       hold: { reason: "web", note: note || null, at: now, by: null, byId: null, view: "step1", snap: { mobile, source: "website", view: "step1", savedAt: now }, dueAt: now, action: "call", warned: null }
     };
     try {
@@ -163,6 +188,7 @@
         body: JSON.stringify({ k: "mada-orders", rid: id, v: JSON.stringify(order), pos: Math.floor(Date.now() / 1000) })
       });
       if (!res.ok) throw new Error(res.status);
+      gtmEvent("booking_submit", { service, booking_source: ref.source, booking_medium: ref.medium, booking_campaign: ref.campaign });
       $("bkRef").textContent = id; $("bkForm").hidden = true; $("bkDone").hidden = false; form.reset();
       $("bkDone").querySelector("button").focus();
     } catch (x) {
@@ -175,7 +201,9 @@
     e.preventDefault();
     const m = $("subMsg"), v = $("subEmail").value.trim();
     m.hidden = false;
-    m.textContent = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? "شكراً لاهتمامك، خدمة الاشتراك ستتوفر قريباً." : "اكتب بريداً إلكترونياً صحيحاً.";
+    const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    if (ok) gtmEvent("newsletter_submit");
+    m.textContent = ok ? "شكراً لاهتمامك، خدمة الاشتراك ستتوفر قريباً." : "اكتب بريداً إلكترونياً صحيحاً.";
   });
 })();
 
@@ -193,4 +221,40 @@
   row.addEventListener("scroll", () => requestAnimationFrame(mark), { passive: true });
   window.addEventListener("resize", mark);
   mark();
+})();
+
+// Marketing events for Google Tag Manager (GTM-THZZPBRT): each push carries the event name and where on the page the click came from.
+function gtmEvent(event, extra) {
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push(Object.assign({ event }, extra || {}));
+}
+(() => {
+  const where = el => {
+    if (el.id === "waFloat") return "floating";
+    const box = el.closest("header, footer, section, #bookOv");
+    if (!box) return "page";
+    if (box.tagName === "HEADER") return "header";
+    if (box.tagName === "FOOTER") return "footer";
+    if (box.id === "bookOv") return "booking_form";
+    const names = { top: "hero", services: "services", help: "faq", download: "app_banner", about: "features" };
+    return names[box.id] || box.id || box.className.split(" ")[0] || "page";
+  };
+  const rules = [
+    ["[data-book]", "book_click"],
+    ["[data-so=whatsapp], #waFloat", "whatsapp_click"],
+    ["[data-as]", "app_store_click"],
+    ["[data-gp]", "google_play_click"],
+    ["[data-help]", "help_click"]
+  ];
+  document.addEventListener("click", e => {
+    for (const [sel, ev] of rules) {
+      const el = e.target.closest(sel);
+      if (el) {
+        const extra = { click_location: where(el) };
+        if (el.dataset.svc) extra.service = el.dataset.svc;
+        gtmEvent(ev, extra);
+        return;
+      }
+    }
+  }, true);
 })();
