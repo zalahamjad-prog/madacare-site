@@ -163,6 +163,7 @@
         body: JSON.stringify({ k: "mada-orders", rid: id, v: JSON.stringify(order), pos: Math.floor(Date.now() / 1000) })
       });
       if (!res.ok) throw new Error(res.status);
+      gtmEvent("booking_submit", { service });
       $("bkRef").textContent = id; $("bkForm").hidden = true; $("bkDone").hidden = false; form.reset();
       $("bkDone").querySelector("button").focus();
     } catch (x) {
@@ -175,7 +176,9 @@
     e.preventDefault();
     const m = $("subMsg"), v = $("subEmail").value.trim();
     m.hidden = false;
-    m.textContent = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? "شكراً لاهتمامك، خدمة الاشتراك ستتوفر قريباً." : "اكتب بريداً إلكترونياً صحيحاً.";
+    const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    if (ok) gtmEvent("newsletter_submit");
+    m.textContent = ok ? "شكراً لاهتمامك، خدمة الاشتراك ستتوفر قريباً." : "اكتب بريداً إلكترونياً صحيحاً.";
   });
 })();
 
@@ -193,4 +196,40 @@
   row.addEventListener("scroll", () => requestAnimationFrame(mark), { passive: true });
   window.addEventListener("resize", mark);
   mark();
+})();
+
+// Marketing events for Google Tag Manager (GTM-THZZPBRT): each push carries the event name and where on the page the click came from.
+function gtmEvent(event, extra) {
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push(Object.assign({ event }, extra || {}));
+}
+(() => {
+  const where = el => {
+    if (el.id === "waFloat") return "floating";
+    const box = el.closest("header, footer, section, #bookOv");
+    if (!box) return "page";
+    if (box.tagName === "HEADER") return "header";
+    if (box.tagName === "FOOTER") return "footer";
+    if (box.id === "bookOv") return "booking_form";
+    const names = { top: "hero", services: "services", help: "faq", download: "app_banner", about: "features" };
+    return names[box.id] || box.id || box.className.split(" ")[0] || "page";
+  };
+  const rules = [
+    ["[data-book]", "book_click"],
+    ["[data-so=whatsapp], #waFloat", "whatsapp_click"],
+    ["[data-as]", "app_store_click"],
+    ["[data-gp]", "google_play_click"],
+    ["[data-help]", "help_click"]
+  ];
+  document.addEventListener("click", e => {
+    for (const [sel, ev] of rules) {
+      const el = e.target.closest(sel);
+      if (el) {
+        const extra = { click_location: where(el) };
+        if (el.dataset.svc) extra.service = el.dataset.svc;
+        gtmEvent(ev, extra);
+        return;
+      }
+    }
+  }, true);
 })();
