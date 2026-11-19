@@ -1,11 +1,12 @@
 /* Mada Care website: built from the Figma file "Mada Care - Website Handoff" (Home Page - Desktop 1440, Mobile 375). */
+/* Headings: Thmanyah Sans, used on madacare.sa with written permission from Thmanyah (ticket 504157). Font files are for this site only, not for redistribution. */
 @font-face { font-family: "thmanyah sans"; src: local("thmanyah sans Bold"), local("thmanyahsans-Bold"), url("fonts/thmanyahsans-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
 @font-face { font-family: "thmanyah sans"; src: local("thmanyah sans Medium"), local("thmanyahsans-Medium"), url("fonts/thmanyahsans-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
 :root {
   --primary: #4cb491; --heading: #194136; --text: #161616; --para: #384250; --para2: #6c737f; --display: #1f2a37; --sa: #14573a;
   --nav: #194136; --foot: #18371e; --b1: #d2d6db; --b2: #e5e7eb; --neutral: #f3f4f6; --body: #f9fafb; --soft: #f3fcf6;
   --r-sm: 4px; --r-md: 8px; --r-lg: 16px;
-  --fh: "Inter", "IBM Plex Sans Arabic", system-ui, sans-serif; --fb: "Inter", "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --fh: "thmanyah sans", "IBM Plex Sans Arabic", system-ui, sans-serif; --fb: "Inter", "IBM Plex Sans Arabic", system-ui, sans-serif;
   --zoom: 1;
 }
 *, *::before, *::after { box-sizing: border-box; }
