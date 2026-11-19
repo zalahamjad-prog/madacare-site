@@ -533,3 +533,8 @@ html.hc .hero .lead, html.hc .grad .lead { color: #fff; }
 
 .consent { margin: 10px 0 0; font-size: .8125rem; line-height: 1.6; color: var(--para2); text-align: center; }
 .consent a { color: #0b6b5c; text-decoration: underline; }
+.fg-label2 { margin-top: 12px; }
+.svc-links { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; font-size: .9375rem; color: var(--para); }
+.svc-links a { padding: 6px 14px; border-radius: 999px; border: 1px solid var(--b1); color: var(--heading); background: #fff; }
+.svc-links a:hover { border-color: var(--primary); color: #0b6b5c; }
+a.fact:hover { border-color: var(--primary); }
