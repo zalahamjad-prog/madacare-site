@@ -473,7 +473,7 @@ html.hc .hero .lead, html.hc .grad .lead { color: #fff; }
   .svc-cards .vc { flex: 0 0 316px; border-color: #d2d6db; padding: 16px; gap: 24px; min-height: 0; }
   .vt h3 { font-size: 1.125rem; line-height: 1.75rem; font-weight: 700; color: #1f2a37; }
   .vt p { font-size: 1rem; line-height: 1.5rem; font-weight: 400; color: #1f2a37; }
-  .vtags { gap: 8px; } .vtags span { font-size: .75rem; line-height: 1.125rem; } .vtags img { width: 14px; height: 14px; }
+  .vtags { gap: 8px; flex-wrap: nowrap; } .vtags span { font-size: .75rem; line-height: 1.125rem; white-space: nowrap; } .vtags img { width: 14px; height: 14px; }
 
   /* Response banner */
   .grad { padding: 32px 0; }
@@ -516,4 +516,17 @@ html.hc .hero .lead, html.hc .grad .lead { color: #fff; }
   .appcta-phone { position: static; width: 100%; max-width: none; }
 
   .fg-text h2 { font-size: 1.25rem; line-height: normal; }
+}
+
+/* Service cards: "اطلب زيارة" row and swipe dots (Figma) */
+.vc { gap: 24px; min-height: 0; }
+.vc-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.vc-cta { display: inline-flex; align-items: center; gap: 4px; height: 32px; font-size: .875rem; font-weight: 500; color: #161616; white-space: nowrap; }
+.vc-cta img { width: 20px; height: 20px; filter: brightness(0); }
+.vt { align-content: start; }
+.svc-dots { display: none; }
+@media (max-width: 860px) {
+  .svc-dots { display: flex; justify-content: center; gap: 8px; margin-top: -16px; }
+  .svc-dots i { width: 8px; height: 8px; border-radius: 50%; background: #e5e7eb; }
+  .svc-dots i.on { background: var(--primary); }
 }
