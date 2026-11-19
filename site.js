@@ -178,3 +178,19 @@
     m.textContent = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? "شكراً لاهتمامك، خدمة الاشتراك ستتوفر قريباً." : "اكتب بريداً إلكترونياً صحيحاً.";
   });
 })();
+
+// Service cards on phones: dots follow the swipe
+(() => {
+  const row = document.querySelector(".svc-cards"), dots = document.querySelectorAll("#svcDots i");
+  if (!row || !dots.length) return;
+  const cards = [...row.children];
+  const mark = () => {
+    const r = row.getBoundingClientRect();
+    let best = 0, bestD = Infinity;
+    cards.forEach((c, i) => { const b = c.getBoundingClientRect(); const d = Math.abs(b.right - r.right); if (d < bestD) { bestD = d; best = i; } });
+    dots.forEach((d, i) => d.classList.toggle("on", i === best));
+  };
+  row.addEventListener("scroll", () => requestAnimationFrame(mark), { passive: true });
+  window.addEventListener("resize", mark);
+  mark();
+})();
