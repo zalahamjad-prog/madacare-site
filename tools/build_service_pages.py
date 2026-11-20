@@ -270,7 +270,123 @@ for sv in SERVICES:
     open(f"{sv['slug']}/index.html", "w", encoding="utf-8").write(page(sv))
     print("wrote", sv["slug"])
 
+RIGHTS = [
+    ("تلقي العلاج والرعاية", "يجب أن يحصل المريض على العلاج والرعاية الضرورية لاسترداد صحته أو الحفاظ عليها، دون اعتبار للعرق أو الدين أو الجنس أو الحالة الاجتماعية أو الأصل أو العمر أو الإعاقة أو مصدر دفع تكلفة العلاج.", None),
+    ("الاحترام والخصوصية", "يتمتع المريض بحق المعاملة باحترام والحفاظ على خصوصيته وكرامته، ويجب توفير خصوصية بصرية وسمعية خلال الأنشطة الشخصية مثل النظافة والإجراءات السريرية.", None),
+    ("الرعاية من مقدمي الرعاية المؤهلين", "يجب أن يحصل المريض على الرعاية من مقدمي الرعاية الصحية المؤهلين، ممن لديهم التعليم والخبرة اللازمة لتقديم الخدمة بكفاءة.", None),
+    ("تطبيق قواعد مكافحة العدوى", "يجب على مقدمي الرعاية الصحية اتباع قواعد مكافحة العدوى التي تحددها وزارة الصحة لحماية المرضى من الإصابة بالعدوى.", None),
+    ("الالتزام بالقيم وحماية الحقوق", "يجب على مقدمي الرعاية الصحية احترام قيم المرضى ومعتقداتهم، وحماية حقوقهم، والإبلاغ عن أي حالات عنف جسدي أو نفسي.", None),
+    ("تعيين وصي قانوني", "إذا كان المريض غير قادر على اتخاذ قرارات حول العلاج، يجب تعيين وصي قانوني للتوقيع نيابة عنه، مع التأكد من هوية الوصي أو ولي الأمر.", None),
+    ("المشاركة في الرعاية الصحية", "يحق للمريض وذويه:", [
+        "التواصل مع الفريق العلاجي للحصول على معلومات كاملة ومحدثة حول التشخيص والعلاج وفوائده والنتائج المتوقعة.",
+        "معرفة البدائل الطبية والمخاطر ونسبة نجاح العلاج.",
+        "التعرف على إمكانيات الرعاية المتاحة واسم الطبيب المسؤول.",
+        "رفض العلاج أو عدم إكماله وفقاً للأنظمة المعمول بها، مع إبلاغه بمسؤولياته والخيارات البديلة.",
+        "الاستفسار عن أي جزء من العلاج أو الخدمة المقدمة."]),
+    ("توفير بيئة آمنة", "يجب توفير بيئة آمنة أثناء الجلسات العلاجية، وحماية المريض من أي نوع من الإساءة الجنسية أو اللفظية أو الإهمال وسوء المعاملة.", None),
+    ("معلومات تكلفة العلاج", "يجب تزويد المريض بمعلومات مسبقة عن تكلفة العلاج، ويشمل ذلك تفسير الفاتورة والخدمات المقدمة.", None),
+    ("رفض التوقيع", "يحق للمريض رفض التوقيع على أي مستند إن لم يُشرح له بطريقة واضحة.", None),
+    ("تقديم الشكاوى", "يمكن للمريض إبلاغ موظفي تجربة العميل بأي شكوى أو مشكلة تتعلق برعايته أو حقوقه أو سلامته.", None),
+]
+
+
+def rights_page():
+    url = f"{SITE}/patient-rights/"
+    title = "حقوق المرضى | مدى كير للرعاية الصحية المنزلية"
+    desc = "حقوق المريض في مدى كير: الرعاية دون تمييز، الخصوصية والكرامة، الرعاية من كوادر مؤهلة، معرفة تكلفة العلاج، والمشاركة في القرار وتقديم الشكاوى."
+    ld = {"@context": "https://schema.org", "@graph": [
+        {"@type": "MedicalBusiness", "@id": SITE + "/#org", "name": "مدى كير", "url": SITE + "/", "logo": SITE + "/assets/mada-logo.png"},
+        {"@type": "WebPage", "@id": url, "url": url, "name": "حقوق المرضى", "description": desc, "inLanguage": "ar", "publisher": {"@id": SITE + "/#org"}},
+        {"@type": "BreadcrumbList", "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "الرئيسية", "item": SITE + "/"},
+            {"@type": "ListItem", "position": 2, "name": "حقوق المرضى", "item": url}]}]}
+    items = ""
+    for i, (h, t, sub) in enumerate(RIGHTS, 1):
+        ul = "" if not sub else '<ul>' + "".join(f"<li>{x}</li>" for x in sub) + "</ul>"
+        items += f'      <li class="rt{" rt-wide" if sub else ""}"><span class="rt-n" aria-hidden="true">{i}</span><div><h3>{h}</h3><p>{t}</p>{ul}</div></li>\n'
+    return f'''<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+{GTM_HEAD}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title}</title>
+<meta name="description" content="{desc}">
+<link rel="canonical" href="{url}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="مدى كير">
+<meta property="og:locale" content="ar_SA">
+<meta property="og:url" content="{url}">
+<meta property="og:title" content="{title}">
+<meta property="og:description" content="{desc}">
+<meta property="og:image" content="{SITE}/assets/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/assets/mada-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="/fonts/thmanyahsans-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
+<link rel="stylesheet" href="/site.css">
+<script type="application/ld+json">
+{json.dumps(ld, ensure_ascii=False, indent=1)}
+</script>
+</head>
+<body>
+{GTM_BODY}
+<a class="skip" href="#main">تخطي إلى المحتوى</a>
+
+{SNAV}
+{HEADER}
+
+<main id="main">
+<section class="hero pg-hero" id="top">
+  <div class="pat pat-10" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="wrap">
+    <div class="pg-hero-in">
+      <nav class="crumbs" aria-label="مسار الصفحة"><a href="/">الرئيسية</a><span aria-hidden="true">›</span><span aria-current="page">حقوق المرضى</span></nav>
+      <h1 class="display">حقوق المرضى</h1>
+      <p class="lead">في مدى كير نرعاكم كأهلنا، ونلتزم بحقوق كل مريض نخدمه في بيته. هذي حقوقك وحقوق أهلك معنا.</p>
+    </div>
+  </div>
+</section>
+
+<section class="svc" id="rights">
+  <div class="wrap stack32">
+    <ol class="rights">
+{items}    </ol>
+  </div>
+</section>
+
+<section class="tint" id="complaint">
+  <div class="pat pat-02" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="wrap">
+    <div class="rt-cta">
+      <div><h2 class="h2">عندك شكوى أو استفسار؟</h2><p class="p16">فريق تجربة العميل يسمعك ويتابع معك، وكل الشكاوى نتعامل معها بسرية.</p></div>
+      <a class="btn btn-primary" href="#help" data-help><span>تواصل معنا</span></a>
+    </div>
+  </div>
+</section>
+</main>
+
+{FOOTER}
+
+{WA}
+
+{BOOK}
+
+<script src="/site-config.js"></script>
+<script src="/site.js"></script>
+</body>
+</html>
+'''
+
+
+os.makedirs("patient-rights", exist_ok=True)
+open("patient-rights/index.html", "w", encoding="utf-8").write(rights_page())
+print("wrote patient-rights")
+
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-for path in [""] + [s["slug"] + "/" for s in SERVICES]:
+for path in [""] + [s["slug"] + "/" for s in SERVICES] + ["patient-rights/"]:
     sm += f"  <url>\n    <loc>{SITE}/{path}</loc>\n    <lastmod>2026-11-19</lastmod>\n  </url>\n"
 open("sitemap.xml", "w").write(sm + "</urlset>\n")
