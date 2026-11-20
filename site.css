@@ -610,3 +610,6 @@ button.vc-cta:hover { text-decoration: underline; }
 .post-cover .vi img { width: 40px; height: 40px; }
 .post-cover-lg .vi { width: 104px; height: 104px; border-radius: 28px; }
 .post-cover-lg .vi img { width: 60px; height: 60px; }
+/* Headlines use Thmanyah Bold; IBM Plex stays for descriptions only (marketing note) */
+.eyebrow, .fc h3, .sc-t b, .vt h3, .st-card b, .fact b, .rt h3, .post-card-b h3, .post-cta b { font-family: var(--fh); font-weight: 700; }
+.num-big { font-variant-numeric: tabular-nums; }

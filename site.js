@@ -265,3 +265,21 @@ function gtmEvent(event, extra) {
     }
   }, true);
 })();
+
+// Achievement numbers count up from 0 when they scroll into view.
+(() => {
+  const els = [...document.querySelectorAll(".num-big")];
+  if (!els.length || !("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const parse = el => { const m = el.textContent.trim().match(/^(\D*)(\d+)(\D*)$/); return m && { pre: m[1], n: +m[2], post: m[3], text: el.textContent }; };
+  const run = el => {
+    const p = el._p, t0 = performance.now(), dur = 1600;
+    const step = now => {
+      const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+      el.textContent = p.pre + Math.round(p.n * e) + p.post;
+      if (k < 1) requestAnimationFrame(step); else el.textContent = p.text;
+    };
+    requestAnimationFrame(step);
+  };
+  const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { io.unobserve(x.target); run(x.target); } }), { threshold: .6 });
+  els.forEach(el => { const p = parse(el); if (!p) return; el._p = p; el.setAttribute("aria-label", p.text); el.textContent = p.pre + "0" + p.post; io.observe(el); });
+})();
