@@ -290,8 +290,31 @@ RIGHTS = [
 ]
 
 
-def policy_page(slug, name, title, desc, lead, body):
+def policy_page(slug, name, title, desc, lead, body, hero=None, tail=None, book=None):
     url = f"{SITE}/{slug}/"
+    if hero is None:
+        hero = f'''<section class="hero pg-hero" id="top">
+  <div class="pat pat-10" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="wrap">
+    <div class="pg-hero-in">
+      <nav class="crumbs" aria-label="مسار الصفحة"><a href="/">الرئيسية</a><span aria-hidden="true">›</span><span aria-current="page">{name}</span></nav>
+      <h1 class="display">{name}</h1>
+      <p class="lead">{lead}</p>
+    </div>
+  </div>
+</section>'''
+    if tail is None:
+        tail = '''<section class="tint" id="complaint">
+  <div class="pat pat-02" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="wrap">
+    <div class="rt-cta">
+      <div><h2 class="h2">عندك شكوى أو استفسار؟</h2><p class="p16">فريق تجربة العميل يسمعك ويتابع معك، وكل الشكاوى نتعامل معها بسرية.</p></div>
+      <a class="btn btn-primary" href="#help" data-help><span>تواصل معنا</span></a>
+    </div>
+  </div>
+</section>'''
+    if book is None:
+        book = BOOK
     ld = {"@context": "https://schema.org", "@graph": [
         {"@type": "MedicalBusiness", "@id": SITE + "/#org", "name": "مدى كير", "url": SITE + "/", "logo": SITE + "/assets/mada-logo.png"},
         {"@type": "WebPage", "@id": url, "url": url, "name": name, "description": desc, "inLanguage": "ar", "publisher": {"@id": SITE + "/#org"}},
@@ -334,34 +357,17 @@ def policy_page(slug, name, title, desc, lead, body):
 {HEADER}
 
 <main id="main">
-<section class="hero pg-hero" id="top">
-  <div class="pat pat-10" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-  <div class="wrap">
-    <div class="pg-hero-in">
-      <nav class="crumbs" aria-label="مسار الصفحة"><a href="/">الرئيسية</a><span aria-hidden="true">›</span><span aria-current="page">{name}</span></nav>
-      <h1 class="display">{name}</h1>
-      <p class="lead">{lead}</p>
-    </div>
-  </div>
-</section>
+{hero}
 
 {body}
-<section class="tint" id="complaint">
-  <div class="pat pat-02" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-  <div class="wrap">
-    <div class="rt-cta">
-      <div><h2 class="h2">عندك شكوى أو استفسار؟</h2><p class="p16">فريق تجربة العميل يسمعك ويتابع معك، وكل الشكاوى نتعامل معها بسرية.</p></div>
-      <a class="btn btn-primary" href="#help" data-help><span>تواصل معنا</span></a>
-    </div>
-  </div>
-</section>
+{tail}
 </main>
 
 {FOOTER}
 
 {WA}
 
-{BOOK}
+{book}
 
 <script src="/site-config.js"></script>
 <script src="/site.js"></script>
@@ -463,6 +469,116 @@ def privacy_page():
                        "خصوصيتك وبياناتك الصحية أمانة عندنا. هنا نوضح كيف نجمع معلوماتك ونستخدمها ونحميها.", body)
 
 
+REVIEWS = [
+    ("ريم القحطاني", "sa", "أكثر شيء أعجبني إنهم يهتمون براحة المريض نفسيًا قبل أي شيء. الخدمة إنسانية جدًا وتحس فعلًا إنهم يهتمون."),
+    ("أبو عبدالله – جدة", "sa", "بدل تعب المشاوير والانتظار بالمستشفى، الطبيب زارنا في البيت بكل احترافية. الخدمة مريحة جدًا خصوصًا لكبار السن. شكرًا مدى كير."),
+    ("Rajesh – Jeddah", "in", "Booking was easy, the medical staff arrived on time, and the service quality exceeded expectations. Highly recommended."),
+    ("أم خالد – جدة", "sa", "صراحة التجربة فاقت توقعاتي، الممرضة كانت راقية جدًا بالتعامل وحسّتنا فعلًا إن الوالدة بين أيدٍ أمينة. أكثر شيء ريّحنا سرعة الاستجابة والاهتمام بالتفاصيل."),
+    ("أحمد – جدة", "eg", "الخدمة ممتازة والتنظيم احترافي جدًا، المختبر وصل للبيت بموعده والنتائج وصلت بسرعة. وفروا علينا وقت ومجهود كبير."),
+    ("Maria – Jeddah", "ph", "The nurse was very kind and professional. My mother felt comfortable during the entire visit. Thank you Mada Care for the excellent home healthcare service."),
+    ("سارة الحربي", "sa", "جربت خدمة الفيتامينات الوريدية وكانت تجربة ممتازة جدًا، الفريق محترف والتعامل راقٍ والمواعيد دقيقة. أكيد مو آخر مرة."),
+    ("محمد – جدة", "sd", "تعامل محترم جدًا واهتمام حقيقي بالمريض، خصوصًا المتابعة بعد الزيارة. هذا الشيء نادر اليوم."),
+    ("نوف العتيبي", "sa", "كنت متخوفة بالبداية بالتعامل مع شركات رعاية منزلية مرة ثانية، لكن بعد أول زيارة عرفت الفرق فعلًا. مستوى الخدمة ممتاز ويستحق الثقة."),
+    ("Khalid – Jeddah", "pk", "Very fast response and professional medical team. The home visit experience was smooth and comfortable for my family."),
+]
+FLAGS = {"sa": ("flag-sa.webp", "السعودية"), "eg": ("flag-eg.svg", "مصر"), "ph": ("flag-ph.svg", "الفلبين"), "in": ("flag-in.svg", "الهند"), "sd": ("flag-sd.svg", "السودان"), "pk": ("flag-pk.svg", "باكستان")}
+AV = ["7,148,85", "128,81,159", "220,104,3", "21,112,239", "217,45,32"]
+BOOK_FAQ = [
+    ("كيف أضمن كفاءة الفريق الطبي القادم لمنزلي؟", "في مدى كير، لا نختار إلا الأفضل. جميع كوادرنا الطبية (أطباء، ممرضين، وفنيين) مرخصين ومعتمدين من الهيئة السعودية للتخصصات الصحية، ويخضعون لتدريب مستمر ليس فقط على الجانب الطبي، بل على «فن التعامل الإنساني» لضمان أن تكون الزيارة تجربة مريحة وآمنة لأحبتكم."),
+    ("ما هي سرعة الاستجابة عند طلب الخدمة؟", "نحن ندرك أن الوقت هو أغلى ما نملكه في ظروف المرض. لذلك، صممنا نظام استجابة ذكي يجعل متوسط وقت الرد لدينا لا يتجاوز دقيقة واحدة. بمجرد تأكيد طلبك، ستحصل على إشعار بتفاصيل الفريق وتوقيت وصوله المتوقع إلى باب منزلك."),
+    ("هل تتوفر لديكم خدمات طارئة؟", "مدى كير تقدم رعاية منزلية تخصصية ومجدولة مع وجود إمكانية لاستقبال الحالات الطارئة، وإذا كانت الحالة تستدعي تدخلاً طارئاً وفورياً (مثل صعوبات التنفس الحادة أو الحوادث) يمكننا نقل الحالة بسيارة إسعاف إلى أقرب مستشفى أو الهلال الأحمر."),
+    ("هل يمكنني متابعة موقع الطبيب وهو في طريقه إليّ؟", "بالتأكيد! هذا هو جوهر التزامنا بالشفافية والراحة. من خلال تطبيق «مدى كير»، يمكنك تتبع مسار الفريق الطبي مباشرة على الخريطة ومعرفة الوقت المتبقي لوصولهم بدقة، تماماً كما تتابع رحلتك المفضلة، وأيضاً يمكنك التحدث مباشرة من خلال شات مخصص مع الفريق الطبي أثناء قدومه لمنزلك."),
+    ("ماذا لو احتجت إلى متابعة حالتي بعد مغادرة الفريق الطبي؟", "علاقتنا لا تنتهي بمغادرة باب المنزل. نحن نقدم خدمة «المتابعة بعد الزيارة»، حيث يظل فريقنا على تواصل للاطمئنان على استقرار الحالة، ويمكنك الوصول لسجلك الطبي الكامل، نتائج تحاليلك، وخططك العلاجية في أي وقت ومن أي مكان عبر التطبيق."),
+    ("هل خدماتكم تشمل جميع أحياء مدينة جدة؟", "نعم، نحن نغطي كافة أنحاء مدينة جدة، ونسعى دائماً لتوسيع نطاق تغطيتنا لضمان وصول «مدى كير» لكل منزل يحتاج إلى رعاية إنسانية واحترافية."),
+    ("كيف يمكنني استلام نتائج الفحوصات المخبرية؟", "كل شيء رقمي وسهل، ستصلك نتائج تحاليلك المخبرية مباشرة عبر التطبيق فور صدورها، مع شرح مبسط للنتائج لضمان أن تكون الصورة واضحة أمامكم دائماً."),
+]
+
+
+def book_page():
+    reviews = ""
+    for i, (n, f, q) in enumerate(REVIEWS):
+        img, alt = FLAGS[f]
+        en = q[0].isascii()
+        bq = f'<blockquote class="en"><p dir="ltr">{q}</p><span class="qm">”</span></blockquote>' if en else f'<blockquote><span class="qm">”</span><p>{q}</p></blockquote>'
+        reviews += f'    <figure class="qc"><div class="qc-in"><div class="qc-top"><span class="av" style="--av:rgba({AV[i % 5]},.1);--ac:rgb({AV[i % 5]})"><i></i></span><b>{n}</b><img class="flag" src="/assets/{img}" alt="{alt}" width="24" height="18" loading="lazy" decoding="async"></div>\n      {bq}</div></figure>\n'
+    qa = "".join(f'''      <div class="qa{' open' if i == 0 else ''}"><button type="button" class="qa-h" aria-expanded="{'true' if i == 0 else 'false'}"><span>{q}</span><img class="i-minus" src="/assets/ic-minus.svg" alt="" width="24" height="24" loading="lazy" decoding="async"><img class="i-plus" src="/assets/ic-plus.svg" alt="" width="24" height="24" loading="lazy" decoding="async"></button>
+        <div class="qa-b"><p>{a}</p></div></div>
+''' for i, (q, a) in enumerate(BOOK_FAQ))
+    form = BOOK.replace('<div class="ov" id="bookOv" hidden>', '<div class="ov ov-inline" id="bookOv">').replace('<div class="dlg" role="dialog" aria-modal="true" aria-labelledby="bkT">', '<div class="dlg" role="region" aria-labelledby="bkT">')
+    form = re.sub(r'\s*<button type="button" class="dlg-x"[^>]*>×</button>', "", form).replace('<h2 id="bkT">احجز موعدك</h2>', '<h2 id="bkT">اطلب زيارتك الآن</h2>')
+    form = form.replace('<!-- Booking request (sent to the dashboard) -->', '<!-- Booking request (sent to the dashboard), shown inside the page -->')
+    hero = f'''<section class="hero pg-hero bk-hero" id="top">
+  <div class="pat pat-10" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="wrap">
+    <div class="bk-grid">
+      <div class="pg-hero-in">
+        <nav class="crumbs" aria-label="مسار الصفحة"><a href="/">الرئيسية</a><span aria-hidden="true">›</span><span aria-current="page">احجز موعدك</span></nav>
+        <h1 class="display">نرعاكُم كأهلُنا .. ونصلكم بضغطة زر</h1>
+        <p class="lead">احجز زيارتك الآن ودعنا نكون جزءاً من طمأنينتك.</p>
+        <div class="tags">
+          <span class="tag-oc"><span>متوسط الرد <em>دقيقة واحدة</em></span><img src="/assets/grad-tag1.svg" alt="" width="18" height="18"></span>
+          <span class="tag-oc"><span>طواقم طبية مرخصة من وزارة الصحة</span><img src="/assets/ic-usercheck.svg" alt="" width="18" height="18"></span>
+        </div>
+        <div class="hero-acts">
+          <a class="btn btn-white" href="#help" data-help><span>تواصل مباشر</span><img src="/assets/ic-whatsapp-btn.svg" alt="" width="32" height="32"></a>
+        </div>
+        <div class="stores">
+          <a class="store" data-as href="/#download" aria-label="Download on the App Store"><img class="st-ic ap" src="/assets/apple.svg" alt=""><span class="st-tx as"><small>Download on the</small><b>App Store</b></span></a>
+          <a class="store" data-gp href="/#download" aria-label="Get it on Google Play"><img class="st-ic gp" src="/assets/playstore.svg" alt=""><span class="st-tx"><small>GET IT ON</small><b>Google Play</b></span></a>
+        </div>
+      </div>
+      <div class="bk-form">
+{form}
+      </div>
+    </div>
+  </div>
+</section>'''
+    body = f'''<section class="tst">
+  <div class="wrap stack32">
+    <div class="sec-head">
+      <p class="eyebrow">سُمعتنا</p>
+      <h2 class="h2">أصوات من عملائنا بجدة</h2>
+    </div>
+  </div>
+  <div class="tst-track" id="tst" tabindex="0" aria-label="آراء العملاء">
+{reviews}  </div>
+  <div class="pager">
+    <button type="button" class="pg" data-dir="next" aria-label="التالي"><img src="/assets/ic-next.svg" alt="" width="24" height="24" loading="lazy" decoding="async"></button>
+    <span class="dots" id="dots" aria-hidden="true"></span>
+    <button type="button" class="pg" data-dir="prev" aria-label="السابق"><img src="/assets/ic-prev.svg" alt="" width="24" height="24" loading="lazy" decoding="async"></button>
+  </div>
+</section>
+
+<section class="faq" id="faq-sec">
+  <div class="faq-in">
+    <div class="faq-text">
+      <h2 class="h2">أسئلة تراودكم .. وإجابات نعتز بها</h2>
+      <p class="p16">نحن هنا لنزيل عنكم أي تساؤل، ولنضع بين أيديكم كل ما يمنحكم الراحة.</p>
+      <div class="faq-btns"><a class="btn btn-primary" href="#top" data-book><span>احجز موعدك</span></a><a class="btn btn-neutral" href="#help" data-help>تحتاج لمساعدة؟</a></div>
+    </div>
+    <div class="faq-list" id="faq">
+{qa}    </div>
+  </div>
+</section>
+'''
+    tail = '''<section class="tint" id="contact">
+  <div class="pat pat-02" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="wrap">
+    <div class="rt-cta">
+      <div><h2 class="h2">لا تزال لديك أسئلة؟ تواصل مع فريقنا مباشرة</h2><p class="p16">متوسط وقت الرد دقيقة واحدة.</p></div>
+      <a class="btn btn-primary" href="#help" data-help><span>تواصل مباشر</span></a>
+    </div>
+  </div>
+</section>'''
+    return policy_page("book", "احجز موعدك", "احجز زيارة منزلية في جدة | مدى كير",
+                       "احجز زيارة طبيب أو تمريض أو تحاليل منزلية أو فيتامينات وريدية أو علاج طبيعي في جدة مع مدى كير. اترك اسمك ورقمك ونتواصل معك خلال دقائق.",
+                       "", body, hero=hero, tail=tail, book="")
+
+
+os.makedirs("book", exist_ok=True)
+open("book/index.html", "w", encoding="utf-8").write(book_page())
+print("wrote book")
+
 os.makedirs("privacy-policy", exist_ok=True)
 open("privacy-policy/index.html", "w", encoding="utf-8").write(privacy_page())
 print("wrote privacy-policy")
@@ -474,6 +590,6 @@ open("cancellation-policy/index.html", "w", encoding="utf-8").write(cancel_page(
 print("wrote cancellation-policy")
 
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-for path in [""] + [s["slug"] + "/" for s in SERVICES] + ["patient-rights/", "cancellation-policy/", "privacy-policy/"]:
+for path in [""] + [s["slug"] + "/" for s in SERVICES] + ["patient-rights/", "cancellation-policy/", "privacy-policy/", "book/"]:
     sm += f"  <url>\n    <loc>{SITE}/{path}</loc>\n    <lastmod>2026-11-19</lastmod>\n  </url>\n"
 open("sitemap.xml", "w").write(sm + "</urlset>\n")

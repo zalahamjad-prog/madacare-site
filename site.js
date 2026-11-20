@@ -133,7 +133,14 @@
   // Booking request: one new row in the dashboard's requests (Requests page, source "website", on hold until the call center calls).
   const ov = $("bookOv"), form = $("bookForm"), err = $("bkErr");
   let lastFocus = null;
+  const inline = ov.classList.contains("ov-inline"); // booking page: the form sits in the page instead of a popup
   function openBook(svc) {
+    if (inline) {
+      $("bkForm").hidden = false; $("bkDone").hidden = true;
+      if (svc) $("bkSvc").value = svc;
+      ov.scrollIntoView({ behavior: "smooth", block: "center" }); setTimeout(() => $("bkName").focus({ preventScroll: true }), 300);
+      return;
+    }
     lastFocus = document.activeElement;
     $("bkForm").hidden = false; $("bkDone").hidden = true; err.hidden = true;
     form.querySelectorAll("[aria-invalid]").forEach(x => x.removeAttribute("aria-invalid"));
@@ -141,15 +148,15 @@
     ov.hidden = false; document.body.style.overflow = "hidden";
     setTimeout(() => $("bkName").focus(), 30);
   }
-  function closeBook() { ov.hidden = true; document.body.style.overflow = ""; if (lastFocus) lastFocus.focus(); }
+  function closeBook() { if (inline) { $("bkForm").hidden = false; $("bkDone").hidden = true; return; } ov.hidden = true; document.body.style.overflow = ""; if (lastFocus) lastFocus.focus(); }
   $$("[data-book]").forEach(el => {
     const fire = e => { e.preventDefault(); openBook(el.dataset.svc); };
     el.addEventListener("click", fire);
     if (el.tagName !== "A") el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") fire(e); });
   });
-  ov.addEventListener("click", e => { if (e.target === ov || e.target.closest("[data-close]")) closeBook(); });
+  ov.addEventListener("click", e => { if ((e.target === ov && !inline) || e.target.closest("[data-close]")) closeBook(); });
   document.addEventListener("keydown", e => {
-    if (ov.hidden) return;
+    if (ov.hidden || inline) return;
     if (e.key === "Escape") closeBook();
     if (e.key === "Tab") {
       const f = [...ov.querySelectorAll("button, input, select, textarea, a[href]")].filter(x => x.offsetParent);

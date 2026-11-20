@@ -566,3 +566,12 @@ button.vc-cta:hover { text-decoration: underline; }
 @media (max-width: 600px) { .pol-tbl thead { display: none; } .pol-tbl tr { display: grid; gap: 8px; padding: 14px 16px; border-top: 1px solid var(--b2); } .pol-tbl tr:first-child { border-top: 0; } .pol-tbl td { padding: 0; border: 0; } }
 .rights-1 { grid-template-columns: 1fr; }
 .rt p + p { margin-top: 8px; }
+/* Booking page */
+.bk-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 440px); gap: 48px; align-items: center; position: relative; z-index: 1; }
+.bk-hero .stores { margin-top: 8px; }
+.ov-inline { position: static; inset: auto; z-index: auto; background: none; display: block; padding: 0; }
+.ov-inline .dlg { width: 100%; max-height: none; overflow: visible; }
+@media (max-width: 900px) { .bk-grid { grid-template-columns: 1fr; gap: 28px; } }
+.bk-grid > * { min-width: 0; }
+.bk-hero .tags, .bk-hero .stores { flex-wrap: wrap; }
+@media (max-width: 600px) { .bk-hero .stores .store { flex: 1 1 140px; } }
