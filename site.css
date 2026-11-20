@@ -615,3 +615,6 @@ button.vc-cta:hover { text-decoration: underline; }
 .num-big { font-variant-numeric: tabular-nums; }
 .appcta-head { max-width: 1280px; margin: 0 auto 80px; }
 @media (max-width: 860px) { .appcta-head { margin-bottom: 20px; } .appcta-head .h2 { font-size: 1.75rem; } }
+/* Footer: quick links and important (policy) links side by side */
+.fg-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.fg-col { display: grid; gap: 12px; align-content: start; }
