@@ -554,3 +554,13 @@ button.vc-cta:hover { text-decoration: underline; }
 .rt-cta .h2 { margin: 0 0 8px; }
 .rt-cta p { margin: 0; }
 @media (max-width: 900px) { .rights { grid-template-columns: 1fr; } .rt { padding: 18px; } }
+/* Policy table */
+.pol-tbl { overflow-x: auto; border: 1px solid var(--b2); border-radius: var(--r-lg); background: #fff; }
+.pol-tbl table { width: 100%; border-collapse: collapse; font-size: .9375rem; }
+.pol-tbl th { background: #f3faf7; color: var(--heading); font-weight: 600; text-align: start; padding: 14px 20px; }
+.pol-tbl td { padding: 14px 20px; border-top: 1px solid var(--b2); color: var(--para); line-height: 1.7; vertical-align: top; }
+.pol-r { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: .875rem; font-weight: 500; }
+.pol-ok { background: #e8f6f1; color: #0b6b5c; }
+.pol-mid { background: #fff6e5; color: #93640b; }
+.pol-no { background: #fef0ef; color: #b42318; }
+@media (max-width: 600px) { .pol-tbl thead { display: none; } .pol-tbl tr { display: grid; gap: 8px; padding: 14px 16px; border-top: 1px solid var(--b2); } .pol-tbl tr:first-child { border-top: 0; } .pol-tbl td { padding: 0; border: 0; } }

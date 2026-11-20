@@ -290,20 +290,14 @@ RIGHTS = [
 ]
 
 
-def rights_page():
-    url = f"{SITE}/patient-rights/"
-    title = "حقوق المرضى | مدى كير للرعاية الصحية المنزلية"
-    desc = "حقوق المريض في مدى كير: الرعاية دون تمييز، الخصوصية والكرامة، الرعاية من كوادر مؤهلة، معرفة تكلفة العلاج، والمشاركة في القرار وتقديم الشكاوى."
+def policy_page(slug, name, title, desc, lead, body):
+    url = f"{SITE}/{slug}/"
     ld = {"@context": "https://schema.org", "@graph": [
         {"@type": "MedicalBusiness", "@id": SITE + "/#org", "name": "مدى كير", "url": SITE + "/", "logo": SITE + "/assets/mada-logo.png"},
-        {"@type": "WebPage", "@id": url, "url": url, "name": "حقوق المرضى", "description": desc, "inLanguage": "ar", "publisher": {"@id": SITE + "/#org"}},
+        {"@type": "WebPage", "@id": url, "url": url, "name": name, "description": desc, "inLanguage": "ar", "publisher": {"@id": SITE + "/#org"}},
         {"@type": "BreadcrumbList", "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "الرئيسية", "item": SITE + "/"},
-            {"@type": "ListItem", "position": 2, "name": "حقوق المرضى", "item": url}]}]}
-    items = ""
-    for i, (h, t, sub) in enumerate(RIGHTS, 1):
-        ul = "" if not sub else '<ul>' + "".join(f"<li>{x}</li>" for x in sub) + "</ul>"
-        items += f'      <li class="rt{" rt-wide" if sub else ""}"><span class="rt-n" aria-hidden="true">{i}</span><div><h3>{h}</h3><p>{t}</p>{ul}</div></li>\n'
+            {"@type": "ListItem", "position": 2, "name": name, "item": url}]}]}
     return f'''<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -344,20 +338,14 @@ def rights_page():
   <div class="pat pat-10" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
   <div class="wrap">
     <div class="pg-hero-in">
-      <nav class="crumbs" aria-label="مسار الصفحة"><a href="/">الرئيسية</a><span aria-hidden="true">›</span><span aria-current="page">حقوق المرضى</span></nav>
-      <h1 class="display">حقوق المرضى</h1>
-      <p class="lead">في مدى كير نرعاكم كأهلنا، ونلتزم بحقوق كل مريض نخدمه في بيته. هذي حقوقك وحقوق أهلك معنا.</p>
+      <nav class="crumbs" aria-label="مسار الصفحة"><a href="/">الرئيسية</a><span aria-hidden="true">›</span><span aria-current="page">{name}</span></nav>
+      <h1 class="display">{name}</h1>
+      <p class="lead">{lead}</p>
     </div>
   </div>
 </section>
 
-<section class="svc" id="rights">
-  <div class="wrap stack32">
-    <ol class="rights">
-{items}    </ol>
-  </div>
-</section>
-
+{body}
 <section class="tint" id="complaint">
   <div class="pat pat-02" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
   <div class="wrap">
@@ -382,11 +370,79 @@ def rights_page():
 '''
 
 
+
+
+def rights_page():
+    items = ""
+    for i, (h, t, sub) in enumerate(RIGHTS, 1):
+        ul = "" if not sub else '<ul>' + "".join(f"<li>{x}</li>" for x in sub) + "</ul>"
+        items += f'      <li class="rt{" rt-wide" if sub else ""}"><span class="rt-n" aria-hidden="true">{i}</span><div><h3>{h}</h3><p>{t}</p>{ul}</div></li>\n'
+    body = f'''<section class="svc" id="rights">
+  <div class="wrap stack32">
+    <ol class="rights">
+{items}    </ol>
+  </div>
+</section>
+'''
+    return policy_page("patient-rights", "حقوق المرضى", "حقوق المرضى | مدى كير للرعاية الصحية المنزلية",
+                       "حقوق المريض في مدى كير: الرعاية دون تمييز، الخصوصية والكرامة، الرعاية من كوادر مؤهلة، معرفة تكلفة العلاج، والمشاركة في القرار وتقديم الشكاوى.",
+                       "في مدى كير نرعاكم كأهلنا، ونلتزم بحقوق كل مريض نخدمه في بيته. هذي حقوقك وحقوق أهلك معنا.", body)
+
+
+CANCEL = [
+    ("إلغاء الموعد أو إعادة جدولة الزيارة", [
+        "يجب على العميل التواصل معنا لإلغاء أو إعادة جدولة الموعد قبل <b>24 ساعة</b> على الأقل من الموعد المحدد.",
+        "يمكن إعادة جدولة الخدمة قبل <b>24 ساعة</b> من موعد الزيارة، وبعد هذه الفترة تصبح إعادة الجدولة غير قابلة للتطبيق."]),
+    ("إلغاء الزيارة", [
+        "إذا تم إلغاء الزيارة قبل <b>24 ساعة</b> من الموعد، سيتم احتساب <b>25%</b> من قيمة الخدمة غير قابلة للاسترداد، وسيتم الاحتفاظ ببقية المبلغ كرصيد في حساب العميل لاستخدامه في خدمات أخرى.",
+        "إذا تم طلب الإلغاء بعد <b>24 ساعة</b> من الموعد المحدد، سيتم خصم <b>50%</b> من قيمة الخدمة غير قابلة للاسترداد، مع احتفاظ العميل ببقية المبلغ كرصيد في حسابه لاستخدامه في خدمات إضافية."]),
+    ("عدم التواجد في المنزل", [
+        "في حال عدم التواجد في المنزل بعد <b>15 دقيقة</b> من الموعد المحدد، سيتم اعتبار الجلسة <b>ملغاة</b> ولن يكون هناك أي استرداد للمبلغ."]),
+    ("الاستثناءات", [
+        "في الحالات الطارئة، يمكن التواصل مع فريق الدعم في مدى كير لبحث إمكانية تقديم استثناءات وفقاً للظروف الخاصة."]),
+]
+CANCEL_TABLE = [
+    ("إعادة جدولة الزيارة لأكثر من 24 ساعة قبل الخدمة الفردية والزيارة الأولى للباقات.", "تتم إعادة جدولة الموعد", "ok"),
+    ("إعادة تحديد موعد أقل من 24 ساعة لزيارة خدمة فردية.", "لا تتم إعادة جدولة الموعد", "no"),
+    ("إلغاء طلب الخدمة قبل أكثر من 24 ساعة للخدمة الفردية والزيارة الأولى لزيارة الباقات.", "الاحتفاظ بـ 75% من المبلغ كرصيد للعميل", "mid"),
+    ("إلغاء طلب الخدمة بعد أكثر من 24 ساعة قبل الزيارة الثانية لزيارة الباقات.", "الاحتفاظ بـ 50% من المبلغ كرصيد للعميل", "mid"),
+    ("إلغاء الخدمة أقل من 24 ساعة على الموعد المحدد.", "يتم إلغاء الجلسة دون رد المبلغ أو منح رصيد للعميل", "no"),
+    ("عدم التواجد في المنزل بعد أكثر من 15 دقيقة من موعد الجلسة.", "يتم إلغاء الجلسة دون رد المبلغ أو منح رصيد للعميل", "no"),
+]
+
+
+def cancel_page():
+    items = ""
+    for i, (h, sub) in enumerate(CANCEL, 1):
+        items += f'      <li class="rt"><span class="rt-n" aria-hidden="true">{i}</span><div><h3>{h}</h3><ul>' + "".join(f"<li>{x}</li>" for x in sub) + '</ul></div></li>\n'
+    rows = "".join(f'        <tr><td>{c}</td><td><span class="pol-r pol-{k}">{r}</span></td></tr>\n' for c, r, k in CANCEL_TABLE)
+    body = f'''<section class="svc" id="policy">
+  <div class="wrap stack32">
+    <ol class="rights">
+{items}    </ol>
+    <div class="sec-head"><p class="eyebrow">ملخص السياسة</p><h2 class="h2">وش يصير في كل حالة؟</h2></div>
+    <div class="pol-tbl"><table>
+      <thead><tr><th scope="col">الحالة</th><th scope="col">الإجراء المتّبع</th></tr></thead>
+      <tbody>
+{rows}      </tbody>
+    </table></div>
+    <p class="p16">نُقدّر تعاونكم في الالتزام بهذه السياسة لضمان سير العمل بشكل فعّال وتقديم أفضل تجربة لجميع عملائنا.</p>
+  </div>
+</section>
+'''
+    return policy_page("cancellation-policy", "سياسة الإلغاء وإعادة الجدولة", "سياسة الإلغاء وإعادة الجدولة | مدى كير",
+                       "سياسة مدى كير لإلغاء المواعيد وإعادة جدولتها وعدم التواجد في المنزل: مهلة 24 ساعة، الرصيد في حساب العميل، والاستثناءات في الحالات الطارئة.",
+                       "نسعى دائماً لتقديم خدمة عالية الجودة لعملائنا، وأي تغيير أو تأخير في الموعد قد يؤثر على خدمة بقية العملاء. لذا نضع بين أيديكم سياسة واضحة للإلغاء وإعادة الجدولة وعدم التواجد في المنزل.", body)
+
+
 os.makedirs("patient-rights", exist_ok=True)
 open("patient-rights/index.html", "w", encoding="utf-8").write(rights_page())
 print("wrote patient-rights")
+os.makedirs("cancellation-policy", exist_ok=True)
+open("cancellation-policy/index.html", "w", encoding="utf-8").write(cancel_page())
+print("wrote cancellation-policy")
 
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-for path in [""] + [s["slug"] + "/" for s in SERVICES] + ["patient-rights/"]:
+for path in [""] + [s["slug"] + "/" for s in SERVICES] + ["patient-rights/", "cancellation-policy/"]:
     sm += f"  <url>\n    <loc>{SITE}/{path}</loc>\n    <lastmod>2026-11-19</lastmod>\n  </url>\n"
 open("sitemap.xml", "w").write(sm + "</urlset>\n")
