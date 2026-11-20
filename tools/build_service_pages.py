@@ -290,7 +290,7 @@ RIGHTS = [
 ]
 
 
-def policy_page(slug, name, title, desc, lead, body, hero=None, tail=None, book=None):
+def policy_page(slug, name, title, desc, lead, body, hero=None, tail=None, book=None, crumbs=None):
     url = f"{SITE}/{slug}/"
     if hero is None:
         hero = f'''<section class="hero pg-hero" id="top">
@@ -320,7 +320,7 @@ def policy_page(slug, name, title, desc, lead, body, hero=None, tail=None, book=
         {"@type": "WebPage", "@id": url, "url": url, "name": name, "description": desc, "inLanguage": "ar", "publisher": {"@id": SITE + "/#org"}},
         {"@type": "BreadcrumbList", "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "الرئيسية", "item": SITE + "/"},
-            {"@type": "ListItem", "position": 2, "name": name, "item": url}]}]}
+            *[{"@type": "ListItem", "position": i, "name": n, "item": u} for i, (n, u) in enumerate(crumbs or [(name, url)], 2)]]}]}
     return f'''<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -579,6 +579,163 @@ os.makedirs("book", exist_ok=True)
 open("book/index.html", "w", encoding="utf-8").write(book_page())
 print("wrote book")
 
+POSTS = [
+    {"slug": "home-doctor-visit", "svc": "doctor", "page": "/home-doctor/", "page_name": "زيارة طبيب منزلية", "icon": "svc-ic4.svg", "bg": "#eff8ff", "cat": "زيارة الطبيب",
+     "title": "زيارة الطبيب المنزلي: راحة وأمان ورعاية صحية أفضل داخل منزلك",
+     "desc": "لماذا يفضل الكثير زيارة الطبيب في المنزل؟ تعرّف على فوائد زيارة الطبيب المنزلي في جدة لكبار السن والمرضى، وكيف تحجزها مع مدى كير.",
+     "intro": ["أصبحت خدمة زيارة الطبيب المنزلي من أكثر الخدمات الصحية طلباً في السعودية، خاصةً لكبار السن والمرضى الذين يحتاجون رعاية مستمرة دون عناء الذهاب للمستشفى.",
+               "في مدى كير نوفر خدمة طبيب منزلي في جدة بأعلى معايير الجودة والخصوصية، مع سرعة استجابة وفريق طبي محترف."],
+     "h2": "لماذا يفضل الكثير زيارة الطبيب في المنزل؟",
+     "list": ["تقليل خطر العدوى داخل المستشفيات.", "راحة أكبر للمريض وأسرته.", "متابعة صحية دقيقة داخل بيئة المريض.", "توفير الوقت والجهد، خاصة لكبار السن."],
+     "outro": "إذا كنت تبحث عن كشف طبي منزلي أو زيارة طبيب للمنزل في جدة، فمدى كير توفر لك الرعاية الصحية أينما كنت."},
+    {"slug": "wound-dressing-at-home", "svc": "nursing", "page": "/home-nursing/", "page_name": "التمريض المنزلي", "icon": "svc-ic3.svg", "bg": "#f8edff", "cat": "التمريض المنزلي",
+     "title": "تغيير الجروح والضمادات في المنزل بطريقة صحيحة لتجنب المضاعفات",
+     "desc": "متى تحتاج إلى ممرض منزلي لتغيير الجروح والضمادات؟ تعرّف على أهمية العناية الصحيحة بالجروح بعد العمليات ولمرضى السكري، وخدمة التمريض المنزلي في جدة.",
+     "intro": ["يُعد تغيير الجروح في المنزل من أهم الخدمات التمريضية التي تحتاج إلى عناية دقيقة لمنع الالتهابات وتسريع الشفاء.",
+               "عدم تنظيف الجرح أو تغيير الضماد بشكل صحيح قد يؤدي إلى مضاعفات خطيرة وتأخر التئام الجروح."],
+     "h2": "متى تحتاج إلى ممرض منزلي لتغيير الجروح؟",
+     "list": ["بعد العمليات الجراحية.", "مرضى السكري وتقرحات القدم.", "الجروح العميقة أو المزمنة.", "الحروق والإصابات الجلدية."],
+     "outro": "في مدى كير نقدم خدمة تمريض منزلي في جدة وتغيير ضمادات منزلية بواسطة طاقم تمريضي مؤهل يضمن لك الراحة والأمان داخل منزلك."},
+    {"slug": "full-checkup-every-6-months", "svc": "blood", "page": "/home-lab/", "page_name": "المختبر المنزلي", "icon": "svc-ic1.svg", "bg": "#fffaeb", "cat": "التحاليل المنزلية",
+     "title": "أهمية الفحص الشامل كل 6 أشهر للحفاظ على صحتك",
+     "desc": "الفحص الشامل الدوري يساعد على اكتشاف الأمراض مبكراً. تعرّف لماذا تحتاج فحصاً شاملاً كل 6 أشهر، وكيف تسوي تحاليلك في البيت مع مختبر مدى كير المنزلي في جدة.",
+     "intro": ["القيام بالفحص الشامل الدوري يساعد على اكتشاف الكثير من الأمراض مبكراً قبل ظهور الأعراض، مما يزيد فرص العلاج ويحافظ على جودة الحياة."],
+     "h2": "لماذا تحتاج إلى فحص شامل؟",
+     "list": ["الكشف المبكر عن السكري والضغط.", "متابعة صحة القلب والكوليسترول.", "الاطمئنان على وظائف الجسم والفيتامينات.", "الوقاية من الأمراض المزمنة."],
+     "outro": "توفر مدى كير خدمة مختبر منزلي في جدة وتحاليل منزلية بكل سهولة وخصوصية، حيث يصل فريقنا إلى منزلك لسحب العينات دون الحاجة لزيارة المختبر."},
+    {"slug": "iv-vitamins-benefits", "svc": "iv", "page": "/iv-therapy/", "page_name": "الفيتامينات الوريدية", "icon": "svc-ic2.svg", "bg": "#fef3f2", "cat": "الفيتامينات الوريدية",
+     "title": "فوائد الفيتامينات الوريدية لتعزيز الطاقة والمناعة",
+     "desc": "ما فوائد الفيتامينات الوريدية IV Therapy؟ تعرّف على دورها في دعم النشاط والترطيب والمناعة، وجلسات الفيتامينات الوريدية في منزلك بجدة مع مدى كير.",
+     "intro": ["أصبحت جلسات الفيتامينات الوريدية IV Therapy من أكثر الخدمات الصحية انتشاراً لما لها من دور في دعم النشاط والترطيب وتعزيز المناعة."],
+     "h2": "ما فوائد الفيتامينات الوريدية؟",
+     "list": ["زيادة الطاقة وتقليل الإرهاق.", "دعم المناعة وتحسين التركيز.", "تعويض نقص الفيتامينات بسرعة.", "تحسين الترطيب وصحة البشرة."],
+     "outro": "في مدى كير نقدم خدمة فيتامينات وريدية منزلية داخل منزلك بأمان تام وعلى يد مختصين، لتستمتع بتجربة صحية مريحة واحترافية."},
+]
+POST_DATE = "2026-11-21"
+POST_DATE_AR = "21 نوفمبر 2026"
+
+
+def read_min(p):
+    words = sum(len(x.split()) for x in p["intro"] + p["list"] + [p["outro"], p["h2"]])
+    n = max(1, round(words / 180))
+    return {1: "دقيقة واحدة", 2: "دقيقتان"}.get(n, f"{n} دقائق")
+
+
+def post_cover(p, big=False):
+    return f'<div class="post-cover{" post-cover-lg" if big else ""}" style="--pc:{p["bg"]}" aria-hidden="true"><span class="vi"><img src="/assets/{p["icon"]}" alt="" width="40" height="40"></span></div>'
+
+
+def post_card(p):
+    return f'''      <article class="post-card">
+        <a class="post-card-a" href="/blog/{p["slug"]}/">{post_cover(p)}</a>
+        <div class="post-card-b">
+          <p class="post-meta"><span class="post-cat">{p["cat"]}</span><span>قراءة {read_min(p)}</span></p>
+          <h3><a href="/blog/{p["slug"]}/">{p["title"]}</a></h3>
+          <p>{p["desc"]}</p>
+          <a class="post-more" href="/blog/{p["slug"]}/">اقرأ المقال<img src="/assets/ic-arrow-left.svg" alt="" width="18" height="18" loading="lazy" decoding="async"></a>
+        </div>
+      </article>'''
+
+
+def blog_hero(crumbs, h1, lead, meta=""):
+    return f'''<section class="hero pg-hero" id="top">
+  <div class="pat pat-10" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="wrap">
+    <div class="pg-hero-in">
+      <nav class="crumbs" aria-label="مسار الصفحة">{crumbs}</nav>
+      <h1 class="display">{h1}</h1>
+      <p class="lead">{lead}</p>{meta}
+    </div>
+  </div>
+</section>'''
+
+
+BLOG_TAIL = '''<section class="tint" id="contact">
+  <div class="pat pat-02" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="wrap">
+    <div class="rt-cta">
+      <div><h2 class="h2">تحتاج رعاية في بيتك؟</h2><p class="p16">فريق مدى كير يوصلك داخل جدة، ومتوسط وقت الرد دقيقة واحدة.</p></div>
+      <a class="btn btn-primary" href="#book" data-book><span>احجز موعدك الآن</span></a>
+    </div>
+  </div>
+</section>'''
+
+
+def blog_index():
+    cards = "\n".join(post_card(p) for p in POSTS)
+    hero = blog_hero('<a href="/">الرئيسية</a><span aria-hidden="true">›</span><span aria-current="page">المدونة</span>',
+                     "مدونة مدى كير", "نصائح ومعلومات صحية موثوقة تساعدك تهتم بنفسك وبأهلك في البيت، من فريق مدى كير للرعاية الصحية المنزلية.")
+    body = f'''<section class="svc" id="posts">
+  <div class="wrap stack32">
+    <div class="post-grid">
+{cards}
+    </div>
+  </div>
+</section>
+'''
+    ld_blog = {"@context": "https://schema.org", "@type": "Blog", "@id": SITE + "/blog/#blog", "name": "مدونة مدى كير", "url": SITE + "/blog/", "inLanguage": "ar",
+               "publisher": {"@id": SITE + "/#org"},
+               "blogPost": [{"@type": "BlogPosting", "headline": p["title"], "url": f"{SITE}/blog/{p['slug']}/", "datePublished": POST_DATE} for p in POSTS]}
+    html = policy_page("blog", "المدونة", "مدونة مدى كير | نصائح صحية للرعاية المنزلية في جدة",
+                       "مقالات ونصائح صحية من مدى كير: زيارة الطبيب المنزلي، التمريض والعناية بالجروح، الفحص الشامل والتحاليل المنزلية، والفيتامينات الوريدية.",
+                       "", body, hero=hero, tail=BLOG_TAIL)
+    return html.replace("</script>\n</head>", "</script>\n<script type=\"application/ld+json\">\n" + json.dumps(ld_blog, ensure_ascii=False, indent=1) + "\n</script>\n</head>", 1)
+
+
+def blog_post(p):
+    url = f"{SITE}/blog/{p['slug']}/"
+    meta = f'''
+      <p class="post-meta post-meta-h"><span class="post-cat">{p["cat"]}</span><span>فريق مدى كير</span><time datetime="{POST_DATE}">{POST_DATE_AR}</time><span>قراءة {read_min(p)}</span></p>'''
+    hero = blog_hero(f'<a href="/">الرئيسية</a><span aria-hidden="true">›</span><a href="/blog/">المدونة</a><span aria-hidden="true">›</span><span aria-current="page">{p["cat"]}</span>',
+                     p["title"], p["intro"][0], meta)
+    intro = "".join(f"<p>{x}</p>" for x in p["intro"][1:])
+    items = "".join(f"<li>{x}</li>" for x in p["list"])
+    others = [o for o in POSTS if o is not p][:3]
+    rel = "\n".join(post_card(o) for o in others)
+    body = f'''<section class="svc" id="article">
+  <div class="wrap">
+    <article class="post">
+      {post_cover(p, True)}
+      {intro}
+      <h2>{p["h2"]}</h2>
+      <ul>{items}</ul>
+      <p>{p["outro"]}</p>
+      <aside class="post-cta">
+        <div><b>{p["page_name"]} في جدة</b><p>اعرف تفاصيل الخدمة وكيف تحجزها من صفحتها.</p></div>
+        <div class="post-cta-acts"><a class="btn btn-primary" href="#book" data-book data-svc="{p["svc"]}"><span>احجز موعدك الآن</span></a><a class="btn btn-neutral" href="{p["page"]}">صفحة الخدمة</a></div>
+      </aside>
+      <p class="post-note">هذا المحتوى للتوعية الصحية العامة، ولا يغني عن استشارة الطبيب المختص لحالتك.</p>
+    </article>
+  </div>
+</section>
+
+<section class="tint" id="more">
+  <div class="pat pat-02" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="wrap stack32">
+    <div class="sec-head"><p class="eyebrow">اقرأ أيضاً</p><h2 class="h2">مقالات أخرى</h2></div>
+    <div class="post-grid">
+{rel}
+    </div>
+  </div>
+</section>
+'''
+    ld_post = {"@context": "https://schema.org", "@type": "BlogPosting", "@id": url + "#post", "mainEntityOfPage": url, "headline": p["title"], "description": p["desc"],
+               "inLanguage": "ar", "datePublished": POST_DATE, "dateModified": POST_DATE, "image": SITE + "/assets/og-image.jpg",
+               "author": {"@type": "Organization", "name": "فريق مدى كير", "url": SITE + "/"}, "publisher": {"@id": SITE + "/#org"},
+               "about": {"@type": "MedicalBusiness", "@id": SITE + "/#org"}}
+    html = policy_page(f"blog/{p['slug']}", p["title"], f"{p['title']} | مدونة مدى كير", p["desc"], "", body, hero=hero, tail="",
+                       crumbs=[("المدونة", SITE + "/blog/"), (p["title"], url)])
+    html = html.replace('<meta property="og:type" content="website">', '<meta property="og:type" content="article">', 1)
+    return html.replace("</script>\n</head>", "</script>\n<script type=\"application/ld+json\">\n" + json.dumps(ld_post, ensure_ascii=False, indent=1) + "\n</script>\n</head>", 1)
+
+
+os.makedirs("blog", exist_ok=True)
+open("blog/index.html", "w", encoding="utf-8").write(blog_index())
+for p in POSTS:
+    os.makedirs(f"blog/{p['slug']}", exist_ok=True)
+    open(f"blog/{p['slug']}/index.html", "w", encoding="utf-8").write(blog_post(p))
+print("wrote blog +", len(POSTS), "posts")
+
 os.makedirs("privacy-policy", exist_ok=True)
 open("privacy-policy/index.html", "w", encoding="utf-8").write(privacy_page())
 print("wrote privacy-policy")
@@ -590,6 +747,6 @@ open("cancellation-policy/index.html", "w", encoding="utf-8").write(cancel_page(
 print("wrote cancellation-policy")
 
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-for path in [""] + [s["slug"] + "/" for s in SERVICES] + ["patient-rights/", "cancellation-policy/", "privacy-policy/", "book/"]:
+for path in [""] + [s["slug"] + "/" for s in SERVICES] + ["patient-rights/", "cancellation-policy/", "privacy-policy/", "book/", "blog/"] + [f"blog/{p['slug']}/" for p in POSTS]:
     sm += f"  <url>\n    <loc>{SITE}/{path}</loc>\n    <lastmod>2026-11-19</lastmod>\n  </url>\n"
 open("sitemap.xml", "w").write(sm + "</urlset>\n")
