@@ -613,3 +613,5 @@ button.vc-cta:hover { text-decoration: underline; }
 /* Headlines use Thmanyah Bold; IBM Plex stays for descriptions only (marketing note) */
 .eyebrow, .fc h3, .sc-t b, .vt h3, .st-card b, .fact b, .rt h3, .post-card-b h3, .post-cta b { font-family: var(--fh); font-weight: 700; }
 .num-big { font-variant-numeric: tabular-nums; }
+.appcta-head { max-width: 1280px; margin: 0 auto 80px; }
+@media (max-width: 860px) { .appcta-head { margin-bottom: 20px; } .appcta-head .h2 { font-size: 1.75rem; } }
