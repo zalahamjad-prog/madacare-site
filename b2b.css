@@ -285,3 +285,14 @@
 }
 @media (max-width: 420px) { .sv-hero .display { font-size: 1.875rem; } }
 .sv-gains .bx-eyebrow { justify-self: center; }
+.bx-tiles a { display: grid; justify-items: center; gap: 10px; color: inherit; }
+.bx-tiles li:has(a) { padding: 0; }
+.bx-tiles li a { padding: 22px 12px; }
+.sv-needs .sv-tick { color: #b54708; background: #fffaeb; border-color: #fedf89; }
+.sv-sol { padding: 88px 0; background: #fff; }
+.sv-sol-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 860px) { .sv-sol-grid { grid-template-columns: minmax(0, 1fr); } .sv-sol { padding: 60px 0; } }
+.fg-grid:has(> .fg-col:nth-child(3)) { grid-template-columns: repeat(3, minmax(0, auto)); }
+.sv-needs { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 980px; margin-inline: auto; width: 100%; }
+@media (max-width: 860px) { .sv-needs { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 600px) { .fg-grid:has(> .fg-col:nth-child(3)) { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
