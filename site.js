@@ -5,15 +5,7 @@
   const TZ = "Asia/Riyadh";
   const parts = (d, o) => Object.fromEntries(new Intl.DateTimeFormat("ar-SA-u-ca-gregory-nu-latn", { timeZone: TZ, ...o }).formatToParts(d).map(p => [p.type, p.value]));
 
-  // Second nav: city, weather, live Riyadh date and time ("3-مايو-2026", "2:30 مساءً").
-  if (C.city) $("shCity").textContent = C.city;
-  if (C.weather) $("shWeather").textContent = C.weather;
-  function clock() {
-    const n = new Date(), d = parts(n, { day: "numeric", month: "long", year: "numeric" }), t = parts(n, { hour: "numeric", minute: "2-digit", hour12: true });
-    $("shDate").textContent = `${d.day}-${d.month}-${d.year}`;
-    $("shTime").textContent = `${t.hour}:${t.minute} ${/م|PM/i.test(t.dayPeriod || "") ? "مساءً" : "صباحاً"}`;
-  }
-  clock(); setInterval(clock, 30000);
+  // Second nav: only the accessibility buttons (weather, date, time and city were removed at the client's request).
 
   // Last modified, in Saudi time.
   const lm = new Date(document.lastModified);

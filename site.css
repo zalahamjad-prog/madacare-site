@@ -666,3 +666,7 @@ button.vc-cta:hover { text-decoration: underline; }
   .appcta-btns { grid-template-columns: 1fr; }
 }
 @media (max-width: 860px) { .hero .call-note { width: calc(50% - 5px); text-align: center; margin-inline-end: auto; } }
+
+/* Second nav without the weather/date/time/city row: accessibility buttons only (desktop) */
+.snav-in { justify-content: flex-end; }
+@media (max-width: 860px) { .snav { display: none; } }
