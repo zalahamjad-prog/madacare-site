@@ -164,6 +164,18 @@
   $$("[data-tel-link]").forEach(a => { if (telNo) a.href = "tel:" + telNo; else a.addEventListener("click", e => { e.preventDefault(); openBook(); }); });
   const wf = $("waFloat");
   if (wa) ext(wf, wa); else wf.addEventListener("click", e => { e.preventDefault(); openBook(); });
+  // "Need help?" bubble next to the WhatsApp button: once per visitor, 5s after arriving, hides after 6s or on tap.
+  if (wf && !store.get("mada-wa-bubble")) setTimeout(() => {
+    store.set("mada-wa-bubble", "1");
+    const bb = document.createElement("button");
+    bb.type = "button"; bb.className = "wa-bubble"; bb.textContent = L("تحتاج مساعدة؟ 💚", "Need help? 💚");
+    document.body.appendChild(bb);
+    requestAnimationFrame(() => bb.classList.add("in"));
+    const hide = () => { bb.classList.remove("in"); setTimeout(() => bb.remove(), 300); };
+    bb.addEventListener("click", () => { hide(); wf.click(); });
+    wf.addEventListener("click", hide, { once: true });
+    setTimeout(hide, 6000);
+  }, 5000);
   const tel = telNo;
   // Call button: opens a WhatsApp chat when a WhatsApp number is set, otherwise a phone call.
   // Call button: WhatsApp chat when a WhatsApp number is set, else a phone call; with neither it opens the booking form (data-book).
