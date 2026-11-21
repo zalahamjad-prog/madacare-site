@@ -670,3 +670,15 @@ button.vc-cta:hover { text-decoration: underline; }
 /* Second nav without the weather/date/time/city row: accessibility buttons only (desktop) */
 .snav-in { justify-content: flex-end; }
 @media (max-width: 860px) { .snav { display: none; } }
+
+/* Hero: eye-catching reply-time badge with a pulsing "online" dot */
+.hero .live-note { display: inline-flex; align-items: center; gap: 8px; width: auto; margin: 2px 0 0; padding: 6px 14px; border-radius: 999px;
+  background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.35); color: #fff; font-size: .875rem; font-weight: 500;
+  backdrop-filter: blur(4px); animation: noteGlow 2.4s ease-in-out infinite; }
+.hero .live-note b { color: #ffd166; font-weight: 700; }
+.live-dot { position: relative; width: 10px; height: 10px; border-radius: 50%; background: #3ee08f; flex: none; }
+.live-dot::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: #3ee08f; animation: livePing 1.6s cubic-bezier(0,0,.2,1) infinite; }
+@keyframes livePing { 0% { transform: scale(1); opacity: .8; } 80%, 100% { transform: scale(2.6); opacity: 0; } }
+@keyframes noteGlow { 0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); } 50% { box-shadow: 0 0 0 4px rgba(255,255,255,.12); } }
+@media (prefers-reduced-motion: reduce) { .live-dot::after, .hero .live-note { animation: none; } }
+@media (max-width: 860px) { .hero .live-note { width: auto; justify-content: center; margin-inline-end: 0; } .hero-acts .live-note { align-self: flex-start; } }
