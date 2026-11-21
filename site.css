@@ -665,3 +665,4 @@ button.vc-cta:hover { text-decoration: underline; }
   .lead-form { grid-template-columns: 1fr; padding: 0 16px; }
   .appcta-btns { grid-template-columns: 1fr; }
 }
+@media (max-width: 860px) { .hero .call-note { width: calc(50% - 5px); text-align: center; margin-inline-end: auto; } }

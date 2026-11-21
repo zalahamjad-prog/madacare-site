@@ -101,7 +101,8 @@
   const wf = $("waFloat");
   if (wa) ext(wf, wa); else wf.addEventListener("click", e => { e.preventDefault(); openBook(); });
   const tel = String(C.phone || "").replace(/[^\d+]/g, "");
-  $$("[data-call]").forEach(a => { if (tel) { a.href = "tel:" + tel; a.hidden = false; } });
+  // Call button: opens a WhatsApp chat when a WhatsApp number is set, otherwise a phone call.
+  $$("[data-call]").forEach(a => { if (wa) { a.href = wa; a.target = "_blank"; a.rel = "noopener"; a.hidden = false; } else if (tel) { a.href = "tel:" + tel; a.hidden = false; } });
   $$("[data-phone]").forEach(a => { if (tel) { a.href = "tel:" + tel; a.textContent = C.phone; a.closest("[data-phone-row]").hidden = false; } });
   if (C.crNumber) ["crNo", "crNo2"].forEach(k => { if ($(k)) $(k).textContent = C.crNumber; });
   $$("[data-soon]").forEach(a => a.addEventListener("click", e => { e.preventDefault(); toast("هذه الصفحة قيد البناء في الورشة"); }));
