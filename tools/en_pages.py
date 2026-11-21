@@ -378,4 +378,23 @@ T2 = {
 
     # Last updated line (site.js rewrites it in English when the page loads)
     "تاريخ آخر تعديل: 04/12/2026 - 4:13 م بتوقيت السعودية": "Last updated: 04/12/2026 - 4:13 PM Saudi time",
+
+    # About
+    "من نحن | مدى كير للرعاية الصحية المنزلية": "About us | Mada Care Home Healthcare",
+    "في مدى كير لم نؤسس شركة تقدم خدمات طبية فقط ،": "At Mada Care, we didn't just build a company that offers medical services,",
+    "بل أسسنا مفهومًا جديدًا للرعاية المنزلية يعتمد على:": "we built a new idea of home care, founded on:",
+    "الاحتراف الطبي": "Medical professionalism",
+    "والتعامل الإنساني قبل أي شيء": "And human care above all",
+    "لهذا حرصنا على اختيار فريق طبي مؤهل لا يتميز بالكفاءة فقط…": "That's why we chose a qualified medical team known not only for their skill…",
+    "بل بالرحمة والاهتمام أيضًا.": "but for their compassion and care too.",
+    "لأننا نؤمن أن المريض يتذكر دائمًا:": "Because we believe a patient always remembers:",
+    "كيف تم التعامل معه،": "how they were treated,",
+    "وكيف شعر أثناء الرعاية،": "and how they felt during their care,",
+    "قبل أن يتذكر أي شيء آخر.": "before they remember anything else.",
+    "لذلك نحن لا نرى المرضى كأرقام أو مواعيد…": "So we don't see patients as numbers or appointments…",
+    "نحن نراهم أمهات وآباء وأبناء يستحقون الرعاية باحترام وطمأنينة.": "We see them as mothers, fathers and children who deserve care with respect and peace of mind.",
+    "ولهذا اخترنا شعارنا بعناية:": "That's why we chose our motto with care:",
+    "نرعَــــاكُم كأهلُنـــا 💚": "We care for you like family 💚",
+    "مدى كير: مفهوم جديد للرعاية المنزلية يعتمد على الاحتراف الطبي وسرعة الاستجابة والخصوصية التامة والتعامل الإنساني. نرعاكم كأهلنا.":
+        "Mada Care: a new idea of home care founded on medical professionalism, fast response, full privacy and human care. We care for you like family.",
 }
