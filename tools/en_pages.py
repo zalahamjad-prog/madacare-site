@@ -404,4 +404,6 @@ T2 = {
     "اطلب جلسة": "Book a session",
     "خدمات مدى كير للرعاية الصحية المنزلية في جدة: زيارة طبيب منزلية، تمريض منزلي، مختبر منزلي، فيتامينات وريدية وعلاج طبيعي في بيتك.":
         "Mada Care home healthcare services in Jeddah: home doctor visits, home nursing, home lab tests, IV vitamins and physiotherapy at home.",
+    "مو متأكد وش الخدمة المناسبة؟": "Not sure which service you need?",
+    "تواصل مع فريقنا ونساعدك تختار الخدمة اللي تناسب حالتك.": "Talk to our team and we'll help you choose the right service for your situation.",
 }

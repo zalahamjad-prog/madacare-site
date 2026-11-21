@@ -842,28 +842,66 @@ def about_page():
                        "", body, hero=hero, tail="")
 
 
+SVC_LOOK = {  # icon, soft background, accent colour, emoji for each service on /services/
+    "home-doctor": ("svc-ic4.svg", "#eff8ff", "#1570ef", "🩺"),
+    "home-nursing": ("svc-ic3.svg", "#f8edff", "#80519f", "💉"),
+    "home-lab": ("svc-ic1.svg", "#fffaeb", "#dc6803", "🧪"),
+    "iv-therapy": ("svc-ic2.svg", "#fef3f2", "#d92d20", "💧"),
+    "home-physiotherapy": ("ic-bone.svg", "#ecfdf3", "#079455", "🦵"),
+}
+
+
 def services_page():
-    home = between('<div class="cards4 svc-cards">', '\n    </div>\n    <div class="svc-dots"')
-    home = fix(home[home.index("\n") + 1: home.rindex("\n    </div>")])
-    physio = ('      <article class="vc vc-l"><div class="vc-top"><span class="vi" style="background:#ecfdf3"><img src="/assets/ic-bone.svg" alt="" width="28" height="28" loading="lazy" decoding="async"></span>'
-              '<button type="button" class="vc-cta" data-book data-svc="physio">اطلب جلسة<img src="/assets/ic-arrow-left.svg" alt="" width="20" height="20" loading="lazy" decoding="async"></button></div>'
-              '<div class="vt"><h3><a class="vc-a" href="/home-physiotherapy/">العلاج الطبيعي المنزلي</a></h3><p>جلسات علاج طبيعي داخل المنزل بأخصائيين مرخصين.</p></div>\n'
-              '        <div class="vtags"><span class="t-neu">جلسات في المنزل</span><span class="t-info">أخصائيون مرخصون</span><span class="t-ok">متابعة الحالة</span></div></article>')
-    hero = blog_hero('<a href="/">الرئيسية</a><span aria-hidden="true">›</span><span aria-current="page">خدماتنا</span>',
-                     "خدماتنا الطبية المنزلية", "رعاية طبية منزلية في جدة بطواقم طبية مرخصة من وزارة الصحة، تصلكم إلى باب البيت. اختر الخدمة اللي تحتاجها واحجز بخطوات بسيطة.")
-    body = f'''<section class="svc" id="services">
+    chips = "".join(f'<a class="sx-chip" href="#{sv["slug"]}" style="--ac:{SVC_LOOK[sv["slug"]][2]}"><span aria-hidden="true">{SVC_LOOK[sv["slug"]][3]}</span>{sv["short"]}</a>' for sv in SERVICES)
+    hero = f'''<section class="hero pg-hero sx-hero" id="top">
+  <div class="pat pat-10" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
   <div class="wrap">
-    <div class="svc-all">
-{home}
-{physio}
+    <div class="pg-hero-in">
+      <nav class="crumbs" aria-label="مسار الصفحة"><a href="/">الرئيسية</a><span aria-hidden="true">›</span><span aria-current="page">خدماتنا</span></nav>
+      <h1 class="display">خدماتنا الطبية المنزلية</h1>
+      <p class="lead">رعاية طبية منزلية في جدة بطواقم طبية مرخصة من وزارة الصحة، تصلكم إلى باب البيت. اختر الخدمة اللي تحتاجها واحجز بخطوات بسيطة.</p>
     </div>
   </div>
 </section>
-'''
+<nav class="sx-bar" aria-label="خدماتنا"><div class="sx-bar-in">{chips}</div></nav>'''
+    rows = []
+    for n, sv in enumerate(SERVICES, 1):
+        ic, bg, ac, emo = SVC_LOOK[sv["slug"]]
+        inc = "".join(f'<li><span class="sx-ck" aria-hidden="true">✓</span><div><b>{t}</b><small>{d}</small></div></li>' for t, d in sv["inc"])
+        floats = "".join(f'<span class="sx-float f{i}"><i>✓</i>{t}</span>' for i, (t, _) in enumerate(sv["inc"], 1))
+        rows.append(f'''<section class="sx-row{' sx-rev' if n % 2 == 0 else ''}" id="{sv["slug"]}" style="--bg:{bg};--ac:{ac}">
+  <div class="wrap sx-in">
+    <div class="sx-vis" aria-hidden="true">
+      <span class="sx-num">0{n}</span>
+      <span class="sx-blob b1"></span><span class="sx-blob b2"></span>
+      <span class="sx-ic"><img src="/assets/{ic}" alt="" width="64" height="64" loading="lazy" decoding="async"></span>
+      <span class="sx-emo">{emo}</span>
+      {floats}
+    </div>
+    <div class="sx-txt">
+      <h2 class="h2">{sv["short"]}</h2>
+      <p class="p16">{sv["lead"]}</p>
+      <ul class="sx-inc">{inc}</ul>
+      <div class="sx-acts"><a class="btn btn-primary" href="#book" data-book data-svc="{sv["svc"]}"><span>{sv["cta"]}</span></a><a class="btn btn-neutral" href="/{sv["slug"]}/">صفحة الخدمة</a></div>
+    </div>
+  </div>
+</section>''')
+    body = "\n".join(rows) + '''
+<section class="sx-help">
+  <div class="wrap">
+    <div class="sx-help-card">
+      <span class="sx-help-emo" aria-hidden="true">🤔</span>
+      <h2 class="h2">مو متأكد وش الخدمة المناسبة؟</h2>
+      <p class="p16">تواصل مع فريقنا ونساعدك تختار الخدمة اللي تناسب حالتك.</p>
+      <div class="sx-acts"><a class="btn btn-primary" href="#help" data-help><span>تواصل معنا</span></a><a class="btn btn-neutral" href="#book" data-book><span>احجز موعدك الآن</span></a></div>
+    </div>
+  </div>
+</section>'''
     html = policy_page("services", "خدماتنا", "خدماتنا | الرعاية الصحية المنزلية في جدة من مدى كير",
                        "خدمات مدى كير للرعاية الصحية المنزلية في جدة: زيارة طبيب منزلية، تمريض منزلي، مختبر منزلي، فيتامينات وريدية وعلاج طبيعي في بيتك.",
-                       "", body, hero=hero, tail=BLOG_TAIL)
+                       "", body, hero=hero, tail="")
     return html.replace('<a href="/services/">خدماتنا</a>', '<a href="/services/" aria-current="page">خدماتنا</a>', 1)
+
 
 
 os.makedirs("services", exist_ok=True)

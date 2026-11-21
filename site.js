@@ -389,7 +389,7 @@ function gtmEvent(event, extra) {
     io.unobserve(x.target); x.target.classList.add("in");
     setTimeout(() => x.target.style.removeProperty("--d"), 1400);
   }), { threshold: .2, rootMargin: "0px 0px -8% 0px" });
-  [".feat-grid .fc", ".sc.why", ".ach .sc", ".svc-all .vc"].forEach(sel => document.querySelectorAll(sel).forEach((el, i) => {
+  [".feat-grid .fc", ".sc.why", ".ach .sc"].forEach(sel => document.querySelectorAll(sel).forEach((el, i) => {
     el.classList.add("rv"); el.style.setProperty("--d", (i % 4) * .12 + "s"); io.observe(el);
   }));
 })();
@@ -440,4 +440,25 @@ function gtmEvent(event, extra) {
   addEventListener("resize", () => { if (innerWidth !== lw || Math.abs(innerHeight - lh) > 150) { lw = innerWidth; lh = innerHeight; layout(); } });
   addEventListener("load", layout);
   layout();
+})();
+
+// Services page: rows slide in from their side, and the chip of the service on screen lights up.
+(() => {
+  const rows = [...document.querySelectorAll(".sx-row")], chips = [...document.querySelectorAll(".sx-chip")];
+  if (!rows.length || !("IntersectionObserver" in window)) return;
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { io.unobserve(x.target); x.target.classList.add("in"); } }), { threshold: .15 });
+    rows.forEach(r => { r.classList.add("sx-js"); io.observe(r); });
+  }
+  const bar = document.querySelector(".sx-bar-in");
+  const nav = document.querySelector(".nav"), sticky = document.querySelector(".sx-bar");
+  const fitTop = () => { if (nav && sticky) sticky.style.top = nav.offsetHeight + "px"; };
+  fitTop(); addEventListener("resize", fitTop);
+  const mark = id => chips.forEach(c => {
+    const on = c.getAttribute("href") === "#" + id;
+    c.classList.toggle("on", on);
+    if (on && bar) bar.scrollTo({ left: c.offsetLeft - (bar.clientWidth - c.offsetWidth) / 2, behavior: "smooth" });
+  });
+  const spy = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) mark(x.target.id); }), { rootMargin: "-45% 0px -50% 0px" });
+  rows.forEach(r => spy.observe(r));
 })();
