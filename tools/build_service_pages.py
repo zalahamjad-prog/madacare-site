@@ -767,7 +767,6 @@ def contact_page():
         <span class="ct-ic"><img src="/assets/ic-location.svg" alt="" width="26" height="26"></span>
         <h2>موقعنا</h2>
         <p>جدة، المملكة العربية السعودية.</p>
-        <p class="ct-small">6895 طاهر العمراني، حي أبحر الجنوبية، جدة 23734</p>
       </article>
     </div>
     <p class="ct-foot">مدى كير – نرعاكم كأهلنا 💚</p>
