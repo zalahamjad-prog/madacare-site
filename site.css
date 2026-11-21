@@ -815,6 +815,19 @@ button.vc-cta:hover { text-decoration: underline; }
 .globe .lang-t { white-space: nowrap; }
 .lang-m { display: none; }
 @media (max-width: 860px) {
-  .lang-m { display: grid; place-items: center; min-width: 44px; height: 36px; padding: 0 12px; border: 1.5px solid #12a37f; border-radius: 999px; color: #0b6b5c; font-weight: 700; font-size: .9375rem; margin-inline-start: auto; margin-inline-end: 8px; }
-  .lang-m:hover { background: #e3f4ee; }
+  /* Mobile header like the reference: menu button, logo, then the globe alone in the far corner */
+  .nav-in { gap: 12px; justify-content: flex-start; }
+  .burger { order: -1; }
+  .lang-m { display: grid; place-items: center; order: 1; margin-inline-start: auto; width: 44px; height: 44px; padding: 0; border-radius: 50%; }
+  .lang-m img { width: 28px; height: 28px; }
+  .lang-m:hover { background: var(--neutral); }
 }
+
+/* Choose language dialog */
+.lang-dlg { width: min(360px, 100%); padding: 24px; }
+.lang-dlg h2 { font-family: var(--fh); font-size: 1.375rem; margin: 0 0 16px; padding-bottom: 14px; border-bottom: 1px solid var(--b2); }
+.lang-opts { display: grid; gap: 12px; }
+.lang-opt { display: block; padding: 14px 18px; border-radius: 12px; background: #f3f4f6; color: var(--heading); font-size: 1.0625rem; font-weight: 600; text-decoration: none; text-align: start; }
+.lang-opt[lang="en"] { font-family: "Inter", system-ui, sans-serif; }
+.lang-opt:hover { background: #e3f4ee; }
+.lang-opt.on { background: #12a37f; color: #fff; }

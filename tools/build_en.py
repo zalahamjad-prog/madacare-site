@@ -241,9 +241,13 @@ def translate(s, ar_path, en_path):
         parts[i] = re.sub(r'\b(alt|aria-label|placeholder|content|title)="([^"]*)"',
                           lambda m: f'{m.group(1)}="{esc(tr(m.group(2)))}"' if AR.search(m.group(2)) else m.group(0), p)
     s = "".join(parts)
+    # English logo (built by tools/make_logo_en.py).
+    s = s.replace('src="/assets/logo.svg" alt="" width="140" height="40"', 'src="/assets/logo-en.svg" alt="" width="164" height="40"')
+    s = s.replace('src="/assets/logo-white.svg" alt="" width="140" height="40"', 'src="/assets/logo-en-white.svg" alt="" width="164" height="40"')
+    s = s.replace('src="/assets/logo-white.svg" alt="" width="183" height="52"', 'src="/assets/logo-en-white.svg" alt="" width="214" height="52"')
     # The language button points back to Arabic.
     s = s.replace('<span class="lang-t" lang="en">English</span>', '<span class="lang-t" lang="ar">العربية</span>')
-    s = s.replace('<button type="button" class="globe lang-m" lang="en" aria-label="English">EN</button>', '<button type="button" class="globe lang-m" lang="ar" aria-label="العربية">عربي</button>')
+    s = s.replace('<button type="button" class="globe lang-m" lang="en" aria-label="English">', '<button type="button" class="globe lang-m" lang="ar" aria-label="العربية">')
     s = s.replace('<button type="button" class="globe" aria-label="العربية">', '<button type="button" class="globe" aria-label="العربية" lang="ar">')
     return s
 
