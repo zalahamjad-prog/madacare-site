@@ -567,10 +567,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <p class="consent">بإرسال الطلب، أنت توافق على <a href="/privacy-policy/">سياسة الخصوصية</a> و<a href="/cancellation-policy/">سياسة الإلغاء</a></p>
       </form>
     </div>
-    <div id="bkDone" hidden>
-      <h2>وصلنا طلبك</h2>
-      <p class="dlg-sub">رقم طلبك <b id="bkRef" dir="ltr"></b>. سيتواصل معك فريقنا قريباً لتأكيد الموعد.</p>
-      <button type="button" class="btn btn-primary full" data-close>تم</button>
+    <div id="bkDone" class="bk-done" hidden>
+      <p class="bk-ref"><span>رقم الطلب:</span> <b id="bkRef" dir="ltr"></b></p>
+      <span class="bk-ok" aria-hidden="true"><svg viewBox="0 0 24 24" width="56" height="56" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m8 12.5 2.8 2.8L16.5 9.5"/></svg></span>
+      <h2>تم استلام طلبك بنجاح 💚</h2>
+      <p class="dlg-sub">شكرًا لثقتك بمدى كير. سيتواصل معك فريق خدمة العملاء قريبًا لتأكيد الموعد وتنسيق الخدمة.</p>
+      <button type="button" class="btn btn-primary full" data-close>حسنًا</button>
     </div>
   </div>
 </div>

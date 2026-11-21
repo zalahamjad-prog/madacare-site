@@ -169,8 +169,10 @@ T = {
     "الاسم": "Name", "رقم الجوال": "Mobile number", "الخدمة": "Service", "اختر الخدمة": "Choose a service",
     "ملاحظات (اختياري)": "Notes (optional)", "إرسال الطلب": "Send request",
     "بإرسال الطلب، أنت توافق على": "By sending this request, you agree to our", "و": "and our ", "سياسة الإلغاء": "cancellation policy",
-    "وصلنا طلبك": "We got your request", "رقم طلبك": "Your request number",
-    ". سيتواصل معك فريقنا قريباً لتأكيد الموعد.": ". Our team will contact you soon to confirm the appointment.", "تم": "Done",
+    "رقم الطلب:": "Request no.:", "تم استلام طلبك بنجاح 💚": "We've received your request 💚",
+    "شكرًا لثقتك بمدى كير. سيتواصل معك فريق خدمة العملاء قريبًا لتأكيد الموعد وتنسيق الخدمة.":
+        "Thank you for trusting Mada Care. Our customer care team will contact you soon to confirm the appointment and arrange the service.",
+    "حسنًا": "OK",
     "السعودية": "Saudi Arabia", "الهند": "India", "مصر": "Egypt", "الفلبين": "Philippines", "السودان": "Sudan", "باكستان": "Pakistan",
     # Contact page
     "اتصل بنا | مدى كير للرعاية الصحية المنزلية": "Contact us | Mada Care Home Healthcare",

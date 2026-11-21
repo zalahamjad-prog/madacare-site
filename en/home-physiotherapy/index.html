@@ -264,10 +264,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <p class="consent">By sending this request, you agree to our <a href="/en/privacy-policy/">Privacy policy</a> and our <a href="/en/cancellation-policy/">cancellation policy</a></p>
       </form>
     </div>
-    <div id="bkDone" hidden>
-      <h2>We got your request</h2>
-      <p class="dlg-sub">Your request number <b id="bkRef" dir="ltr"></b>. Our team will contact you soon to confirm the appointment.</p>
-      <button type="button" class="btn btn-primary full" data-close>Done</button>
+    <div id="bkDone" class="bk-done" hidden>
+      <p class="bk-ref"><span>Request no.:</span> <b id="bkRef" dir="ltr"></b></p>
+      <span class="bk-ok" aria-hidden="true"><svg viewBox="0 0 24 24" width="56" height="56" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m8 12.5 2.8 2.8L16.5 9.5"/></svg></span>
+      <h2>We've received your request 💚</h2>
+      <p class="dlg-sub">Thank you for trusting Mada Care. Our customer care team will contact you soon to confirm the appointment and arrange the service.</p>
+      <button type="button" class="btn btn-primary full" data-close>OK</button>
     </div>
   </div>
 </div>

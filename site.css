@@ -756,3 +756,13 @@ button.vc-cta:hover { text-decoration: underline; }
   [dir="ltr"] .hero-text { min-width: 0; }
 }
 @media (max-width: 860px) { [dir="ltr"] .hero .display { line-height: 1.3; } }
+
+/* Booking sent: order number small in the top corner, check, title, text, OK button */
+.bk-done { display: grid; justify-items: center; text-align: center; gap: 12px; padding-top: 8px; }
+.bk-done[hidden] { display: none; }
+.bk-done .bk-ref { position: absolute; top: 18px; inset-inline-start: 24px; margin: 0; font-size: .8125rem; color: #6c737f; }
+.bk-done .bk-ref b { font-weight: 500; letter-spacing: .3px; }
+.bk-done .bk-ok { color: #12a37f; display: grid; margin-top: 16px; }
+.bk-done h2 { color: #0b6b5c; font-size: 1.625rem; line-height: 1.4; }
+.bk-done .dlg-sub { font-size: 1rem; line-height: 1.7; margin: 0; }
+.bk-done .btn { margin-top: 8px; border-radius: 999px; height: 52px; }
