@@ -59,7 +59,7 @@
 
 /* Services */
 .bx-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
-.bx-card { position: relative; overflow: hidden; background: #fff; border: 1px solid var(--b2); border-radius: 20px; padding: 28px 24px 26px; display: grid; align-content: start; gap: 12px; transition: transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s, border-color .3s; }
+.bx-card { position: relative; overflow: hidden; background: linear-gradient(160deg, #fff 0%, var(--bg) 55%); border-color: color-mix(in srgb, var(--ac) 22%, #fff) !important; border: 1px solid var(--b2); border-radius: 20px; padding: 28px 24px 26px; display: grid; align-content: start; gap: 12px; transition: transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s, border-color .3s; }
 .bx-card::before { content: ""; position: absolute; inset: 0 0 auto; height: 4px; background: var(--ac); transform: scaleX(0); transform-origin: right; transition: transform .45s cubic-bezier(.2,.7,.2,1); }
 .bx-card:hover { transform: translateY(-6px); border-color: color-mix(in srgb, var(--ac) 35%, #fff); box-shadow: 0 22px 40px -22px color-mix(in srgb, var(--ac) 60%, transparent); }
 .bx-card:hover::before { transform: scaleX(1); }
