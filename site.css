@@ -697,3 +697,32 @@ button.vc-cta:hover { text-decoration: underline; }
 .help-dlg, .help-dlg .dlg-sub, .help-dlg .help-foot, .help-btn { font-family: var(--fh); }
 .help-dlg .dlg-sub, .help-dlg .help-foot { font-weight: 500; }
 .help-btn { font-weight: 700; }
+
+/* Contact page */
+.ct-sec { padding: 56px 0 72px; }
+.ct-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.ct-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 20px; padding: 24px; display: grid; gap: 10px; align-content: start; box-shadow: 0 8px 24px -16px rgba(16,24,40,.18); }
+.ct-card h2 { font-family: var(--fh); font-weight: 700; font-size: 1.375rem; color: #0b3a55; margin: 4px 0 0; }
+.ct-card p { margin: 0; color: #384250; font-family: var(--fh); font-weight: 500; font-size: 1rem; }
+.ct-card .ct-small { color: #6c737f; font-size: .875rem; }
+.ct-card .help-btn { margin-top: 8px; }
+.ct-ic { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; background: #f3fcf6; }
+.ct-ic-wa { background: #e7f7ef; }
+.ct-foot { text-align: center; margin-top: 32px; font-family: var(--fh); font-weight: 500; color: #6c737f; font-size: 1rem; }
+@media (max-width: 860px) { .ct-grid { grid-template-columns: 1fr; } .ct-sec { padding: 32px 0 48px; } }
+
+/* Footer company details: one tight column under a heading */
+.legal-ids { display: grid; gap: 6px; flex-wrap: nowrap; white-space: normal; margin-top: 8px; }
+.legal-ids p { margin: 0; }
+.legal-ids .li-h { font-family: var(--fh); font-weight: 700; font-size: 1.125rem; margin-bottom: 4px; }
+
+/* Newsletter box: original design, new text */
+.sub #subBody, .sub .sub-done { display: grid; gap: 14px; }
+.sub #subBody[hidden], .sub .sub-done[hidden] { display: none; }
+.sub .sub-h { font-weight: 700; font-size: 1rem; margin: 0; color: #fff; }
+.sub .sub-done p:not(.sub-h) { font-size: .9375rem; line-height: 1.6; margin: 0; }
+.sub .sub-note { font-size: .8125rem; color: rgba(255,255,255,.75); margin: 0; }
+.sub .sub-msg { color: #ffd166; margin: 0; }
+.sub-row button:disabled { opacity: .7; cursor: default; }
+.sub #subBody, .sub .sub-done { grid-template-columns: minmax(0, 1fr); }
+.sub-row input { width: 100%; }

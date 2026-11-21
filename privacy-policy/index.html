@@ -167,18 +167,26 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <a class="so" data-so="tiktok" href="#" aria-label="TikTok"><img src="/assets/so-tiktok.svg" alt="" width="20" height="20" loading="lazy" decoding="async"></a>
           </div>
         </div>
-        <div class="legal-ids"><p id="vatRow">الرقم الضريبي : <span id="vatNo">000000</span></p><p>السجل التجاري : <span id="crNo">0000000</span></p><p style="white-space:normal">شركة المستقبل الذكية للخدمات الطبية</p><p style="white-space:normal" dir="ltr">FUTURE SMART MEDICAL SERVICES COMPANY</p><p style="white-space:normal">6895 طاهر العمراني، حي أبحر الجنوبية، جدة 23734</p></div>
+        <div class="legal-ids"><p class="li-h">بيانات الشركة</p><p>شركة المستقبل الذكية للخدمات الطبية</p><p>السجل التجاري: <span id="crNo">0000000</span></p><p id="vatRow">الرقم الضريبي: <span id="vatNo">000000</span></p><p>جدة، المملكة العربية السعودية</p></div>
       </div>
       <div class="fg-links">
         <div class="fg-grid">
-          <div class="fg-col"><p class="fg-label">روابط سريعة</p><a href="/#about">من نحن</a><a href="/#services">خدماتنا</a><a href="#contact" data-help>اتصل بنا</a><a href="/blog/">المدونة</a></div>
+          <div class="fg-col"><p class="fg-label">روابط سريعة</p><a href="/#about">من نحن</a><a href="/#services">خدماتنا</a><a href="/contact/">اتصل بنا</a><a href="/blog/">المدونة</a></div>
           <div class="fg-col"><p class="fg-label">روابط مهمة</p><a href="/privacy-policy/">سياسة الخصوصية</a><a href="/patient-rights/">حقوق المرضى</a><a href="/cancellation-policy/">سياسة الإلغاء وإعادة الجدولة وعدم التواجد في المنزل</a></div>
         </div>
       </div>
       <form class="sub" id="subForm" novalidate>
-        <label for="subEmail">اشترك ليصلك آخر التحديثات حول خدمات مدى كير</label>
-        <div class="sub-row"><input type="email" id="subEmail" placeholder="البريد الالكتروني" autocomplete="email"><button type="submit">اشترك</button></div>
-        <p class="sub-msg" id="subMsg" role="status" hidden></p>
+        <div id="subBody">
+          <p class="sub-h">ابقَ على اطلاع 💚</p>
+          <label for="subEmail">انضم إلى مجتمع مدى كير، وكن أول من يعرف جديد خدماتنا ومبادراتنا الصحية.</label>
+          <div class="sub-row"><input type="email" id="subEmail" placeholder="أدخل بريدك الإلكتروني" autocomplete="email" dir="auto"><button type="submit" id="subBtn">اشترك الآن</button></div>
+          <p class="sub-msg" id="subMsg" role="alert" hidden></p>
+          <p class="sub-note">نحترم خصوصيتك، ولن نشارك بريدك الإلكتروني مع الآخرين.</p>
+        </div>
+        <div id="subDone" class="sub-done" role="status" hidden>
+          <p class="sub-h">شكرًا لانضمامك إلينا 💚</p>
+          <p>يسعدنا وجودك في مجتمع مدى كير. سنبقيك على اطلاع بكل جديد يهم صحتك وصحة عائلتك.</p>
+        </div>
       </form>
     </div>
     <div class="legal">

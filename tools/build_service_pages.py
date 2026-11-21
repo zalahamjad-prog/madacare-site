@@ -736,6 +736,51 @@ for p in POSTS:
     open(f"blog/{p['slug']}/index.html", "w", encoding="utf-8").write(blog_post(p))
 print("wrote blog +", len(POSTS), "posts")
 
+
+def contact_page():
+    hero = """<section class="hero pg-hero" id="top">
+  <div class="pat pat-10" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="wrap">
+    <div class="pg-hero-in">
+      <nav class="crumbs" aria-label="مسار الصفحة"><a href="/">الرئيسية</a><span aria-hidden="true">›</span><span aria-current="page">اتصل بنا</span></nav>
+      <h1 class="display">نسعد بتواصلك معنا 💚</h1>
+      <p class="lead">نحن هنا للإجابة عن استفساراتك ومساعدتك في الوصول إلى الخدمة المناسبة.</p>
+    </div>
+  </div>
+</section>"""
+    body = """<section class="ct-sec">
+  <div class="wrap">
+    <div class="ct-grid">
+      <article class="ct-card">
+        <span class="ct-ic ct-ic-wa"><img src="/assets/ic-whatsapp-btn.svg" alt="" width="28" height="28"></span>
+        <h2>تواصل عبر واتساب</h2>
+        <p>راسل فريق مدى كير وسنساعدك.</p>
+        <a class="help-btn help-wa" data-wa-link href="#book"><span>ابدأ المحادثة</span></a>
+      </article>
+      <article class="ct-card">
+        <span class="ct-ic"><img src="/assets/ic-phone-dark.svg" alt="" width="26" height="26"></span>
+        <h2>اتصل بنا</h2>
+        <p>تحدث مباشرة مع فريق خدمة العملاء.</p>
+        <a class="help-btn help-call" data-tel-link href="#book"><span>اتصل الآن</span></a>
+      </article>
+      <article class="ct-card">
+        <span class="ct-ic"><img src="/assets/ic-location.svg" alt="" width="26" height="26"></span>
+        <h2>موقعنا</h2>
+        <p>جدة، المملكة العربية السعودية.</p>
+        <p class="ct-small">6895 طاهر العمراني، حي أبحر الجنوبية، جدة 23734</p>
+      </article>
+    </div>
+    <p class="ct-foot">مدى كير – نرعاكم كأهلنا 💚</p>
+  </div>
+</section>"""
+    return policy_page("contact", "اتصل بنا", "اتصل بنا | مدى كير للرعاية الصحية المنزلية",
+                       "تواصل مع مدى كير للرعاية الصحية المنزلية في جدة عبر واتساب أو الاتصال المباشر، فريقنا هنا لمساعدتك.",
+                       "", body, hero=hero, tail="")
+
+
+os.makedirs("contact", exist_ok=True)
+open("contact/index.html", "w", encoding="utf-8").write(contact_page())
+print("wrote contact")
 os.makedirs("privacy-policy", exist_ok=True)
 open("privacy-policy/index.html", "w", encoding="utf-8").write(privacy_page())
 print("wrote privacy-policy")
@@ -747,6 +792,6 @@ open("cancellation-policy/index.html", "w", encoding="utf-8").write(cancel_page(
 print("wrote cancellation-policy")
 
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-for path in [""] + [s["slug"] + "/" for s in SERVICES] + ["patient-rights/", "cancellation-policy/", "privacy-policy/", "book/", "blog/"] + [f"blog/{p['slug']}/" for p in POSTS]:
+for path in [""] + [s["slug"] + "/" for s in SERVICES] + ["patient-rights/", "cancellation-policy/", "privacy-policy/", "book/", "blog/", "contact/"] + [f"blog/{p['slug']}/" for p in POSTS]:
     sm += f"  <url>\n    <loc>{SITE}/{path}</loc>\n    <lastmod>2026-11-19</lastmod>\n  </url>\n"
 open("sitemap.xml", "w").write(sm + "</urlset>\n")
