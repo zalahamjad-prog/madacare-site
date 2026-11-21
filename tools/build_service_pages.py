@@ -886,17 +886,8 @@ def services_page():
     </div>
   </div>
 </section>''')
-    body = "\n".join(rows) + '''
-<section class="sx-help">
-  <div class="wrap">
-    <div class="sx-help-card">
-      <span class="sx-help-emo" aria-hidden="true">🤔</span>
-      <h2 class="h2">مو متأكد وش الخدمة المناسبة؟</h2>
-      <p class="p16">تواصل مع فريقنا ونساعدك تختار الخدمة اللي تناسب حالتك.</p>
-      <div class="sx-acts"><a class="btn btn-primary" href="#help" data-help><span>تواصل معنا</span></a><a class="btn btn-neutral" href="#book" data-book><span>احجز موعدك الآن</span></a></div>
-    </div>
-  </div>
-</section>'''
+    app = fix(between('<section class="appcta"', "</section>")).replace('srcset="assets/', 'srcset="/assets/').replace(", assets/", ", /assets/")
+    body = "\n".join(rows) + "\n" + app
     html = policy_page("services", "خدماتنا", "خدماتنا | الرعاية الصحية المنزلية في جدة من مدى كير",
                        "خدمات مدى كير للرعاية الصحية المنزلية في جدة: زيارة طبيب منزلية، تمريض منزلي، مختبر منزلي، فيتامينات وريدية وعلاج طبيعي في بيتك.",
                        "", body, hero=hero, tail="")

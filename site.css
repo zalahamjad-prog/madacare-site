@@ -924,11 +924,6 @@ button.vc-cta:hover { text-decoration: underline; }
 .sx-inc b { display: block; font-family: var(--fh); font-weight: 700; font-size: 1.0625rem; color: var(--heading); }
 .sx-inc small { color: var(--para2); font-size: .9375rem; }
 .sx-acts { display: flex; flex-wrap: wrap; gap: 12px; }
-.sx-help { padding: 72px 0; }
-.sx-help-card { max-width: 760px; margin: 0 auto; text-align: center; padding: 48px 32px; border-radius: 32px; background: linear-gradient(135deg, #e9f7f1, #f6faf9); border: 1px solid #d4efe3; }
-.sx-help-card .sx-acts { justify-content: center; }
-.sx-help-card .h2 { margin: 8px 0; }
-.sx-help-emo { font-size: 3rem; display: inline-block; animation: sxBob 4s ease-in-out infinite; }
 @keyframes sxBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 @keyframes sxDrift { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-18px, -14px) scale(1.08); } }
 @keyframes sxRing { 0% { transform: scale(.9); opacity: .4; } 100% { transform: scale(1.35); opacity: 0; } }
@@ -950,11 +945,9 @@ button.vc-cta:hover { text-decoration: underline; }
   .sx-num { font-size: 3.25rem; } .sx-emo { top: 30px; inset-inline-end: 30px; font-size: 2.25rem; }
   .sx-float { font-size: .75rem; padding: 6px 10px; } .sx-float.f3 { display: none; }
   .sx-acts .btn { flex: 1; }
-  .sx-help { padding: 40px 0; } .sx-help-card { padding: 36px 20px; border-radius: 24px; }
-}
+  }
 
 @media (prefers-reduced-motion: reduce) {
   .btn-call img, .btn-white img[src*="ic-whatsapp-btn"] { animation: none; }
   .sc.why, .sc.why .fi, .rv, .fc.rv .fc-ic { transition: none; }
-  .sx-blob, .sx-ic, .sx-ic::after, .sx-emo, .sx-float, .sx-help-emo { animation: none; }
-}
+  .sx-blob, .sx-ic, .sx-ic::after, .sx-emo, .sx-float, }
