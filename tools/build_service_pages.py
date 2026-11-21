@@ -105,7 +105,7 @@ def page(sv):
          "provider": {"@id": SITE + "/#org"}, "areaServed": {"@type": "City", "name": "جدة"}},
         {"@type": "BreadcrumbList", "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "الرئيسية", "item": SITE + "/"},
-            {"@type": "ListItem", "position": 2, "name": "خدماتنا", "item": SITE + "/#services"},
+            {"@type": "ListItem", "position": 2, "name": "خدماتنا", "item": SITE + "/services/"},
             {"@type": "ListItem", "position": 3, "name": sv["short"], "item": url}]},
         {"@type": "FAQPage", "@id": url + "#faq", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq]}]}
     qa = "".join(f'''      <div class="qa{' open' if i == 0 else ''}"><button type="button" class="qa-h" aria-expanded="{'true' if i == 0 else 'false'}"><span>{q}</span><img class="i-minus" src="/assets/ic-minus.svg" alt="" width="24" height="24" loading="lazy" decoding="async"><img class="i-plus" src="/assets/ic-plus.svg" alt="" width="24" height="24" loading="lazy" decoding="async"></button>
@@ -174,7 +174,7 @@ def page(sv):
   <div class="pat pat-10" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
   <div class="wrap">
     <div class="pg-hero-in">
-      <nav class="crumbs" aria-label="مسار الصفحة"><a href="/">الرئيسية</a><span aria-hidden="true">›</span><a href="/#services">خدماتنا</a><span aria-hidden="true">›</span><span aria-current="page">{sv["short"]}</span></nav>
+      <nav class="crumbs" aria-label="مسار الصفحة"><a href="/">الرئيسية</a><span aria-hidden="true">›</span><a href="/services/">خدماتنا</a><span aria-hidden="true">›</span><span aria-current="page">{sv["short"]}</span></nav>
       <h1 class="display">{sv["h1"]}</h1>
       <p class="lead">{sv["lead"]}</p>
       <div class="tags">
@@ -842,6 +842,62 @@ def about_page():
                        "", body, hero=hero, tail="")
 
 
+SVC_LOOK = {  # icon, soft background, accent colour, emoji for each service on /services/
+    "home-doctor": ("svc-ic4.svg", "#eff8ff", "#1570ef", "🩺"),
+    "home-nursing": ("svc-ic3.svg", "#f8edff", "#80519f", "💉"),
+    "home-lab": ("svc-ic1.svg", "#fffaeb", "#dc6803", "🧪"),
+    "iv-therapy": ("svc-ic2.svg", "#fef3f2", "#d92d20", "💧"),
+    "home-physiotherapy": ("ic-bone.svg", "#ecfdf3", "#079455", "🦵"),
+}
+
+
+def services_page():
+    chips = "".join(f'<a class="sx-chip" href="#{sv["slug"]}" style="--ac:{SVC_LOOK[sv["slug"]][2]}"><span aria-hidden="true">{SVC_LOOK[sv["slug"]][3]}</span>{sv["short"]}</a>' for sv in SERVICES)
+    hero = f'''<section class="hero pg-hero sx-hero" id="top">
+  <div class="pat pat-10" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="wrap">
+    <div class="pg-hero-in">
+      <nav class="crumbs" aria-label="مسار الصفحة"><a href="/">الرئيسية</a><span aria-hidden="true">›</span><span aria-current="page">خدماتنا</span></nav>
+      <h1 class="display">خدماتنا الطبية المنزلية</h1>
+      <p class="lead">رعاية طبية منزلية في جدة بطواقم طبية مرخصة من وزارة الصحة، تصلكم إلى باب البيت. اختر الخدمة اللي تحتاجها واحجز بخطوات بسيطة.</p>
+    </div>
+  </div>
+</section>
+<nav class="sx-bar" aria-label="خدماتنا"><div class="sx-bar-in">{chips}</div></nav>'''
+    rows = []
+    for n, sv in enumerate(SERVICES, 1):
+        ic, bg, ac, emo = SVC_LOOK[sv["slug"]]
+        inc = "".join(f'<li><span class="sx-ck" aria-hidden="true">✓</span><div><b>{t}</b><small>{d}</small></div></li>' for t, d in sv["inc"])
+        floats = "".join(f'<span class="sx-float f{i}"><i>✓</i>{t}</span>' for i, (t, _) in enumerate(sv["inc"], 1))
+        rows.append(f'''<section class="sx-row{' sx-rev' if n % 2 == 0 else ''}" id="{sv["slug"]}" style="--bg:{bg};--ac:{ac}">
+  <div class="wrap sx-in">
+    <div class="sx-vis" aria-hidden="true">
+      <span class="sx-num">0{n}</span>
+      <span class="sx-blob b1"></span><span class="sx-blob b2"></span>
+      <span class="sx-ic"><img src="/assets/{ic}" alt="" width="64" height="64" loading="lazy" decoding="async"></span>
+      <span class="sx-emo">{emo}</span>
+      {floats}
+    </div>
+    <div class="sx-txt">
+      <h2 class="h2">{sv["short"]}</h2>
+      <p class="p16">{sv["lead"]}</p>
+      <ul class="sx-inc">{inc}</ul>
+      <div class="sx-acts"><a class="btn btn-primary" href="#book" data-book data-svc="{sv["svc"]}"><span>{sv["cta"]}</span></a><a class="btn btn-neutral" href="/{sv["slug"]}/">صفحة الخدمة</a></div>
+    </div>
+  </div>
+</section>''')
+    app = fix(between('<section class="appcta"', "</section>")).replace('srcset="assets/', 'srcset="/assets/').replace(", assets/", ", /assets/")
+    body = "\n".join(rows) + "\n" + app
+    html = policy_page("services", "خدماتنا", "خدماتنا | الرعاية الصحية المنزلية في جدة من مدى كير",
+                       "خدمات مدى كير للرعاية الصحية المنزلية في جدة: زيارة طبيب منزلية، تمريض منزلي، مختبر منزلي، فيتامينات وريدية وعلاج طبيعي في بيتك.",
+                       "", body, hero=hero, tail="")
+    return html.replace('<a href="/services/">خدماتنا</a>', '<a href="/services/" aria-current="page">خدماتنا</a>', 1)
+
+
+
+os.makedirs("services", exist_ok=True)
+open("services/index.html", "w", encoding="utf-8").write(services_page())
+print("wrote services")
 os.makedirs("contact", exist_ok=True)
 os.makedirs("about", exist_ok=True)
 open("about/index.html", "w", encoding="utf-8").write(about_page())
@@ -859,6 +915,6 @@ open("cancellation-policy/index.html", "w", encoding="utf-8").write(cancel_page(
 print("wrote cancellation-policy")
 
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-for path in [""] + [s["slug"] + "/" for s in SERVICES] + ["patient-rights/", "cancellation-policy/", "privacy-policy/", "book/", "blog/", "contact/", "about/"] + [f"blog/{p['slug']}/" for p in POSTS]:
+for path in [""] + [s["slug"] + "/" for s in SERVICES] + ["patient-rights/", "cancellation-policy/", "privacy-policy/", "book/", "blog/", "contact/", "about/", "services/"] + [f"blog/{p['slug']}/" for p in POSTS]:
     sm += f"  <url>\n    <loc>{SITE}/{path}</loc>\n    <lastmod>2026-11-19</lastmod>\n  </url>\n"
 open("sitemap.xml", "w").write(sm + "</urlset>\n")

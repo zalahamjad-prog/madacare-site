@@ -397,4 +397,13 @@ T2 = {
     "نرعَــــاكُم كأهلُنـــا 💚": "We care for you like family 💚",
     "مدى كير: مفهوم جديد للرعاية المنزلية يعتمد على الاحتراف الطبي وسرعة الاستجابة والخصوصية التامة والتعامل الإنساني. نرعاكم كأهلنا.":
         "Mada Care: a new idea of home care founded on medical professionalism, fast response, full privacy and human care. We care for you like family.",
+    # Services page
+    "خدماتنا | الرعاية الصحية المنزلية في جدة من مدى كير": "Our services | Home healthcare in Jeddah from Mada Care",
+    "رعاية طبية منزلية في جدة بطواقم طبية مرخصة من وزارة الصحة، تصلكم إلى باب البيت. اختر الخدمة اللي تحتاجها واحجز بخطوات بسيطة.":
+        "Home medical care in Jeddah by Ministry of Health licensed teams, right to your door. Choose the service you need and book in a few simple steps.",
+    "اطلب جلسة": "Book a session",
+    "خدمات مدى كير للرعاية الصحية المنزلية في جدة: زيارة طبيب منزلية، تمريض منزلي، مختبر منزلي، فيتامينات وريدية وعلاج طبيعي في بيتك.":
+        "Mada Care home healthcare services in Jeddah: home doctor visits, home nursing, home lab tests, IV vitamins and physiotherapy at home.",
+    "مو متأكد وش الخدمة المناسبة؟": "Not sure which service you need?",
+    "تواصل مع فريقنا ونساعدك تختار الخدمة اللي تناسب حالتك.": "Talk to our team and we'll help you choose the right service for your situation.",
 }
