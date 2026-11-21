@@ -822,3 +822,12 @@ button.vc-cta:hover { text-decoration: underline; }
   .lang-m img { width: 28px; height: 28px; }
   .lang-m:hover { background: var(--neutral); }
 }
+
+/* Choose language dialog */
+.lang-dlg { width: min(360px, 100%); padding: 24px; }
+.lang-dlg h2 { font-family: var(--fh); font-size: 1.375rem; margin: 0 0 16px; padding-bottom: 14px; border-bottom: 1px solid var(--b2); }
+.lang-opts { display: grid; gap: 12px; }
+.lang-opt { display: block; padding: 14px 18px; border-radius: 12px; background: #f3f4f6; color: var(--heading); font-size: 1.0625rem; font-weight: 600; text-decoration: none; text-align: start; }
+.lang-opt[lang="en"] { font-family: "Inter", system-ui, sans-serif; }
+.lang-opt:hover { background: #e3f4ee; }
+.lang-opt.on { background: #12a37f; color: #fff; }

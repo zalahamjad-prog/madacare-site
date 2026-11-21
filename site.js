@@ -134,11 +134,30 @@
     helpOv.hidden = false; document.body.style.overflow = "hidden";
     setTimeout(() => { const f = helpOv.querySelector(".help-btn"); if (f) f.focus(); }, 30);
   }
-  // Language button (globe): same page in the other language; /en/... <-> /...
-  $$(".globe").forEach(b => b.addEventListener("click", () => {
-    const p = location.pathname;
-    location.href = (EN ? (p.replace(/^\/en(\/|$)/, "/") || "/") : "/en" + p) + location.hash;
-  }));
+  // Language button (globe): opens "choose language"; picking the other language opens the same page in it (/en/... <-> /...).
+  let langOv = null;
+  function openLang() {
+    const p = location.pathname, other = (EN ? (p.replace(/^\/en(\/|$)/, "/") || "/") : "/en" + p) + location.hash;
+    if (!langOv) {
+      langOv = document.createElement("div");
+      langOv.className = "ov lang-ov"; langOv.hidden = true;
+      langOv.innerHTML = `<div class="dlg lang-dlg" role="dialog" aria-modal="true" aria-labelledby="langT">
+          <button type="button" class="dlg-x" data-lclose aria-label="${L("إغلاق", "Close")}">×</button>
+          <h2 id="langT">${L("اختر اللغة", "Choose language")}</h2>
+          <div class="lang-opts">
+            <a class="lang-opt${EN ? " on" : ""}" lang="en" hreflang="en" href="${EN ? "#" : other}"${EN ? ' aria-current="true" data-lclose' : ""}>English</a>
+            <a class="lang-opt${EN ? "" : " on"}" lang="ar" hreflang="ar" href="${EN ? other : "#"}"${EN ? "" : ' aria-current="true" data-lclose'}>العربية</a>
+          </div>
+        </div>`;
+      document.body.appendChild(langOv);
+      const close = () => { langOv.hidden = true; document.body.style.overflow = ""; };
+      langOv.addEventListener("click", e => { const x = e.target.closest("[data-lclose]"); if (e.target === langOv || x) { if (x) e.preventDefault(); close(); } });
+      document.addEventListener("keydown", e => { if (e.key === "Escape" && !langOv.hidden) close(); });
+    }
+    langOv.hidden = false; document.body.style.overflow = "hidden";
+    setTimeout(() => { const f = langOv.querySelector(".lang-opt:not(.on)"); if (f) f.focus(); }, 30);
+  }
+  $$(".globe").forEach(b => b.addEventListener("click", openLang));
   $$("[data-help]").forEach(a => a.addEventListener("click", e => { e.preventDefault(); openHelp(a.dataset.help); }));
   // Contact page buttons: WhatsApp / call when the numbers are set, otherwise the booking form.
   $$("[data-wa-link]").forEach(a => { if (wa) ext(a, wa); else a.addEventListener("click", e => { e.preventDefault(); openBook(); }); });
