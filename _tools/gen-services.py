@@ -75,6 +75,13 @@ def head(title, meta, url, ld):
     return f"""<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+<!-- Google Tag Manager (standard snippet) -->
+<script>(function(w,d,s,l,i){{w[l]=w[l]||[];w[l].push({{'gtm.start':
+new Date().getTime(),event:'gtm.js'}});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+}})(window,document,'script','dataLayer','GTM-KWH4X6MJ');</script>
+<!-- End Google Tag Manager -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{e(title)}</title>
@@ -136,6 +143,9 @@ def page(s):
     intro = "\n".join(f'      <p class="{"p20" if i == 0 else "p16"}">{e(p)}</p>' for i, p in enumerate(s["intro"]))
 
     return head(title, s["meta"], url, ld) + f"""<body class="sv-page" style="--ac:{s['ac']};--bg:{s['bg']}">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KWH4X6MJ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 <a class="skip" href="#main">تخطي إلى المحتوى</a>
 
 {HEADER.format(quote=quote)}
@@ -287,6 +297,9 @@ def sector_page(x):
         for o in SECTORS if o is not x)
     svc_links = "".join(f'<a href="/services/{o["slug"]}/">{e(o["name"])}</a>' for o in SERVICES)
     return head(title, x["meta"], url, ld) + f"""<body class="sv-page" style="--ac:{x['ac']};--bg:{x['bg']}">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KWH4X6MJ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 <a class="skip" href="#main">تخطي إلى المحتوى</a>
 
 {HEADER.format(quote=quote)}
