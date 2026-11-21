@@ -41,6 +41,24 @@
     addEventListener("resize", update); update();
   }
 
+  // WhatsApp button (bottom corner) with a "Need help?" bubble. Without a number in b2b-config.js it goes to the quote form.
+  const wf = $("waFloat"), waNo = String(C.whatsapp || "").replace(/\D/g, "");
+  if (wf) {
+    const msg = encodeURIComponent("السلام عليكم، أبغى أعرف أكثر عن خدمات مدى كير للشركات");
+    if (waNo) { wf.href = "https://wa.me/" + waNo + "?text=" + msg; wf.target = "_blank"; wf.rel = "noopener"; }
+    wf.addEventListener("click", () => (window.dataLayer = window.dataLayer || []).push({ event: "whatsapp_click", area: "b2b_float" }));
+    setTimeout(() => {
+      const bb = document.createElement("button");
+      bb.type = "button"; bb.className = "wa-bubble"; bb.textContent = "تحتاج مساعدة؟ 💚";
+      document.body.appendChild(bb);
+      requestAnimationFrame(() => bb.classList.add("in"));
+      const hide = () => { bb.classList.remove("in"); setTimeout(() => bb.remove(), 300); };
+      bb.addEventListener("click", () => { hide(); wf.click(); });
+      wf.addEventListener("click", hide, { once: true });
+      setTimeout(hide, 8000);
+    }, 4000);
+  }
+
   // Quote request: one row in the shared database (mada_data, k "mada-b2b-leads").
   const form = $("quoteForm"), err = $("qErr"), mail = C.email || "digital@madacare.sa";
   const latin = v => v.replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d));
@@ -49,9 +67,9 @@
   const valid = () => {
     form.querySelectorAll("[aria-invalid]").forEach(x => x.removeAttribute("aria-invalid")); err.hidden = true;
     if ($("qCompany").value.trim().length < 2) return bad($("qCompany"), "اكتب اسم الشركة.");
-    if ($("qName").value.trim().length < 2) return bad($("qName"), "اكتب اسم مسؤول التواصل.");
     if (!/^05\d{8}$/.test($("qMobile").value)) return bad($("qMobile"), "اكتب رقم جوال صحيح يبدأ بـ 05 ومكوّن من 10 أرقام.");
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($("qEmail").value.trim())) return bad($("qEmail"), "اكتب بريدًا إلكترونيًا صحيحًا.");
+    const em = $("qEmail").value.trim();
+    if (em && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) return bad($("qEmail"), "اكتب بريدًا إلكترونيًا صحيحًا.");
     return true;
   };
   const utm = () => {
@@ -71,7 +89,7 @@
     const sz = form.querySelector("input[name=qSize]:checked"), svc = $("qService");
     const lead = {
       id, createdAt: now, status: "new", source: "b2b-website",
-      company: $("qCompany").value.trim(), contact: $("qName").value.trim(), mobile: $("qMobile").value, email: $("qEmail").value.trim().toLowerCase(),
+      company: $("qCompany").value.trim(), contact: $("qName").value.trim() || null, mobile: $("qMobile").value, email: $("qEmail").value.trim().toLowerCase() || null,
       employees: sz ? sz.value : null, service: svc.value || null, serviceLabel: svc.value ? svc.options[svc.selectedIndex].text : null,
       note: $("qNote").value.trim() || null, ref: utm()
     };

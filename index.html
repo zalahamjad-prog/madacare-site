@@ -246,13 +246,14 @@
       <form id="quoteForm" novalidate>
         <div class="bx-row2">
           <label><span>اسم الشركة <em>*</em></span><input id="qCompany" autocomplete="organization" maxlength="120" required></label>
-          <label><span>اسم مسؤول التواصل <em>*</em></span><input id="qName" autocomplete="name" maxlength="80" required></label>
-        </div>
-        <div class="bx-row2">
           <label><span>رقم الجوال <em>*</em></span><input id="qMobile" inputmode="numeric" autocomplete="tel" placeholder="05XXXXXXXX" maxlength="10" dir="ltr" required></label>
-          <label><span>البريد الإلكتروني <em>*</em></span><input id="qEmail" type="email" autocomplete="email" placeholder="name@company.com" maxlength="120" dir="ltr" required></label>
         </div>
-        <fieldset class="bx-size"><legend>عدد الموظفين</legend>
+        <p class="bx-opt-h">تفاصيل اختيارية تساعدنا نجهّز عرضك أسرع</p>
+        <div class="bx-row2">
+          <label><span>اسم مسؤول التواصل <i>اختياري</i></span><input id="qName" autocomplete="name" maxlength="80"></label>
+          <label><span>البريد الإلكتروني <i>اختياري</i></span><input id="qEmail" type="email" autocomplete="email" placeholder="name@company.com" maxlength="120" dir="ltr"></label>
+        </div>
+        <fieldset class="bx-size"><legend>عدد الموظفين <i>اختياري</i></legend>
           <div class="bx-pills">
             <label><input type="radio" name="qSize" value="<50"><span>أقل من 50</span></label>
             <label><input type="radio" name="qSize" value="50-199"><span dir="ltr">50 – 199</span></label>
@@ -260,7 +261,7 @@
             <label><input type="radio" name="qSize" value="500+"><span>500 فأكثر</span></label>
           </div>
         </fieldset>
-        <label><span>الخدمة المطلوبة</span><select id="qService">
+        <label><span>الخدمة المطلوبة <i>اختياري</i></span><select id="qService">
           <option value="">اختر الخدمة</option>
           <option value="visits">الزيارات الطبية للموظفين</option>
           <option value="nursing">خدمات التمريض والرعاية الصحية</option>
@@ -272,7 +273,7 @@
           <option value="multiple">أكثر من خدمة</option>
           <option value="other">أخرى</option>
         </select></label>
-        <label><span>تفاصيل إضافية</span><textarea id="qNote" maxlength="1000" rows="3" placeholder="مثال: نشاط الشركة، موقع العمل، الخدمات اللي تحتاجونها"></textarea></label>
+        <label><span>تفاصيل إضافية <i>اختياري</i></span><textarea id="qNote" maxlength="1000" rows="3" placeholder="مثال: نشاط الشركة، موقع العمل، الخدمات اللي تحتاجونها"></textarea></label>
         <p class="err" id="qErr" role="alert" hidden></p>
         <button type="submit" class="btn btn-primary full bx-send" id="qSend"><span>اطلب عرض السعر</span></button>
       </form>
@@ -315,6 +316,8 @@
     </div>
   </div>
 </footer>
+
+<a class="wa-float" id="waFloat" href="#quote" aria-label="تواصل معنا على واتساب"><img src="assets/wa-float.svg" alt="" width="80" height="80" loading="lazy" decoding="async"></a>
 
 <script src="b2b-config.js"></script>
 <script src="b2b.js"></script>

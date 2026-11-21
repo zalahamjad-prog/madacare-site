@@ -2,5 +2,6 @@
 const MADA_B2B = {
   // Quote requests are saved in the same shared database as madacare.sa (table mada_data, k "mada-b2b-leads").
   cloud: { url: "https://mfkiivwcxmqykpobunpn.supabase.co", key: "sb_publishable_jExWWxO-hv5PcALjkBn6RA_vZuico0F" },
+  whatsapp: "",   // WhatsApp number for the corner button, international digits, e.g. "9665XXXXXXXX"; empty sends visitors to the quote form
   email: "digital@madacare.sa"
 };
