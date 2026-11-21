@@ -831,9 +831,11 @@ def about_page():
 </section>
 <section class="ab-motto">
   <div class="wrap">
-    <p class="ab-motto-k">ولهذا اخترنا شعارنا بعناية:</p>
-    <p class="ab-motto-t">نرعَــــاكُم كأهلُنـــا 💚</p>
-    <a class="btn btn-white" href="#book" data-book><span>احجز موعدك الآن</span></a>
+    <div class="ab-motto-card">
+      <p class="ab-motto-k">ولهذا اخترنا شعارنا بعناية:</p>
+      <p class="ab-motto-t">نرعَــــاكُم كأهلُنـــا 💚</p>
+      <a class="btn btn-white" href="#book" data-book><span>احجز موعدك الآن</span></a>
+    </div>
   </div>
 </section>"""
     return policy_page("about", "من نحن", "من نحن | مدى كير للرعاية الصحية المنزلية",
