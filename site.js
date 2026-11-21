@@ -129,6 +129,9 @@
     setTimeout(() => { const f = helpOv.querySelector(".help-btn"); if (f) f.focus(); }, 30);
   }
   $$("[data-help]").forEach(a => a.addEventListener("click", e => { e.preventDefault(); openHelp(a.dataset.help); }));
+  // Contact page buttons: WhatsApp / call when the numbers are set, otherwise the booking form.
+  $$("[data-wa-link]").forEach(a => { if (wa) ext(a, wa); else a.addEventListener("click", e => { e.preventDefault(); openBook(); }); });
+  $$("[data-tel-link]").forEach(a => { if (telNo) a.href = "tel:" + telNo; else a.addEventListener("click", e => { e.preventDefault(); openBook(); }); });
   const wf = $("waFloat");
   if (wa) ext(wf, wa); else wf.addEventListener("click", e => { e.preventDefault(); openBook(); });
   const tel = telNo;
@@ -296,7 +299,8 @@ function gtmEvent(event, extra) {
     ["[data-as]", "app_store_click"],
     ["[data-gp]", "google_play_click"],
     ["[data-help]", "help_click"],
-    ["[data-call]", "call_click"]
+    ["[data-call], [data-tel-link]", "call_click"],
+    ["[data-wa-link]", "whatsapp_click"]
   ];
   document.addEventListener("click", e => {
     for (const [sel, ev] of rules) {
