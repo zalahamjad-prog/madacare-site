@@ -490,7 +490,8 @@ html.hc .hero .lead, html.hc .grad .lead { color: #fff; }
   .qc-top b { font-family: var(--fh); font-weight: 700; font-size: 1.125rem; line-height: 1.75rem; color: #194136; }
   .qc blockquote { padding: 12px; gap: 8px; min-height: 0; }
   .qc blockquote p { font-size: .875rem; line-height: 1.25rem; font-weight: 500; color: #194136; }
-  .tst .pager { display: none; }
+  .tst .pager { justify-content: center; margin-top: 16px; } .tst .pager .pg { display: none; }
+  .tst .dots button { width: 8px; height: 8px; background: #e5e7eb; } .tst .dots button[aria-current="true"] { background: var(--primary); }
 
   /* FAQ */
   .faq { padding: 40px 0; }
