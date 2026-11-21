@@ -21,7 +21,6 @@ def fix(s):
 
 GTM_HEAD = between("<!-- Google Tag Manager (standard snippet) -->", "<!-- End Google Tag Manager -->")
 GTM_BODY = between("<!-- Google Tag Manager (noscript) -->", "<!-- End Google Tag Manager (noscript) -->")
-SNAV = fix(between("<!-- Second Nav Header (DGA) -->", "</div>\n</div>\n"))
 HEADER = fix(between("<!-- Nav Header -->", "</header>")).replace(' aria-current="page"', "")
 FOOTER = fix(between("<!-- Footer -->", "</footer>"))
 WA = fix(between('<a class="wa-float"', "</a>"))
@@ -128,6 +127,7 @@ def page(sv):
 '''
     book = BOOK.replace(f'<option value="{sv["svc"]}">', f'<option value="{sv["svc"]}" selected>')
     title, desc = sv["title"], sv["desc"]
+    header = HEADER.replace('<a href="/services/">', '<a href="/services/" aria-current="page">', 1)
     return f'''<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -166,8 +166,7 @@ def page(sv):
 {GTM_BODY}
 <a class="skip" href="#main">تخطي إلى المحتوى</a>
 
-{SNAV}
-{HEADER}
+{header}
 
 <main id="main">
 <section class="hero pg-hero" id="top">
@@ -321,6 +320,8 @@ def policy_page(slug, name, title, desc, lead, body, hero=None, tail=None, book=
         {"@type": "BreadcrumbList", "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "الرئيسية", "item": SITE + "/"},
             *[{"@type": "ListItem", "position": i, "name": n, "item": u} for i, (n, u) in enumerate(crumbs or [(name, url)], 2)]]}]}
+    top = slug.split("/")[0]
+    header = HEADER.replace(f'<a href="/{top}/">', f'<a href="/{top}/" aria-current="page">', 1)
     return f'''<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -353,8 +354,7 @@ def policy_page(slug, name, title, desc, lead, body, hero=None, tail=None, book=
 {GTM_BODY}
 <a class="skip" href="#main">تخطي إلى المحتوى</a>
 
-{SNAV}
-{HEADER}
+{header}
 
 <main id="main">
 {hero}
@@ -891,7 +891,7 @@ def services_page():
     html = policy_page("services", "خدماتنا", "خدماتنا | الرعاية الصحية المنزلية في جدة من مدى كير",
                        "خدمات مدى كير للرعاية الصحية المنزلية في جدة: زيارة طبيب منزلية، تمريض منزلي، مختبر منزلي، فيتامينات وريدية وعلاج طبيعي في بيتك.",
                        "", body, hero=hero, tail="")
-    return html.replace('<a href="/services/">خدماتنا</a>', '<a href="/services/" aria-current="page">خدماتنا</a>', 1)
+    return html
 
 
 

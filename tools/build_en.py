@@ -31,6 +31,7 @@ T = {
     "مدى كير للرعاية الصحية المنزلية": "Mada Care Home Healthcare",
     "طواقم طبية مرخصة": "Medical teams licensed", "من وزارة الصحة": "by the Ministry of Health",
     "رعاية طبية منزلية تمنحك الأمان ، الراحة ، والطمأنينة": "Home medical care that gives you safety, comfort and peace of mind",
+    "رعاية طبية منزلية تمنحك الأمان ،": "Home medical care that gives you safety,", "الراحة ، والطمأنينة": "comfort and peace of mind",
     "الأمان…": "Safety…", "عندما يصل الطبيب إلى باب المنزل.": "when the doctor comes to your door.",
     "الراحة…": "Comfort…", "عندما يجد المريض الرعاية دون عناء الانتظار.": "when the patient gets care without the hassle of waiting.",
     "الطمأنينة…": "Peace of mind…", "عندما تشعر العائلة أن من يرعى أحبّتهم يعاملهم كأهله.": "when the family feels their loved ones are cared for like family.",

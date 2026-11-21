@@ -7,27 +7,6 @@
   const EN = document.documentElement.lang === "en", L = (ar, en) => EN ? en : ar;
   const parts = (d, o) => Object.fromEntries(new Intl.DateTimeFormat("ar-SA-u-ca-gregory-nu-latn", { timeZone: TZ, ...o }).formatToParts(d).map(p => [p.type, p.value]));
 
-  // Second nav: only the accessibility buttons (weather, date, time and city were removed at the client's request).
-
-
-  // Accessibility: text size, high contrast, read aloud.
-  let zoom = parseFloat(store.get("mada-site-zoom")) || 1;
-  const setZoom = z => { zoom = Math.min(1.3, Math.max(.9, Math.round(z * 10) / 10)); document.documentElement.style.setProperty("--zoom", zoom); store.set("mada-site-zoom", zoom); };
-  setZoom(zoom);
-  $("a11yZoomIn").addEventListener("click", () => setZoom(zoom + .1));
-  $("a11yZoomOut").addEventListener("click", () => setZoom(zoom - .1));
-  const hc = on => { document.documentElement.classList.toggle("hc", on); $("a11yView").setAttribute("aria-pressed", on); store.set("mada-site-hc", on ? "1" : ""); };
-  hc(store.get("mada-site-hc") === "1");
-  $("a11yView").addEventListener("click", () => hc(!document.documentElement.classList.contains("hc")));
-  const rd = $("a11yRead");
-  if (!("speechSynthesis" in window)) rd.hidden = true;
-  else rd.addEventListener("click", () => {
-    if (speechSynthesis.speaking) { speechSynthesis.cancel(); rd.setAttribute("aria-pressed", "false"); return; }
-    const u = new SpeechSynthesisUtterance($("main").innerText.replace(/\s+/g, " ").slice(0, 6000));
-    u.lang = EN ? "en-US" : "ar-SA"; u.onend = u.onerror = () => rd.setAttribute("aria-pressed", "false");
-    rd.setAttribute("aria-pressed", "true"); speechSynthesis.speak(u);
-  });
-
   // Mobile menu.
   const menu = $("menu"), burger = $("burger");
   burger.addEventListener("click", () => { const o = menu.classList.toggle("open"); burger.setAttribute("aria-expanded", o); });
@@ -461,4 +440,19 @@ function gtmEvent(event, extra) {
   });
   const spy = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) mark(x.target.id); }), { rootMargin: "-45% 0px -50% 0px" });
   rows.forEach(r => spy.observe(r));
+})();
+
+// "بل نقدم شعوراً …": the last word cycles through the three things we focus on.
+(() => {
+  const w = document.querySelector(".ft-w[data-words]");
+  if (!w) return;
+  const words = w.dataset.words.split("|");
+  const en = { "بالأمان": "of safety", "بالراحة": "of comfort", "بالطمأنينة": "of peace of mind" };
+  const list = document.documentElement.lang === "en" ? words.map(x => en[x] || x) : words;
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  let n = 0;
+  setInterval(() => {
+    w.classList.add("out");
+    setTimeout(() => { n = (n + 1) % list.length; w.textContent = list[n]; w.classList.remove("out"); }, 350);
+  }, 2200);
 })();
