@@ -242,6 +242,8 @@ def translate(s, ar_path, en_path):
                           lambda m: f'{m.group(1)}="{esc(tr(m.group(2)))}"' if AR.search(m.group(2)) else m.group(0), p)
     s = "".join(parts)
     # The language button points back to Arabic.
+    s = s.replace('<span class="lang-t" lang="en">English</span>', '<span class="lang-t" lang="ar">العربية</span>')
+    s = s.replace('<button type="button" class="globe lang-m" lang="en" aria-label="English">EN</button>', '<button type="button" class="globe lang-m" lang="ar" aria-label="العربية">عربي</button>')
     s = s.replace('<button type="button" class="globe" aria-label="العربية">', '<button type="button" class="globe" aria-label="العربية" lang="ar">')
     return s
 
