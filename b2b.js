@@ -59,51 +59,56 @@
     }, 4000);
   }
 
-  // Quote request: one row in the shared database (mada_data, k "mada-b2b-leads").
-  const form = $("quoteForm"), err = $("qErr"), mail = C.email || "digital@madacare.sa";
-  const latin = v => v.replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d));
-  $("qMobile").addEventListener("input", e => { e.target.value = latin(e.target.value).replace(/\D/g, "").slice(0, 10); });
-  const bad = (el, msg) => { el.setAttribute("aria-invalid", "true"); err.textContent = msg; err.hidden = false; el.focus(); return false; };
-  const valid = () => {
-    form.querySelectorAll("[aria-invalid]").forEach(x => x.removeAttribute("aria-invalid")); err.hidden = true;
-    if ($("qCompany").value.trim().length < 2) return bad($("qCompany"), "اكتب اسم الشركة.");
-    if (!/^05\d{8}$/.test($("qMobile").value)) return bad($("qMobile"), "اكتب رقم جوال صحيح يبدأ بـ 05 ومكوّن من 10 أرقام.");
-    const em = $("qEmail").value.trim();
-    if (em && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) return bad($("qEmail"), "اكتب بريدًا إلكترونيًا صحيحًا.");
-    return true;
-  };
-  const utm = () => {
-    const q = new URLSearchParams(location.search), o = {};
-    ["source", "medium", "campaign"].forEach(k => { const v = q.get("utm_" + k); if (v) o[k] = v.slice(0, 120); });
-    if (!o.source && document.referrer) o.referrer = document.referrer.slice(0, 200);
-    return o;
-  };
-  form.addEventListener("submit", async e => {
-    e.preventDefault();
-    if (!valid()) return;
-    if (C.preview) { $("qRef").textContent = "B2B-PREVIEW"; $("qPv").hidden = false; form.hidden = true; $("qDone").hidden = false; form.reset(); return; }
-    const cloud = C.cloud || {};
-    if (!cloud.url || !cloud.key) { err.textContent = "الإرسال غير متاح حالياً، راسلنا على " + mail; err.hidden = false; return; }
-    const btn = $("qSend"); btn.disabled = true;
-    const now = new Date().toISOString(), id = "B2B-" + Date.now().toString(36).toUpperCase().slice(-5) + Math.random().toString(36).slice(2, 5).toUpperCase();
-    const sz = form.querySelector("input[name=qSize]:checked"), svc = $("qService");
-    const lead = {
-      id, createdAt: now, status: "new", source: "b2b-website",
-      company: $("qCompany").value.trim(), contact: $("qName").value.trim() || null, mobile: $("qMobile").value, email: $("qEmail").value.trim().toLowerCase() || null,
-      employees: sz ? sz.value : null, service: svc.value || null, serviceLabel: svc.value ? svc.options[svc.selectedIndex].text : null,
-      note: $("qNote").value.trim() || null, ref: utm()
+  // Quote request (home page only). ?service=<value> preselects the service, e.g. from a service page.
+  const form = $("quoteForm");
+  if (form) {
+    const want = new URLSearchParams(location.search).get("service"), sel = $("qService");
+    if (want && sel && [...sel.options].some(o => o.value === want)) sel.value = want;
+    const err = $("qErr"), mail = C.email || "digital@madacare.sa";
+    const latin = v => v.replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d));
+    $("qMobile").addEventListener("input", e => { e.target.value = latin(e.target.value).replace(/\D/g, "").slice(0, 10); });
+    const bad = (el, msg) => { el.setAttribute("aria-invalid", "true"); err.textContent = msg; err.hidden = false; el.focus(); return false; };
+    const valid = () => {
+      form.querySelectorAll("[aria-invalid]").forEach(x => x.removeAttribute("aria-invalid")); err.hidden = true;
+      if ($("qCompany").value.trim().length < 2) return bad($("qCompany"), "اكتب اسم الشركة.");
+      if (!/^05\d{8}$/.test($("qMobile").value)) return bad($("qMobile"), "اكتب رقم جوال صحيح يبدأ بـ 05 ومكوّن من 10 أرقام.");
+      const em = $("qEmail").value.trim();
+      if (em && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) return bad($("qEmail"), "اكتب بريدًا إلكترونيًا صحيحًا.");
+      return true;
     };
-    try {
-      const res = await fetch(cloud.url.replace(/\/$/, "") + "/rest/v1/mada_data", {
-        method: "POST",
-        headers: { apikey: cloud.key, "Content-Type": "application/json", Prefer: "return=minimal", ...(String(cloud.key).split(".").length === 3 ? { Authorization: "Bearer " + cloud.key } : {}) },
-        body: JSON.stringify({ k: "mada-b2b-leads", rid: id, v: JSON.stringify(lead), pos: Math.floor(Date.now() / 1000) })
-      });
-      if (!res.ok) throw new Error(res.status);
-      (window.dataLayer = window.dataLayer || []).push({ event: "b2b_quote_submit", employees: lead.employees, service: lead.service });
-      $("qRef").textContent = id; form.hidden = true; $("qDone").hidden = false; form.reset();
-    } catch (x) {
-      err.textContent = "تعذّر إرسال الطلب، حاول مرة ثانية أو راسلنا على " + mail; err.hidden = false;
-    } finally { btn.disabled = false; }
-  });
+    const utm = () => {
+      const q = new URLSearchParams(location.search), o = {};
+      ["source", "medium", "campaign"].forEach(k => { const v = q.get("utm_" + k); if (v) o[k] = v.slice(0, 120); });
+      if (!o.source && document.referrer) o.referrer = document.referrer.slice(0, 200);
+      return o;
+    };
+    form.addEventListener("submit", async e => {
+      e.preventDefault();
+      if (!valid()) return;
+      if (C.preview) { $("qRef").textContent = "B2B-PREVIEW"; $("qPv").hidden = false; form.hidden = true; $("qDone").hidden = false; form.reset(); return; }
+      const cloud = C.cloud || {};
+      if (!cloud.url || !cloud.key) { err.textContent = "الإرسال غير متاح حالياً، راسلنا على " + mail; err.hidden = false; return; }
+      const btn = $("qSend"); btn.disabled = true;
+      const now = new Date().toISOString(), id = "B2B-" + Date.now().toString(36).toUpperCase().slice(-5) + Math.random().toString(36).slice(2, 5).toUpperCase();
+      const sz = form.querySelector("input[name=qSize]:checked"), svc = $("qService");
+      const lead = {
+        id, createdAt: now, status: "new", source: "b2b-website",
+        company: $("qCompany").value.trim(), contact: $("qName").value.trim() || null, mobile: $("qMobile").value, email: $("qEmail").value.trim().toLowerCase() || null,
+        employees: sz ? sz.value : null, service: svc.value || null, serviceLabel: svc.value ? svc.options[svc.selectedIndex].text : null,
+        note: $("qNote").value.trim() || null, ref: utm()
+      };
+      try {
+        const res = await fetch(cloud.url.replace(/\/$/, "") + "/rest/v1/mada_data", {
+          method: "POST",
+          headers: { apikey: cloud.key, "Content-Type": "application/json", Prefer: "return=minimal", ...(String(cloud.key).split(".").length === 3 ? { Authorization: "Bearer " + cloud.key } : {}) },
+          body: JSON.stringify({ k: "mada-b2b-leads", rid: id, v: JSON.stringify(lead), pos: Math.floor(Date.now() / 1000) })
+        });
+        if (!res.ok) throw new Error(res.status);
+        (window.dataLayer = window.dataLayer || []).push({ event: "b2b_quote_submit", employees: lead.employees, service: lead.service });
+        $("qRef").textContent = id; form.hidden = true; $("qDone").hidden = false; form.reset();
+      } catch (x) {
+        err.textContent = "تعذّر إرسال الطلب، حاول مرة ثانية أو راسلنا على " + mail; err.hidden = false;
+      } finally { btn.disabled = false; }
+    });
+  }
 })();
