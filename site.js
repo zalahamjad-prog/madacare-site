@@ -100,6 +100,9 @@
   $$("[data-help]").forEach(a => { if (wa) ext(a, wa); });
   const wf = $("waFloat");
   if (wa) ext(wf, wa); else wf.addEventListener("click", e => { e.preventDefault(); openBook(); });
+  const tel = String(C.phone || "").replace(/[^\d+]/g, "");
+  $$("[data-call]").forEach(a => { if (tel) { a.href = "tel:" + tel; a.hidden = false; } });
+  $$("[data-phone]").forEach(a => { if (tel) { a.href = "tel:" + tel; a.textContent = C.phone; a.closest("[data-phone-row]").hidden = false; } });
   if (C.crNumber) ["crNo", "crNo2"].forEach(k => { if ($(k)) $(k).textContent = C.crNumber; });
   $$("[data-soon]").forEach(a => a.addEventListener("click", e => { e.preventDefault(); toast("هذه الصفحة قيد البناء في الورشة"); }));
   if (C.vatNumber && $("vatNo")) $("vatNo").textContent = C.vatNumber;
@@ -133,7 +136,14 @@
   // Booking request: one new row in the dashboard's requests (Requests page, source "website", on hold until the call center calls).
   const ov = $("bookOv"), form = $("bookForm"), err = $("bkErr");
   let lastFocus = null;
+  const inline = ov.classList.contains("ov-inline"); // booking page: the form sits in the page instead of a popup
   function openBook(svc) {
+    if (inline) {
+      $("bkForm").hidden = false; $("bkDone").hidden = true;
+      if (svc) $("bkSvc").value = svc;
+      ov.scrollIntoView({ behavior: "smooth", block: "center" }); setTimeout(() => $("bkName").focus({ preventScroll: true }), 300);
+      return;
+    }
     lastFocus = document.activeElement;
     $("bkForm").hidden = false; $("bkDone").hidden = true; err.hidden = true;
     form.querySelectorAll("[aria-invalid]").forEach(x => x.removeAttribute("aria-invalid"));
@@ -141,15 +151,15 @@
     ov.hidden = false; document.body.style.overflow = "hidden";
     setTimeout(() => $("bkName").focus(), 30);
   }
-  function closeBook() { ov.hidden = true; document.body.style.overflow = ""; if (lastFocus) lastFocus.focus(); }
+  function closeBook() { if (inline) { $("bkForm").hidden = false; $("bkDone").hidden = true; return; } ov.hidden = true; document.body.style.overflow = ""; if (lastFocus) lastFocus.focus(); }
   $$("[data-book]").forEach(el => {
     const fire = e => { e.preventDefault(); openBook(el.dataset.svc); };
     el.addEventListener("click", fire);
     if (el.tagName !== "A") el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") fire(e); });
   });
-  ov.addEventListener("click", e => { if (e.target === ov || e.target.closest("[data-close]")) closeBook(); });
+  ov.addEventListener("click", e => { if ((e.target === ov && !inline) || e.target.closest("[data-close]")) closeBook(); });
   document.addEventListener("keydown", e => {
-    if (ov.hidden) return;
+    if (ov.hidden || inline) return;
     if (e.key === "Escape") closeBook();
     if (e.key === "Tab") {
       const f = [...ov.querySelectorAll("button, input, select, textarea, a[href]")].filter(x => x.offsetParent);
@@ -168,6 +178,14 @@
     if (!$("bkSvc").value) return bad($("bkSvc"), "اختر الخدمة.");
     return true;
   }
+  // Home page lead form (name, mobile, service): fills the booking form and sends it, so errors and the confirmation show in the same popup.
+  const lead = $("leadForm");
+  if (lead) lead.addEventListener("submit", e => {
+    e.preventDefault();
+    $("bkName").value = $("ldName").value; $("bkMobile").value = $("ldMobile").value.replace(/\D/g, "");
+    openBook($("ldSvc").value);
+    form.requestSubmit();
+  });
   form.addEventListener("submit", async e => {
     e.preventDefault();
     if (!valid()) return;
@@ -244,7 +262,8 @@ function gtmEvent(event, extra) {
     ["[data-so=whatsapp], #waFloat", "whatsapp_click"],
     ["[data-as]", "app_store_click"],
     ["[data-gp]", "google_play_click"],
-    ["[data-help]", "help_click"]
+    ["[data-help]", "help_click"],
+    ["[data-call]", "call_click"]
   ];
   document.addEventListener("click", e => {
     for (const [sel, ev] of rules) {
@@ -257,4 +276,22 @@ function gtmEvent(event, extra) {
       }
     }
   }, true);
+})();
+
+// Achievement numbers count up from 0 when they scroll into view.
+(() => {
+  const els = [...document.querySelectorAll(".num-big")];
+  if (!els.length || !("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const parse = el => { const m = el.textContent.trim().match(/^(\D*)(\d+)(\D*)$/); return m && { pre: m[1], n: +m[2], post: m[3], text: el.textContent }; };
+  const run = el => {
+    const p = el._p, t0 = performance.now(), dur = 1600;
+    const step = now => {
+      const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+      el.textContent = p.pre + Math.round(p.n * e) + p.post;
+      if (k < 1) requestAnimationFrame(step); else el.textContent = p.text;
+    };
+    requestAnimationFrame(step);
+  };
+  const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { io.unobserve(x.target); run(x.target); } }), { threshold: .6 });
+  els.forEach(el => { const p = parse(el); if (!p) return; el._p = p; el.setAttribute("aria-label", p.text); el.textContent = p.pre + "0" + p.post; io.observe(el); });
 })();

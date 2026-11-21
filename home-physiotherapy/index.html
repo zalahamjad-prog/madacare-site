@@ -158,15 +158,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <a href="/">الرئيسية</a>
         <a href="/#about">من نحن</a>
         <a href="/#services">خدماتنا</a>
-        <a href="/#blog">المدونة</a>
+        <a href="/blog/">المدونة</a>
         <a href="#book" data-book>احجز موعدك</a>
-        <a class="btn btn-primary m-app" data-app href="/#download">حمل التطبيق</a>
+        <a class="btn btn-primary m-app" data-app href="/#download">تحميل التطبيق</a>
       </nav>
     </div>
     <div class="nav-acts">
       <button type="button" class="globe" aria-label="اللغة"><img src="/assets/ic-globe.svg" alt="" width="32" height="32"></button>
       <span class="nav-div" aria-hidden="true"></span>
-      <a class="btn btn-primary" data-app href="/#download"><span>حمل التطبيق</span><img src="/assets/ic-download.svg" alt="" width="24" height="24"></a>
+      <a class="btn btn-primary" data-app href="/#download"><span>تحميل التطبيق</span><img src="/assets/ic-download.svg" alt="" width="24" height="24"></a>
     </div>
     <button type="button" class="burger" id="burger" aria-label="القائمة" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
   </div>
@@ -290,7 +290,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <div class="fg-brand">
         <span class="logo logo-f" role="img" aria-label="مدى كير"><img class="lg-svg" src="/assets/logo-white.svg" alt="" width="183" height="52" loading="lazy" decoding="async"></span>
         <div class="fg-text">
-          <h2>نرعاكُم كأهلُنا .. و نصلكم بضغطة زر</h2>
           <p>نجمع بين أمان الرعاية العائلية وسرعة الخدمات الرقمية، لننقل أفضل الخدمات الطبية إلى باب منزلك بكل سهولة وراحة.</p>
           <div class="social">
             <a class="so" data-so="whatsapp" href="#" aria-label="واتساب"><img src="/assets/so-whatsapp.svg" alt="" width="20" height="20" loading="lazy" decoding="async"></a>
@@ -304,10 +303,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <div class="legal-ids"><p id="vatRow">الرقم الضريبي : <span id="vatNo">000000</span></p><p>السجل التجاري : <span id="crNo">0000000</span></p><p style="white-space:normal">شركة المستقبل الذكية للخدمات الطبية</p><p style="white-space:normal" dir="ltr">FUTURE SMART MEDICAL SERVICES COMPANY</p><p style="white-space:normal">6895 طاهر العمراني، حي أبحر الجنوبية، جدة 23734</p></div>
       </div>
       <div class="fg-links">
-        <p class="fg-label">روابط مهمة</p>
-        <a href="/#about">من نحن</a><a href="/#services">خدماتنا</a><a href="#contact" data-help>اتصل بنا</a><a href="/#blog">المدونة</a>
-        <p class="fg-label fg-label2">خدماتنا</p>
-        <a href="/home-doctor/">زيارة طبيب منزلية</a><a href="/home-nursing/">التمريض المنزلي</a><a href="/home-lab/">المختبر المنزلي</a><a href="/iv-therapy/">الفيتامينات الوريدية</a><a href="/home-physiotherapy/">العلاج الطبيعي المنزلي</a>
+        <div class="fg-grid">
+          <div class="fg-col"><p class="fg-label">روابط سريعة</p><a href="/#about">من نحن</a><a href="/#services">خدماتنا</a><a href="#contact" data-help>اتصل بنا</a><a href="/blog/">المدونة</a></div>
+          <div class="fg-col"><p class="fg-label">روابط مهمة</p><a href="/privacy-policy/">سياسة الخصوصية</a><a href="/patient-rights/">حقوق المرضى</a><a href="/cancellation-policy/">سياسة الإلغاء وإعادة الجدولة وعدم التواجد في المنزل</a></div>
+        </div>
       </div>
       <form class="sub" id="subForm" novalidate>
         <label for="subEmail">اشترك ليصلك آخر التحديثات حول خدمات مدى كير</label>
@@ -317,7 +316,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </div>
     <div class="legal">
       <p>جميع الحقوق محفوظة مدى كير للرعاية الصحية المنزلية @ 2026</p>
-      <nav class="legal-links" aria-label="السياسات"><a href="#">السياسات</a><a href="#">سياسة الخصوصية</a><a href="#">سياسة الإلغاء و إعادة الجدولة و عدم التواجد في المنزل</a><a href="#">حقوق وواجبات المرضى</a></nav>
     </div>
   </div>
 </footer>
@@ -345,7 +343,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <label><span>ملاحظات (اختياري)</span><textarea id="bkNote" maxlength="400" rows="3"></textarea></label>
         <p class="err" id="bkErr" role="alert" hidden></p>
         <button type="submit" class="btn btn-primary full" id="bkSend">إرسال الطلب</button>
-        <p class="consent">بإرسال الطلب، أنت توافق على <a href="#">سياسة الخصوصية</a></p>
+        <p class="consent">بإرسال الطلب، أنت توافق على <a href="/privacy-policy/">سياسة الخصوصية</a> و<a href="/cancellation-policy/">سياسة الإلغاء</a></p>
       </form>
     </div>
     <div id="bkDone" hidden>
