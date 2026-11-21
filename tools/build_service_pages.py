@@ -778,7 +778,73 @@ def contact_page():
                        "", body, hero=hero, tail="")
 
 
+def about_page():
+    hero = """<section class="hero pg-hero ab-hero" id="top">
+  <div class="pat pat-10" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="wrap">
+    <div class="pg-hero-in">
+      <nav class="crumbs" aria-label="مسار الصفحة"><a href="/">الرئيسية</a><span aria-hidden="true">›</span><span aria-current="page">من نحن</span></nav>
+      <h1 class="display">من نحن</h1>
+      <p class="lead">في مدى كير لم نؤسس شركة تقدم خدمات طبية فقط ،<br>بل أسسنا مفهومًا جديدًا للرعاية المنزلية يعتمد على:</p>
+    </div>
+  </div>
+</section>"""
+    body = """<section class="ab-sec">
+  <div class="wrap">
+    <div class="ab-pillars">
+      <div class="ab-pill"><span class="ab-emo" aria-hidden="true">🩺</span><b>الاحتراف الطبي</b></div>
+      <div class="ab-pill"><span class="ab-emo" aria-hidden="true">⚡</span><b>سرعة الاستجابة</b></div>
+      <div class="ab-pill"><span class="ab-emo" aria-hidden="true">🔒</span><b>الخصوصية التامة</b></div>
+      <div class="ab-pill"><span class="ab-emo" aria-hidden="true">🤝</span><b>والتعامل الإنساني قبل أي شيء</b></div>
+    </div>
+  </div>
+</section>
+<section class="ab-sec ab-tint">
+  <div class="wrap">
+    <div class="ab-team">
+      <span class="ab-big" aria-hidden="true">👩‍⚕️</span>
+      <p class="ab-quote">لهذا حرصنا على اختيار فريق طبي مؤهل لا يتميز بالكفاءة فقط…<br><em>بل بالرحمة والاهتمام أيضًا.</em></p>
+    </div>
+  </div>
+</section>
+<section class="ab-sec">
+  <div class="wrap">
+    <div class="ab-mem">
+      <h2 class="h2">لأننا نؤمن أن المريض يتذكر دائمًا:</h2>
+      <ol class="ab-steps">
+        <li><span class="ab-emo" aria-hidden="true">💬</span><b>كيف تم التعامل معه،</b></li>
+        <li><span class="ab-emo" aria-hidden="true">💚</span><b>وكيف شعر أثناء الرعاية،</b></li>
+        <li><span class="ab-emo" aria-hidden="true">✨</span><b>قبل أن يتذكر أي شيء آخر.</b></li>
+      </ol>
+    </div>
+  </div>
+</section>
+<section class="ab-sec ab-tint">
+  <div class="wrap">
+    <div class="ab-see">
+      <p class="ab-not">لذلك نحن لا نرى المرضى كأرقام أو مواعيد…</p>
+      <div class="ab-chips" aria-hidden="true"><s>#1024</s><s>10:30</s></div>
+      <div class="ab-fam" aria-hidden="true"><span>👩</span><span>👨</span><span>🧒</span></div>
+      <p class="ab-yes">نحن نراهم أمهات وآباء وأبناء يستحقون الرعاية باحترام وطمأنينة.</p>
+    </div>
+  </div>
+</section>
+<section class="ab-motto">
+  <div class="wrap">
+    <p class="ab-motto-k">ولهذا اخترنا شعارنا بعناية:</p>
+    <p class="ab-motto-t">نرعَــــاكُم كأهلُنـــا 💚</p>
+    <a class="btn btn-white" href="#book" data-book><span>احجز موعدك الآن</span></a>
+  </div>
+</section>"""
+    return policy_page("about", "من نحن", "من نحن | مدى كير للرعاية الصحية المنزلية",
+                       "مدى كير: مفهوم جديد للرعاية المنزلية يعتمد على الاحتراف الطبي وسرعة الاستجابة والخصوصية التامة والتعامل الإنساني. نرعاكم كأهلنا.",
+                       "", body, hero=hero, tail="")
+
+
 os.makedirs("contact", exist_ok=True)
+os.makedirs("about", exist_ok=True)
+open("about/index.html", "w", encoding="utf-8").write(about_page())
+print("wrote about")
 open("contact/index.html", "w", encoding="utf-8").write(contact_page())
 print("wrote contact")
 os.makedirs("privacy-policy", exist_ok=True)
@@ -792,6 +858,6 @@ open("cancellation-policy/index.html", "w", encoding="utf-8").write(cancel_page(
 print("wrote cancellation-policy")
 
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-for path in [""] + [s["slug"] + "/" for s in SERVICES] + ["patient-rights/", "cancellation-policy/", "privacy-policy/", "book/", "blog/", "contact/"] + [f"blog/{p['slug']}/" for p in POSTS]:
+for path in [""] + [s["slug"] + "/" for s in SERVICES] + ["patient-rights/", "cancellation-policy/", "privacy-policy/", "book/", "blog/", "contact/", "about/"] + [f"blog/{p['slug']}/" for p in POSTS]:
     sm += f"  <url>\n    <loc>{SITE}/{path}</loc>\n    <lastmod>2026-11-19</lastmod>\n  </url>\n"
 open("sitemap.xml", "w").write(sm + "</urlset>\n")
