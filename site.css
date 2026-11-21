@@ -710,3 +710,8 @@ button.vc-cta:hover { text-decoration: underline; }
 .ct-ic-wa { background: #e7f7ef; }
 .ct-foot { text-align: center; margin-top: 32px; font-family: var(--fh); font-weight: 500; color: #6c737f; font-size: 1rem; }
 @media (max-width: 860px) { .ct-grid { grid-template-columns: 1fr; } .ct-sec { padding: 32px 0 48px; } }
+
+/* Footer company details: one tight column under a heading */
+.legal-ids { display: grid; gap: 6px; flex-wrap: nowrap; white-space: normal; margin-top: 8px; }
+.legal-ids p { margin: 0; }
+.legal-ids .li-h { font-family: var(--fh); font-weight: 700; font-size: 1.125rem; margin-bottom: 4px; }
