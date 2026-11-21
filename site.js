@@ -89,10 +89,49 @@
     const k = a.dataset.so, url = k === "whatsapp" ? wa : k === "email" ? (so.email ? "mailto:" + so.email : "") : so[k];
     if (url) ext(a, url); else { a.setAttribute("aria-disabled", "true"); a.addEventListener("click", e => e.preventDefault()); }
   });
-  $$("[data-help]").forEach(a => { if (wa) ext(a, wa); });
+  // "Need help?" buttons open a small dialog: WhatsApp, call, or (with neither number set) the booking form.
+  // data-help="ask" (FAQ "تواصل مع فريقنا مباشرة") shows the "another question?" version with one button.
+  let helpOv = null;
+  const telNo = String(C.phone || "").replace(/[^\d+]/g, "");
+  function openHelp(kind) {
+    if (!helpOv) {
+      helpOv = document.createElement("div");
+      helpOv.className = "ov help-ov"; helpOv.hidden = true;
+      document.body.appendChild(helpOv);
+      const close = () => { helpOv.hidden = true; document.body.style.overflow = ""; };
+      helpOv.addEventListener("click", e => {
+        if (e.target === helpOv || e.target.closest("[data-hclose]")) close();
+        else if (e.target.closest("[data-help-book]")) { close(); openBook(); }
+        else if (e.target.closest("[data-help-wa]")) { gtmEvent("whatsapp_click", { area: "help_dialog" }); close(); }
+        else if (e.target.closest("[data-help-call]")) { gtmEvent("call_click", { area: "help_dialog" }); close(); }
+      });
+      document.addEventListener("keydown", e => { if (e.key === "Escape" && !helpOv.hidden) close(); });
+    }
+    const waBtn = label => `<a class="help-btn help-wa" data-help-wa href="${wa}" target="_blank" rel="noopener"><img src="/assets/ic-whatsapp-btn.svg" alt="" width="24" height="24"><span>${label}</span></a>`;
+    const callBtn = (label, cls) => `<a class="help-btn ${cls}" data-help-call href="tel:${telNo}"><img src="/assets/ic-phone${cls === "help-wa" ? "" : "-dark"}.svg" alt="" width="20" height="20"><span>${label}</span></a>`;
+    const bookBtn = `<button type="button" class="help-btn help-wa" data-help-book><span>احجز موعدك وسنتواصل معك</span></button>`;
+    let title, sub, acts, foot;
+    if (kind === "ask") {
+      title = "هل لديك استفسار آخر؟ 💚"; sub = "فريق مدى كير هنا لمساعدتك والإجابة عن جميع استفساراتك."; foot = "نرعاكم كأهلنا 💚";
+      acts = wa ? waBtn("تواصل مع فريق مدى كير") : telNo ? callBtn("تواصل مع فريق مدى كير", "help-wa") : bookBtn;
+    } else {
+      title = "تحتاج مساعدة؟ 💚"; sub = "يسعدنا مساعدتك، تواصل معنا بالطريقة المناسبة لك."; foot = "فريقنا دائماً في خدمتك 💚";
+      acts = (wa ? waBtn("تواصل عبر واتساب") : "") + (telNo ? callBtn("اتصل بنا", "help-call") : "") || bookBtn;
+    }
+    helpOv.innerHTML = `<div class="dlg help-dlg" role="dialog" aria-modal="true" aria-labelledby="helpT">
+        <button type="button" class="dlg-x" data-hclose aria-label="إغلاق">×</button>
+        <h2 id="helpT">${title}</h2>
+        <p class="dlg-sub">${sub}</p>
+        <div class="help-acts">${acts}</div>
+        <p class="help-foot">${foot}</p>
+      </div>`;
+    helpOv.hidden = false; document.body.style.overflow = "hidden";
+    setTimeout(() => { const f = helpOv.querySelector(".help-btn"); if (f) f.focus(); }, 30);
+  }
+  $$("[data-help]").forEach(a => a.addEventListener("click", e => { e.preventDefault(); openHelp(a.dataset.help); }));
   const wf = $("waFloat");
   if (wa) ext(wf, wa); else wf.addEventListener("click", e => { e.preventDefault(); openBook(); });
-  const tel = String(C.phone || "").replace(/[^\d+]/g, "");
+  const tel = telNo;
   // Call button: opens a WhatsApp chat when a WhatsApp number is set, otherwise a phone call.
   // Call button: WhatsApp chat when a WhatsApp number is set, else a phone call; with neither it opens the booking form (data-book).
   $$("[data-call]").forEach(a => { const go = u => { delete a.dataset.book; a.href = u; a.hidden = false; }; if (wa) { go(wa); a.target = "_blank"; a.rel = "noopener"; } else if (tel) go("tel:" + tel); });

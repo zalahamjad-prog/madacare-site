@@ -682,3 +682,18 @@ button.vc-cta:hover { text-decoration: underline; }
 @keyframes noteGlow { 0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); } 50% { box-shadow: 0 0 0 4px rgba(255,255,255,.12); } }
 @media (prefers-reduced-motion: reduce) { .live-dot::after, .hero .live-note { animation: none; } }
 @media (max-width: 860px) { .hero .live-note { width: auto; justify-content: center; margin-inline-end: 0; } .hero-acts .live-note { align-self: flex-start; } }
+
+/* "Need help?" dialog */
+.help-dlg { width: min(440px, 100%); text-align: start; }
+.help-dlg h2 { font-family: var(--fh); font-weight: 700; font-size: 1.5rem; margin: 0 0 6px; color: #0b3a55; }
+.help-acts { display: grid; gap: 12px; margin-top: 20px; }
+.help-btn { display: flex; align-items: center; justify-content: center; gap: 10px; height: 52px; border-radius: 999px; font: inherit; font-size: 1rem; font-weight: 600; text-decoration: none; cursor: pointer; }
+.help-wa { background: #12a37f; color: #fff; border: 0; }
+.help-wa img { filter: brightness(0) invert(1); }
+.help-wa:hover { background: #0b6b5c; }
+.help-call { background: #fff; color: #0b3a55; border: 1.5px solid #d2d6db; }
+.help-call:hover { border-color: #0b3a55; }
+.help-foot { margin-top: 18px; text-align: center; color: #6c737f; font-size: .9375rem; }
+.help-dlg, .help-dlg .dlg-sub, .help-dlg .help-foot, .help-btn { font-family: var(--fh); }
+.help-dlg .dlg-sub, .help-dlg .help-foot { font-weight: 500; }
+.help-btn { font-weight: 700; }
