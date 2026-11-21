@@ -767,7 +767,6 @@ def contact_page():
         <span class="ct-ic"><img src="/assets/ic-location.svg" alt="" width="26" height="26"></span>
         <h2>موقعنا</h2>
         <p>جدة، المملكة العربية السعودية.</p>
-        <p class="ct-small">6895 طاهر العمراني، حي أبحر الجنوبية، جدة 23734</p>
       </article>
     </div>
     <p class="ct-foot">مدى كير – نرعاكم كأهلنا 💚</p>
@@ -831,9 +830,11 @@ def about_page():
 </section>
 <section class="ab-motto">
   <div class="wrap">
-    <p class="ab-motto-k">ولهذا اخترنا شعارنا بعناية:</p>
-    <p class="ab-motto-t">نرعَــــاكُم كأهلُنـــا 💚</p>
-    <a class="btn btn-white" href="#book" data-book><span>احجز موعدك الآن</span></a>
+    <div class="ab-motto-card">
+      <p class="ab-motto-k">ولهذا اخترنا شعارنا بعناية:</p>
+      <p class="ab-motto-t">نرعَــــاكُم كأهلُنـــا 💚</p>
+      <a class="btn btn-white" href="#book" data-book><span>احجز موعدك الآن</span></a>
+    </div>
   </div>
 </section>"""
     return policy_page("about", "من نحن", "من نحن | مدى كير للرعاية الصحية المنزلية",

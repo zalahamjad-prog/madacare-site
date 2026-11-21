@@ -490,7 +490,8 @@ html.hc .hero .lead, html.hc .grad .lead { color: #fff; }
   .qc-top b { font-family: var(--fh); font-weight: 700; font-size: 1.125rem; line-height: 1.75rem; color: #194136; }
   .qc blockquote { padding: 12px; gap: 8px; min-height: 0; }
   .qc blockquote p { font-size: .875rem; line-height: 1.25rem; font-weight: 500; color: #194136; }
-  .tst .pager { display: none; }
+  .tst .pager { justify-content: center; margin-top: 16px; } .tst .pager .pg { display: none; }
+  .tst .dots button { width: 8px; height: 8px; background: #e5e7eb; } .tst .dots button[aria-current="true"] { background: var(--primary); }
 
   /* FAQ */
   .faq { padding: 40px 0; }
@@ -831,3 +832,8 @@ button.vc-cta:hover { text-decoration: underline; }
 .lang-opt[lang="en"] { font-family: "Inter", system-ui, sans-serif; }
 .lang-opt:hover { background: #e3f4ee; }
 .lang-opt.on { background: #12a37f; color: #fff; }
+/* About: motto as a rounded card on white, so it doesn't run into the dark footer */
+.ab-motto { padding: 64px 0 80px; background: #fff; color: #fff; }
+.ab-motto .wrap { display: block; }
+.ab-motto-card { display: grid; justify-items: center; gap: 16px; text-align: center; padding: 56px 24px; border-radius: 24px; background: linear-gradient(28deg, #0b281e 0%, #1a4b3b 30%, #2f765f 62%, #47a785 100%); box-shadow: 0 24px 48px -24px rgba(11,58,45,.5); }
+@media (max-width: 860px) { .ab-motto { padding: 40px 0 48px; } .ab-motto-card { padding: 40px 16px; border-radius: 20px; } }
