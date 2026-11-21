@@ -837,3 +837,10 @@ button.vc-cta:hover { text-decoration: underline; }
 .ab-motto .wrap { display: block; }
 .ab-motto-card { display: grid; justify-items: center; gap: 16px; text-align: center; padding: 56px 24px; border-radius: 24px; background: linear-gradient(28deg, #0b281e 0%, #1a4b3b 30%, #2f765f 62%, #47a785 100%); box-shadow: 0 24px 48px -24px rgba(11,58,45,.5); }
 @media (max-width: 860px) { .ab-motto { padding: 40px 0 48px; } .ab-motto-card { padding: 40px 16px; border-radius: 20px; } }
+
+/* "Need help?" bubble next to the WhatsApp button */
+.wa-bubble { position: fixed; bottom: 36px; left: 100px; z-index: 60; padding: 10px 16px; border: 0; border-radius: 16px 16px 16px 4px; background: #fff; color: #0b6b5c; font-family: var(--fh); font-weight: 700; font-size: 1rem; white-space: nowrap; cursor: pointer; box-shadow: 0 12px 28px -8px rgba(16,24,40,.28); opacity: 0; transform: translateY(8px) scale(.96); transition: opacity .3s, transform .3s; }
+.wa-bubble.in { opacity: 1; transform: none; }
+[dir="ltr"] .wa-bubble { left: auto; right: 100px; border-radius: 16px 16px 4px 16px; }
+@media (max-width: 860px) { .wa-bubble { left: 82px; bottom: 28px; font-size: .9375rem; } [dir="ltr"] .wa-bubble { left: auto; right: 82px; } }
+@media (prefers-reduced-motion: reduce) { .wa-bubble { transition: none; } }
