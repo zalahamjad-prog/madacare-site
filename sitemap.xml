@@ -53,6 +53,10 @@
     <lastmod>2026-11-19</lastmod>
   </url>
   <url>
+    <loc>https://madacare.sa/services/</loc>
+    <lastmod>2026-11-19</lastmod>
+  </url>
+  <url>
     <loc>https://madacare.sa/blog/home-doctor-visit/</loc>
     <lastmod>2026-11-19</lastmod>
   </url>
@@ -80,6 +84,7 @@
   <url><loc>https://madacare.sa/en/home-doctor/</loc></url>
   <url><loc>https://madacare.sa/en/iv-therapy/</loc></url>
   <url><loc>https://madacare.sa/en/home-lab/</loc></url>
+  <url><loc>https://madacare.sa/en/services/</loc></url>
   <url><loc>https://madacare.sa/en/contact/</loc></url>
   <url><loc>https://madacare.sa/en/about/</loc></url>
   <url><loc>https://madacare.sa/en/book/</loc></url>

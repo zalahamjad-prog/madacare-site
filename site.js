@@ -380,3 +380,64 @@ function gtmEvent(event, extra) {
   const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { io.unobserve(x.target); run(x.target); } }), { threshold: .6 });
   els.forEach(el => { const p = parse(el); if (!p) return; el._p = p; el.setAttribute("aria-label", p.text); el.textContent = p.pre + "0" + p.post; io.observe(el); });
 })();
+
+// Cards appear one after another and grow as they scroll into view.
+(() => {
+  if (!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const io = new IntersectionObserver(es => es.forEach(x => {
+    if (!x.isIntersecting) return;
+    io.unobserve(x.target); x.target.classList.add("in");
+    setTimeout(() => x.target.style.removeProperty("--d"), 1400);
+  }), { threshold: .2, rootMargin: "0px 0px -8% 0px" });
+  [".feat-grid .fc", ".sc.why", ".ach .sc", ".svc-all .vc"].forEach(sel => document.querySelectorAll(sel).forEach((el, i) => {
+    el.classList.add("rv"); el.style.setProperty("--d", (i % 4) * .12 + "s"); io.observe(el);
+  }));
+})();
+
+// Booking steps: the section stays in place while scrolling moves from one step to the next, then the page carries on.
+(() => {
+  const sec = document.querySelector("section.steps");
+  if (!sec || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const wrap = sec.querySelector(".wrap"), box = sec.querySelector(".st-scroll"), board = sec.querySelector(".st-board"), bar = sec.querySelector(".st-bar");
+  const steps = [...sec.querySelectorAll(".st")];
+  if (!wrap || !box || !board || !bar || steps.length < 2) return;
+  const fill = document.createElement("i"); fill.className = "st-fill"; bar.prepend(fill);
+  const ltr = document.documentElement.dir === "ltr";
+  let on = false, top = 0, len = 0, W = 0, C = 0, sc = 1, d = [];
+  const update = () => {
+    if (!on) return;
+    const p = Math.min(1, Math.max(0, (top - sec.getBoundingClientRect().top) / len));
+    const k = Math.min(steps.length - 1, p / .85 * (steps.length - 1)), i = Math.floor(k), g = Math.min(1, Math.max(0, (k - i - .3) / .4)), f = g * g * (3 - 2 * g);
+    const cur = d[i] + ((d[i + 1] ?? d[i]) - d[i]) * f;
+    steps.forEach((s, j) => { s.classList.toggle("on", j <= i + f + .05); s.classList.toggle("cur", j === Math.round(i + f)); });
+    fill.style.width = cur + "px";
+    if (sc < 1) board.style.transform = `scale(${sc})`;
+    else if (W > C) {
+      const shift = Math.min(W - C, Math.max(0, cur - C / 2));
+      board.style.transform = `translateX(${ltr ? -shift : -(W - C - shift)}px)`;
+    }
+  };
+  const layout = () => {
+    on = false; sec.style.height = ""; wrap.style.top = ""; board.style.transform = ""; box.style.height = "";
+    sec.classList.add("pin");
+    W = board.offsetWidth; C = box.clientWidth;
+    // A board a little wider than the screen (laptops) is scaled down to fit; on phones it slides sideways instead.
+    sc = W > C && C >= 700 ? C / W : 1;
+    if (sc < 1) { board.style.transformOrigin = "0 0"; box.style.height = board.offsetHeight * sc + "px"; }
+    const navH = (document.querySelector(".nav") || {}).offsetHeight || 0, h = wrap.offsetHeight;
+    if (h + navH > innerHeight) { sec.classList.remove("pin"); board.style.transform = ""; box.style.height = ""; fill.style.width = "100%"; return; }
+    top = Math.max(navH, navH + (innerHeight - navH - h) / 2);
+    wrap.style.top = top + "px";
+    len = steps.length * Math.min(260, innerHeight * .4);
+    sec.style.height = h + len + "px";
+    d = steps.map(s => ltr ? s.offsetLeft + s.offsetWidth / 2 : W - s.offsetLeft - s.offsetWidth / 2);
+    on = true; update();
+  };
+  let raf = 0;
+  addEventListener("scroll", () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; update(); }); }, { passive: true });
+  // Phones fire resize when the address bar shows or hides; only lay out again for a real size change.
+  let lw = innerWidth, lh = innerHeight;
+  addEventListener("resize", () => { if (innerWidth !== lw || Math.abs(innerHeight - lh) > 150) { lw = innerWidth; lh = innerHeight; layout(); } });
+  addEventListener("load", layout);
+  layout();
+})();

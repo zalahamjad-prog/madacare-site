@@ -105,7 +105,7 @@ def page(sv):
          "provider": {"@id": SITE + "/#org"}, "areaServed": {"@type": "City", "name": "جدة"}},
         {"@type": "BreadcrumbList", "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "الرئيسية", "item": SITE + "/"},
-            {"@type": "ListItem", "position": 2, "name": "خدماتنا", "item": SITE + "/#services"},
+            {"@type": "ListItem", "position": 2, "name": "خدماتنا", "item": SITE + "/services/"},
             {"@type": "ListItem", "position": 3, "name": sv["short"], "item": url}]},
         {"@type": "FAQPage", "@id": url + "#faq", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq]}]}
     qa = "".join(f'''      <div class="qa{' open' if i == 0 else ''}"><button type="button" class="qa-h" aria-expanded="{'true' if i == 0 else 'false'}"><span>{q}</span><img class="i-minus" src="/assets/ic-minus.svg" alt="" width="24" height="24" loading="lazy" decoding="async"><img class="i-plus" src="/assets/ic-plus.svg" alt="" width="24" height="24" loading="lazy" decoding="async"></button>
@@ -174,7 +174,7 @@ def page(sv):
   <div class="pat pat-10" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
   <div class="wrap">
     <div class="pg-hero-in">
-      <nav class="crumbs" aria-label="مسار الصفحة"><a href="/">الرئيسية</a><span aria-hidden="true">›</span><a href="/#services">خدماتنا</a><span aria-hidden="true">›</span><span aria-current="page">{sv["short"]}</span></nav>
+      <nav class="crumbs" aria-label="مسار الصفحة"><a href="/">الرئيسية</a><span aria-hidden="true">›</span><a href="/services/">خدماتنا</a><span aria-hidden="true">›</span><span aria-current="page">{sv["short"]}</span></nav>
       <h1 class="display">{sv["h1"]}</h1>
       <p class="lead">{sv["lead"]}</p>
       <div class="tags">
@@ -842,6 +842,33 @@ def about_page():
                        "", body, hero=hero, tail="")
 
 
+def services_page():
+    home = between('<div class="cards4 svc-cards">', '\n    </div>\n    <div class="svc-dots"')
+    home = fix(home[home.index("\n") + 1: home.rindex("\n    </div>")])
+    physio = ('      <article class="vc vc-l"><div class="vc-top"><span class="vi" style="background:#ecfdf3"><img src="/assets/ic-bone.svg" alt="" width="28" height="28" loading="lazy" decoding="async"></span>'
+              '<button type="button" class="vc-cta" data-book data-svc="physio">اطلب جلسة<img src="/assets/ic-arrow-left.svg" alt="" width="20" height="20" loading="lazy" decoding="async"></button></div>'
+              '<div class="vt"><h3><a class="vc-a" href="/home-physiotherapy/">العلاج الطبيعي المنزلي</a></h3><p>جلسات علاج طبيعي داخل المنزل بأخصائيين مرخصين.</p></div>\n'
+              '        <div class="vtags"><span class="t-neu">جلسات في المنزل</span><span class="t-info">أخصائيون مرخصون</span><span class="t-ok">متابعة الحالة</span></div></article>')
+    hero = blog_hero('<a href="/">الرئيسية</a><span aria-hidden="true">›</span><span aria-current="page">خدماتنا</span>',
+                     "خدماتنا الطبية المنزلية", "رعاية طبية منزلية في جدة بطواقم طبية مرخصة من وزارة الصحة، تصلكم إلى باب البيت. اختر الخدمة اللي تحتاجها واحجز بخطوات بسيطة.")
+    body = f'''<section class="svc" id="services">
+  <div class="wrap">
+    <div class="svc-all">
+{home}
+{physio}
+    </div>
+  </div>
+</section>
+'''
+    html = policy_page("services", "خدماتنا", "خدماتنا | الرعاية الصحية المنزلية في جدة من مدى كير",
+                       "خدمات مدى كير للرعاية الصحية المنزلية في جدة: زيارة طبيب منزلية، تمريض منزلي، مختبر منزلي، فيتامينات وريدية وعلاج طبيعي في بيتك.",
+                       "", body, hero=hero, tail=BLOG_TAIL)
+    return html.replace('<a href="/services/">خدماتنا</a>', '<a href="/services/" aria-current="page">خدماتنا</a>', 1)
+
+
+os.makedirs("services", exist_ok=True)
+open("services/index.html", "w", encoding="utf-8").write(services_page())
+print("wrote services")
 os.makedirs("contact", exist_ok=True)
 os.makedirs("about", exist_ok=True)
 open("about/index.html", "w", encoding="utf-8").write(about_page())
@@ -859,6 +886,6 @@ open("cancellation-policy/index.html", "w", encoding="utf-8").write(cancel_page(
 print("wrote cancellation-policy")
 
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-for path in [""] + [s["slug"] + "/" for s in SERVICES] + ["patient-rights/", "cancellation-policy/", "privacy-policy/", "book/", "blog/", "contact/", "about/"] + [f"blog/{p['slug']}/" for p in POSTS]:
+for path in [""] + [s["slug"] + "/" for s in SERVICES] + ["patient-rights/", "cancellation-policy/", "privacy-policy/", "book/", "blog/", "contact/", "about/", "services/"] + [f"blog/{p['slug']}/" for p in POSTS]:
     sm += f"  <url>\n    <loc>{SITE}/{path}</loc>\n    <lastmod>2026-11-19</lastmod>\n  </url>\n"
 open("sitemap.xml", "w").write(sm + "</urlset>\n")

@@ -104,7 +104,7 @@ T = {
     "كنت متخوفة بالبداية بالتعامل مع شركات رعاية منزلية مرة ثانية، لكن بعد أول زيارة عرفت الفرق فعلًا. مستوى الخدمة ممتاز ويستحق الثقة.":
         "At first I was worried about using a home care company again, but after the first visit I really saw the difference. The service is excellent and worth your trust.",
     # Why us
-    "لماذا يختارُنا أهل جدة؟": "Why do Jeddah families choose us?",
+    "لماذا يختـارُنا أهــل جــدة؟": "Why do Jeddah families choose us?",
     "الثقة المطلقة": "Complete trust", "طاقم طبي مرخص ومعتمد وفق أعلى المعايير الصحية المحلية والعالمية": "A licensed, accredited medical team that meets the highest local and international health standards",
     "السرعة الذكية": "Smart speed", "نظام استجابة سريع يضمن وصول الفريق الطبي في وقت قياسي إلى منزلك": "A fast response system that gets the medical team to your home in record time",
     "الخصوصية التامة": "Full privacy", "نحترم خصوصية المنزل ونقدم خدماتنا في بيئة آمنة وهادئة للمريض": "We respect the privacy of your home and care for the patient in a safe, calm setting",

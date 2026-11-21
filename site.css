@@ -844,3 +844,61 @@ button.vc-cta:hover { text-decoration: underline; }
 [dir="ltr"] .wa-bubble { left: auto; right: 100px; border-radius: 16px 16px 4px 16px; }
 @media (max-width: 860px) { .wa-bubble { left: 82px; bottom: 28px; font-size: .9375rem; } [dir="ltr"] .wa-bubble { left: auto; right: 82px; } }
 @media (prefers-reduced-motion: reduce) { .wa-bubble { transition: none; } }
+
+/* ===== Motion and interaction ===== */
+/* WhatsApp button on the right side (Arabic and English) */
+.wa-float { left: auto; right: 24px; }
+.wa-bubble { left: auto; right: 100px; border-radius: 16px 16px 4px 16px; }
+@media (max-width: 860px) { .wa-float { left: auto; right: 16px; } .wa-bubble { left: auto; right: 82px; } }
+
+/* Top menu: green outline on hover */
+@media (min-width: 861px) {
+  .menu a:not(.btn) { transition: color .2s, background-color .2s, box-shadow .2s; }
+  .menu a:not(.btn):hover, .menu a:not(.btn):focus-visible { background: #e9f7f1; color: #0b6b5c; box-shadow: inset 0 0 0 1.5px #12a37f; }
+}
+
+/* Call button: the phone rings; WhatsApp icon: soft pulse */
+.btn-call img { animation: phoneRing 3s ease-in-out infinite; }
+.btn-white img[src*="ic-whatsapp-btn"] { border-radius: 50%; animation: waPulse 2.2s ease-in-out infinite; }
+@keyframes phoneRing { 0%, 55%, 100% { transform: rotate(0); } 59% { transform: rotate(-18deg); } 63% { transform: rotate(16deg); } 67% { transform: rotate(-14deg); } 71% { transform: rotate(10deg); } 75% { transform: rotate(-6deg); } 79% { transform: rotate(0); } }
+@keyframes waPulse { 0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37,211,102,.5); } 50% { transform: scale(1.08); box-shadow: 0 0 0 7px rgba(37,211,102,0); } }
+
+/* "Why choose us" cards: lift on hover */
+.sc.why { transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+.sc.why .fi { transition: transform .4s cubic-bezier(.3,1.6,.5,1), background-color .25s; }
+@media (hover: hover) {
+  .sc.why:hover { transform: translateY(-6px); border-color: #12a37f; box-shadow: 0 18px 36px -18px rgba(11,107,92,.4); }
+  .sc.why:hover .fi { transform: scale(1.12) rotate(-6deg); background: #dff3ea; }
+}
+
+/* Cards appear and grow as you scroll down (added by site.js) */
+.rv { opacity: 0; transform: translateY(28px) scale(.9); transition: opacity .6s ease, transform .75s cubic-bezier(.2,.8,.2,1), box-shadow .25s ease, border-color .25s ease; transition-delay: var(--d, 0s); }
+.rv.in { opacity: 1; transform: none; }
+.fc.rv .fc-ic { transition: transform .5s cubic-bezier(.3,1.6,.5,1) .35s; transform: scale(.6); }
+.fc.rv.in .fc-ic { transform: none; }
+
+/* Booking steps: the section stays in place while scrolling moves through the steps (added by site.js) */
+.st-bar { overflow: hidden; }
+.st-bar img { position: relative; z-index: 1; }
+.st-fill { position: absolute; top: 0; bottom: 0; right: 0; width: 100%; border-radius: 999px; background: linear-gradient(270deg, #4cb491, #12a37f); }
+.steps.pin { padding: 0; }
+.steps.pin > .wrap { position: sticky; padding-block: 32px; }
+.steps.pin .st-scroll { overflow: hidden; direction: ltr; margin-inline: 0; padding-inline: 0; }
+.steps.pin .st-board { margin: 0; height: 400px; will-change: transform; }
+@media (max-width: 860px) { .steps.pin .st-scroll { margin-inline: -16px; } }
+.steps.pin .st { transition: opacity .45s ease, transform .45s ease; }
+.steps.pin .st:not(.on) { opacity: .25; transform: translateY(14px) scale(.92); }
+.steps.pin .st.dn:not(.on) { transform: translateY(-14px) scale(.92); }
+.steps.pin .st-card { transition: border-color .3s, box-shadow .3s; }
+.steps.pin .st.cur .st-card { border-color: #12a37f; box-shadow: 0 16px 30px -16px rgba(11,107,92,.5); }
+
+/* Services page: all services in a grid */
+.svc-all { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+@media (max-width: 1100px) { .svc-all { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .svc-all { grid-template-columns: minmax(0, 1fr); gap: 16px; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-call img, .btn-white img[src*="ic-whatsapp-btn"] { animation: none; }
+  .sc.why, .sc.why .fi, .rv, .fc.rv .fc-ic { transition: none; }
+}
+.svc-all .vtags { flex-wrap: wrap; }
