@@ -4,6 +4,7 @@ const MADA_SITE = {
   // Booking requests from the website go to the dashboard (Requests page, source "website").
   // The shared database is the same one the dashboard uses (auth.js MADA_CLOUD).
   cloud: { url: "https://mfkiivwcxmqykpobunpn.supabase.co", key: "sb_publishable_jExWWxO-hv5PcALjkBn6RA_vZuico0F" },
+  phone: "",           // call button at the top of the home page, e.g. "920000000" or "0500000000"; empty hides the button
   whatsapp: "",        // e.g. "9665XXXXXXXX" (international, digits only)
   appStore: "",        // App Store link of the Mada Care app
   googlePlay: "",      // Google Play link of the Mada Care app

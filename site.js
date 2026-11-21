@@ -100,6 +100,8 @@
   $$("[data-help]").forEach(a => { if (wa) ext(a, wa); });
   const wf = $("waFloat");
   if (wa) ext(wf, wa); else wf.addEventListener("click", e => { e.preventDefault(); openBook(); });
+  const tel = String(C.phone || "").replace(/[^\d+]/g, "");
+  $$("[data-call]").forEach(a => { if (tel) { a.href = "tel:" + tel; a.hidden = false; } });
   if (C.crNumber) ["crNo", "crNo2"].forEach(k => { if ($(k)) $(k).textContent = C.crNumber; });
   $$("[data-soon]").forEach(a => a.addEventListener("click", e => { e.preventDefault(); toast("هذه الصفحة قيد البناء في الورشة"); }));
   if (C.vatNumber && $("vatNo")) $("vatNo").textContent = C.vatNumber;
@@ -251,7 +253,8 @@ function gtmEvent(event, extra) {
     ["[data-so=whatsapp], #waFloat", "whatsapp_click"],
     ["[data-as]", "app_store_click"],
     ["[data-gp]", "google_play_click"],
-    ["[data-help]", "help_click"]
+    ["[data-help]", "help_click"],
+    ["[data-call]", "call_click"]
   ];
   document.addEventListener("click", e => {
     for (const [sel, ev] of rules) {
