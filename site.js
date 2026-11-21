@@ -9,14 +9,6 @@
 
   // Second nav: only the accessibility buttons (weather, date, time and city were removed at the client's request).
 
-  // Last modified, in Saudi time.
-  const lm = new Date(document.lastModified);
-  if (!isNaN(lm) && $("lastMod")) {
-    const d = parts(lm, { day: "2-digit", month: "2-digit", year: "numeric" }), t = parts(lm, { hour: "numeric", minute: "2-digit", hour12: true });
-    const pm = /م|PM/i.test(t.dayPeriod || "");
-    $("lastMod").textContent = EN ? `Last updated: ${d.day}/${d.month}/${d.year} - ${t.hour}:${t.minute} ${pm ? "PM" : "AM"} Saudi time`
-      : `تاريخ آخر تعديل: ${d.day}/${d.month}/${d.year} - ${t.hour}:${t.minute} ${pm ? "م" : "ص"} بتوقيت السعودية`;
-  }
 
   // Accessibility: text size, high contrast, read aloud.
   let zoom = parseFloat(store.get("mada-site-zoom")) || 1;
