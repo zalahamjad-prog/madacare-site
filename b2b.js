@@ -41,9 +41,11 @@
     addEventListener("resize", update); update();
   }
 
-  // WhatsApp button (bottom corner) with a "Need help?" bubble. Without a number in b2b-config.js it goes to the quote form.
+  // WhatsApp button (bottom corner) with a "Need help?" bubble. Hidden until a number is set in b2b-config.js.
   const wf = $("waFloat"), waNo = String(C.whatsapp || "").replace(/\D/g, "");
-  if (wf) {
+  if (wf && !waNo) wf.remove();
+  else if (wf) {
+    wf.classList.add("on");
     const msg = encodeURIComponent("السلام عليكم، أبغى أعرف أكثر عن خدمات مدى كير للشركات");
     if (waNo) { wf.href = "https://wa.me/" + waNo + "?text=" + msg; wf.target = "_blank"; wf.rel = "noopener"; }
     wf.addEventListener("click", () => (window.dataLayer = window.dataLayer || []).push({ event: "whatsapp_click", area: "b2b_float" }));

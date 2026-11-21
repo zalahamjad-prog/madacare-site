@@ -296,3 +296,6 @@
 .sv-needs { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 980px; margin-inline: auto; width: 100%; }
 @media (max-width: 860px) { .sv-needs { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 600px) { .fg-grid:has(> .fg-col:nth-child(3)) { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* WhatsApp corner button stays hidden until b2b.js finds a number */
+.wa-float:not(.on) { display: none !important; }
