@@ -715,3 +715,17 @@ button.vc-cta:hover { text-decoration: underline; }
 .legal-ids { display: grid; gap: 6px; flex-wrap: nowrap; white-space: normal; margin-top: 8px; }
 .legal-ids p { margin: 0; }
 .legal-ids .li-h { font-family: var(--fh); font-weight: 700; font-size: 1.125rem; margin-bottom: 4px; }
+
+/* Newsletter box */
+.sub #subBody, .sub .sub-done { display: grid; gap: 12px; }
+.sub #subBody[hidden], .sub .sub-done[hidden] { display: none; }
+.sub .sub-h { font-family: var(--fh); font-weight: 700; font-size: 1.25rem; margin: 0; color: #fff; }
+.sub label, .sub .sub-done p:not(.sub-h) { font-family: var(--fh); font-weight: 500; font-size: .9375rem; line-height: 1.6; color: rgba(255,255,255,.9); }
+.sub-box { background: #fff; border-radius: 16px; padding: 8px; display: grid; gap: 8px; }
+.sub-box input { height: 48px; border: 0; border-radius: 12px; background: #f2f4f3; padding: 0 14px; font: inherit; font-size: .9375rem; color: #161616; outline: none; min-width: 0; }
+.sub-box input:focus { box-shadow: 0 0 0 2px #12a37f; }
+.sub-box button { height: 48px; border: 0; border-radius: 12px; background: #12a37f; color: #fff; font-family: var(--fh); font-weight: 700; font-size: 1rem; cursor: pointer; }
+.sub-box button:hover { background: #0b6b5c; }
+.sub-box button:disabled { opacity: .7; cursor: default; }
+.sub .sub-note { font-size: .8125rem; color: rgba(255,255,255,.75); margin: 0; }
+.sub .sub-msg { color: #ffd166; margin: 0; }

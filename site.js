@@ -250,14 +250,28 @@
     } finally { btn.disabled = false; }
   });
 
-  // Subscribe: no mailing service is connected yet, so nothing is saved.
-  $("subForm").addEventListener("submit", e => {
+  // Subscribe: the email is saved to the shared database (mada_data, k "mada-newsletter"), one row per email.
+  $("subForm").addEventListener("submit", async e => {
     e.preventDefault();
-    const m = $("subMsg"), v = $("subEmail").value.trim();
-    m.hidden = false;
-    const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-    if (ok) gtmEvent("newsletter_submit");
-    m.textContent = ok ? "شكراً لاهتمامك، خدمة الاشتراك ستتوفر قريباً." : "اكتب بريداً إلكترونياً صحيحاً.";
+    const m = $("subMsg"), v = $("subEmail").value.trim().toLowerCase(), btn = $("subBtn");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) { m.textContent = "اكتب بريداً إلكترونياً صحيحاً."; m.hidden = false; return; }
+    m.hidden = true;
+    const cloud = C.cloud || {};
+    btn.disabled = true;
+    try {
+      if (!cloud.url || !cloud.key) throw new Error("no cloud");
+      const now = new Date().toISOString();
+      const res = await fetch(cloud.url.replace(/\/$/, "") + "/rest/v1/mada_data", {
+        method: "POST",
+        headers: { apikey: cloud.key, "Content-Type": "application/json", Prefer: "return=minimal", ...(String(cloud.key).split(".").length === 3 ? { Authorization: "Bearer " + cloud.key } : {}) },
+        body: JSON.stringify({ k: "mada-newsletter", rid: "NL-" + Date.now().toString(36).toUpperCase() + Math.random().toString(36).slice(2, 5).toUpperCase(), v: JSON.stringify({ email: v, at: now, page: location.pathname, ref: attribution() }), pos: Math.floor(Date.now() / 1000) })
+      });
+      if (!res.ok) throw new Error(res.status);
+      gtmEvent("newsletter_submit");
+      $("subBody").hidden = true; $("subDone").hidden = false;
+    } catch (x) {
+      m.textContent = "تعذّر الاشتراك الآن، حاول مرة أخرى."; m.hidden = false;
+    } finally { btn.disabled = false; }
   });
 })();
 
