@@ -694,3 +694,6 @@ button.vc-cta:hover { text-decoration: underline; }
 .help-call { background: #fff; color: #0b3a55; border: 1.5px solid #d2d6db; }
 .help-call:hover { border-color: #0b3a55; }
 .help-foot { margin-top: 18px; text-align: center; color: #6c737f; font-size: .9375rem; }
+.help-dlg, .help-dlg .dlg-sub, .help-dlg .help-foot, .help-btn { font-family: var(--fh); }
+.help-dlg .dlg-sub, .help-dlg .help-foot { font-weight: 500; }
+.help-btn { font-weight: 700; }
