@@ -3,6 +3,8 @@
   const C = (typeof MADA_SITE !== "undefined" && MADA_SITE) || {}, $ = id => document.getElementById(id), $$ = s => [...document.querySelectorAll(s)];
   const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   const TZ = "Asia/Riyadh";
+  // English pages (/en/) use lang="en"; L(ar, en) picks the text for the page language.
+  const EN = document.documentElement.lang === "en", L = (ar, en) => EN ? en : ar;
   const parts = (d, o) => Object.fromEntries(new Intl.DateTimeFormat("ar-SA-u-ca-gregory-nu-latn", { timeZone: TZ, ...o }).formatToParts(d).map(p => [p.type, p.value]));
 
   // Second nav: only the accessibility buttons (weather, date, time and city were removed at the client's request).
@@ -11,7 +13,9 @@
   const lm = new Date(document.lastModified);
   if (!isNaN(lm) && $("lastMod")) {
     const d = parts(lm, { day: "2-digit", month: "2-digit", year: "numeric" }), t = parts(lm, { hour: "numeric", minute: "2-digit", hour12: true });
-    $("lastMod").textContent = `تاريخ آخر تعديل: ${d.day}/${d.month}/${d.year} - ${t.hour}:${t.minute} ${/م|PM/i.test(t.dayPeriod || "") ? "م" : "ص"} بتوقيت السعودية`;
+    const pm = /م|PM/i.test(t.dayPeriod || "");
+    $("lastMod").textContent = EN ? `Last updated: ${d.day}/${d.month}/${d.year} - ${t.hour}:${t.minute} ${pm ? "PM" : "AM"} Saudi time`
+      : `تاريخ آخر تعديل: ${d.day}/${d.month}/${d.year} - ${t.hour}:${t.minute} ${pm ? "م" : "ص"} بتوقيت السعودية`;
   }
 
   // Accessibility: text size, high contrast, read aloud.
@@ -28,7 +32,7 @@
   else rd.addEventListener("click", () => {
     if (speechSynthesis.speaking) { speechSynthesis.cancel(); rd.setAttribute("aria-pressed", "false"); return; }
     const u = new SpeechSynthesisUtterance($("main").innerText.replace(/\s+/g, " ").slice(0, 6000));
-    u.lang = "ar-SA"; u.onend = u.onerror = () => rd.setAttribute("aria-pressed", "false");
+    u.lang = EN ? "en-US" : "ar-SA"; u.onend = u.onerror = () => rd.setAttribute("aria-pressed", "false");
     rd.setAttribute("aria-pressed", "true"); speechSynthesis.speak(u);
   });
 
@@ -48,20 +52,21 @@
   const track = $("tst");
   if (track) {
   const cards = [...track.children], dots = $("dots");
-  cards.forEach((c, i) => { const b = document.createElement("button"); b.type = "button"; b.setAttribute("aria-label", `رأي ${i + 1}`); b.addEventListener("click", () => go(i)); dots.appendChild(b); });
+  cards.forEach((c, i) => { const b = document.createElement("button"); b.type = "button"; b.setAttribute("aria-label", L(`رأي ${i + 1}`, `Review ${i + 1}`)); b.addEventListener("click", () => go(i)); dots.appendChild(b); });
   dots.removeAttribute("aria-hidden");
   let cur = 0;
   function go(i) {
     cur = Math.max(0, Math.min(cards.length - 1, i));
-    const tr = track.getBoundingClientRect(), cr = cards[cur].getBoundingClientRect(), pad = parseFloat(getComputedStyle(track).paddingRight) || 0;
-    track.scrollBy({ left: cr.right - (tr.right - pad), behavior: "smooth" });
+    const tr = track.getBoundingClientRect(), cr = cards[cur].getBoundingClientRect(), cs = getComputedStyle(track);
+    // Arabic lines cards up on the right edge, English on the left.
+    track.scrollBy({ left: EN ? cr.left - (tr.left + (parseFloat(cs.paddingLeft) || 0)) : cr.right - (tr.right - (parseFloat(cs.paddingRight) || 0)), behavior: "smooth" });
     mark();
   }
   function mark() { [...dots.children].forEach((d, i) => d.setAttribute("aria-current", i === cur)); }
   let tmr;
   track.addEventListener("scroll", () => { clearTimeout(tmr); tmr = setTimeout(() => {
-    const tr = track.getBoundingClientRect(), pad = parseFloat(getComputedStyle(track).paddingRight) || 0;
-    let best = 0, bd = Infinity; cards.forEach((c, i) => { const dd = Math.abs(c.getBoundingClientRect().right - (tr.right - pad)); if (dd < bd) { bd = dd; best = i; } });
+    const tr = track.getBoundingClientRect(), cs = getComputedStyle(track), padR = parseFloat(cs.paddingRight) || 0, padL = parseFloat(cs.paddingLeft) || 0;
+    let best = 0, bd = Infinity; cards.forEach((c, i) => { const r = c.getBoundingClientRect(), dd = EN ? Math.abs(r.left - (tr.left + padL)) : Math.abs(r.right - (tr.right - padR)); if (dd < bd) { bd = dd; best = i; } });
     cur = best; mark();
   }, 80); });
   $$(".pg").forEach(b => b.addEventListener("click", () => go(cur + (b.dataset.dir === "next" ? 1 : -1))));
@@ -79,10 +84,10 @@
   const isApple = /iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent);
   $$("[data-app]").forEach(a => {
     const url = isApple ? (C.appStore || C.googlePlay) : (C.googlePlay || C.appStore);
-    if (url) ext(a, url); else a.addEventListener("click", e => { e.preventDefault(); toast("تطبيق مدى كير قريباً على المتاجر"); });
+    if (url) ext(a, url); else a.addEventListener("click", e => { e.preventDefault(); toast(L("تطبيق مدى كير قريباً على المتاجر", "The Mada Care app is coming soon to the stores")); });
   });
   [["[data-gp]", C.googlePlay], ["[data-as]", C.appStore]].forEach(([s, url]) => $$(s).forEach(a => {
-    if (url) ext(a, url); else a.addEventListener("click", e => { e.preventDefault(); toast("تطبيق مدى كير قريباً على المتاجر"); });
+    if (url) ext(a, url); else a.addEventListener("click", e => { e.preventDefault(); toast(L("تطبيق مدى كير قريباً على المتاجر", "The Mada Care app is coming soon to the stores")); });
   }));
   const so = C.social || {};
   $$("[data-so]").forEach(a => {
@@ -109,17 +114,18 @@
     }
     const waBtn = label => `<a class="help-btn help-wa" data-help-wa href="${wa}" target="_blank" rel="noopener"><img src="/assets/ic-whatsapp-btn.svg" alt="" width="24" height="24"><span>${label}</span></a>`;
     const callBtn = (label, cls) => `<a class="help-btn ${cls}" data-help-call href="tel:${telNo}"><img src="/assets/ic-phone${cls === "help-wa" ? "" : "-dark"}.svg" alt="" width="20" height="20"><span>${label}</span></a>`;
-    const bookBtn = `<button type="button" class="help-btn help-wa" data-help-book><span>احجز موعدك وسنتواصل معك</span></button>`;
+    const bookBtn = `<button type="button" class="help-btn help-wa" data-help-book><span>${L("احجز موعدك وسنتواصل معك", "Book now and we'll contact you")}</span></button>`;
     let title, sub, acts, foot;
     if (kind === "ask") {
-      title = "هل لديك استفسار آخر؟ 💚"; sub = "فريق مدى كير هنا لمساعدتك والإجابة عن جميع استفساراتك."; foot = "نرعاكم كأهلنا 💚";
-      acts = wa ? waBtn("تواصل مع فريق مدى كير") : telNo ? callBtn("تواصل مع فريق مدى كير", "help-wa") : bookBtn;
+      title = L("هل لديك استفسار آخر؟ 💚", "Have another question? 💚"); sub = L("فريق مدى كير هنا لمساعدتك والإجابة عن جميع استفساراتك.", "The Mada Care team is here to help and answer all your questions."); foot = L("نرعاكم كأهلنا 💚", "We care for you like family 💚");
+      const team = L("تواصل مع فريق مدى كير", "Contact the Mada Care team");
+      acts = wa ? waBtn(team) : telNo ? callBtn(team, "help-wa") : bookBtn;
     } else {
-      title = "تحتاج مساعدة؟ 💚"; sub = "يسعدنا مساعدتك، تواصل معنا بالطريقة المناسبة لك."; foot = "فريقنا دائماً في خدمتك 💚";
-      acts = (wa ? waBtn("تواصل عبر واتساب") : "") + (telNo ? callBtn("اتصل بنا", "help-call") : "") || bookBtn;
+      title = L("تحتاج مساعدة؟ 💚", "Need help? 💚"); sub = L("يسعدنا مساعدتك، تواصل معنا بالطريقة المناسبة لك.", "We're happy to help. Reach us whichever way suits you."); foot = L("فريقنا دائماً في خدمتك 💚", "Our team is always here for you 💚");
+      acts = (wa ? waBtn(L("تواصل عبر واتساب", "Chat on WhatsApp")) : "") + (telNo ? callBtn(L("اتصل بنا", "Call us"), "help-call") : "") || bookBtn;
     }
     helpOv.innerHTML = `<div class="dlg help-dlg" role="dialog" aria-modal="true" aria-labelledby="helpT">
-        <button type="button" class="dlg-x" data-hclose aria-label="إغلاق">×</button>
+        <button type="button" class="dlg-x" data-hclose aria-label="${L("إغلاق", "Close")}">×</button>
         <h2 id="helpT">${title}</h2>
         <p class="dlg-sub">${sub}</p>
         <div class="help-acts">${acts}</div>
@@ -128,6 +134,11 @@
     helpOv.hidden = false; document.body.style.overflow = "hidden";
     setTimeout(() => { const f = helpOv.querySelector(".help-btn"); if (f) f.focus(); }, 30);
   }
+  // Language button (globe): same page in the other language; /en/... <-> /...
+  $$(".globe").forEach(b => b.addEventListener("click", () => {
+    const p = location.pathname;
+    location.href = (EN ? (p.replace(/^\/en(\/|$)/, "/") || "/") : "/en" + p) + location.hash;
+  }));
   $$("[data-help]").forEach(a => a.addEventListener("click", e => { e.preventDefault(); openHelp(a.dataset.help); }));
   // Contact page buttons: WhatsApp / call when the numbers are set, otherwise the booking form.
   $$("[data-wa-link]").forEach(a => { if (wa) ext(a, wa); else a.addEventListener("click", e => { e.preventDefault(); openBook(); }); });
@@ -140,7 +151,7 @@
   $$("[data-call]").forEach(a => { const go = u => { delete a.dataset.book; a.href = u; a.hidden = false; }; if (wa) { go(wa); a.target = "_blank"; a.rel = "noopener"; } else if (tel) go("tel:" + tel); });
   $$("[data-phone]").forEach(a => { if (tel) { a.href = "tel:" + tel; a.textContent = C.phone; a.closest("[data-phone-row]").hidden = false; } });
   if (C.crNumber) ["crNo", "crNo2"].forEach(k => { if ($(k)) $(k).textContent = C.crNumber; });
-  $$("[data-soon]").forEach(a => a.addEventListener("click", e => { e.preventDefault(); toast("هذه الصفحة قيد البناء في الورشة"); }));
+  $$("[data-soon]").forEach(a => a.addEventListener("click", e => { e.preventDefault(); toast(L("هذه الصفحة قيد البناء في الورشة", "This page is coming soon")); }));
   if (C.vatNumber && $("vatNo")) $("vatNo").textContent = C.vatNumber;
   if ($("vatRow") && !/[1-9]/.test(C.vatNumber || "")) $("vatRow").hidden = true;  // placeholder VAT stays hidden until the real number is set
 
@@ -209,9 +220,9 @@
   const bad = (el, msg) => { el.setAttribute("aria-invalid", "true"); err.textContent = msg; err.hidden = false; el.focus(); return false; };
   function valid() {
     form.querySelectorAll("[aria-invalid]").forEach(x => x.removeAttribute("aria-invalid")); err.hidden = true;
-    if ($("bkName").value.trim().length < 2) return bad($("bkName"), "اكتب الاسم.");
-    if (!/^05\d{8}$/.test($("bkMobile").value)) return bad($("bkMobile"), "اكتب رقم جوال صحيح يبدأ بـ 05 ومكوّن من 10 أرقام.");
-    if (!$("bkSvc").value) return bad($("bkSvc"), "اختر الخدمة.");
+    if ($("bkName").value.trim().length < 2) return bad($("bkName"), L("اكتب الاسم.", "Please enter your name."));
+    if (!/^05\d{8}$/.test($("bkMobile").value)) return bad($("bkMobile"), L("اكتب رقم جوال صحيح يبدأ بـ 05 ومكوّن من 10 أرقام.", "Enter a valid 10-digit mobile number starting with 05."));
+    if (!$("bkSvc").value) return bad($("bkSvc"), L("اختر الخدمة.", "Please choose a service."));
     return true;
   }
   // Home page lead form (name, mobile, service): fills the booking form and sends it, so errors and the confirmation show in the same popup.
@@ -226,13 +237,13 @@
     e.preventDefault();
     if (!valid()) return;
     const cloud = C.cloud || {};
-    if (!cloud.url || !cloud.key) { err.textContent = "الحجز من الموقع غير متاح حالياً، تواصل معنا عبر واتساب."; err.hidden = false; return; }
+    if (!cloud.url || !cloud.key) { err.textContent = L("الحجز من الموقع غير متاح حالياً، تواصل معنا عبر واتساب.", "Online booking isn't available right now. Please contact us on WhatsApp."); err.hidden = false; return; }
     const btn = $("bkSend"); btn.disabled = true;
     const now = new Date().toISOString(), id = "WEB-" + Date.now().toString(36).toUpperCase().slice(-5) + Math.random().toString(36).slice(2, 5).toUpperCase();
     const ref = attribution(), name = $("bkName").value.trim(), mobile = $("bkMobile").value, service = $("bkSvc").value, note = $("bkNote").value.trim();
     const order = {
       id, createdAt: now, updatedAt: now, service, mobile, medical: "non", patient: { en: name, ar: name }, mrn: null, staff: null, staffId: null,
-      source: "website", status: "on_hold", decision: "pending", payment: null, web: { name, note: note || null, at: now, ref },
+      source: "website", status: "on_hold", decision: "pending", payment: null, web: { name, note: note || null, at: now, ref, lang: EN ? "en" : "ar" },
       hold: { reason: "web", note: note || null, at: now, by: null, byId: null, view: "step1", snap: { mobile, source: "website", view: "step1", savedAt: now }, dueAt: now, action: "call", warned: null }
     };
     try {
@@ -246,7 +257,7 @@
       $("bkRef").textContent = id; $("bkForm").hidden = true; $("bkDone").hidden = false; form.reset();
       $("bkDone").querySelector("button").focus();
     } catch (x) {
-      err.textContent = "تعذّر إرسال الطلب، حاول مرة أخرى."; err.hidden = false;
+      err.textContent = L("تعذّر إرسال الطلب، حاول مرة أخرى.", "We couldn't send your request. Please try again."); err.hidden = false;
     } finally { btn.disabled = false; }
   });
 
@@ -254,7 +265,7 @@
   $("subForm").addEventListener("submit", async e => {
     e.preventDefault();
     const m = $("subMsg"), v = $("subEmail").value.trim().toLowerCase(), btn = $("subBtn");
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) { m.textContent = "اكتب بريداً إلكترونياً صحيحاً."; m.hidden = false; return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) { m.textContent = L("اكتب بريداً إلكترونياً صحيحاً.", "Please enter a valid email."); m.hidden = false; return; }
     m.hidden = true;
     const cloud = C.cloud || {};
     btn.disabled = true;
@@ -264,13 +275,13 @@
       const res = await fetch(cloud.url.replace(/\/$/, "") + "/rest/v1/mada_data", {
         method: "POST",
         headers: { apikey: cloud.key, "Content-Type": "application/json", Prefer: "return=minimal", ...(String(cloud.key).split(".").length === 3 ? { Authorization: "Bearer " + cloud.key } : {}) },
-        body: JSON.stringify({ k: "mada-newsletter", rid: "NL-" + Date.now().toString(36).toUpperCase() + Math.random().toString(36).slice(2, 5).toUpperCase(), v: JSON.stringify({ email: v, at: now, page: location.pathname, ref: attribution() }), pos: Math.floor(Date.now() / 1000) })
+        body: JSON.stringify({ k: "mada-newsletter", rid: "NL-" + Date.now().toString(36).toUpperCase() + Math.random().toString(36).slice(2, 5).toUpperCase(), v: JSON.stringify({ email: v, at: now, page: location.pathname, lang: EN ? "en" : "ar", ref: attribution() }), pos: Math.floor(Date.now() / 1000) })
       });
       if (!res.ok) throw new Error(res.status);
       gtmEvent("newsletter_submit");
       $("subBody").hidden = true; $("subDone").hidden = false;
     } catch (x) {
-      m.textContent = "تعذّر الاشتراك الآن، حاول مرة أخرى."; m.hidden = false;
+      m.textContent = L("تعذّر الاشتراك الآن، حاول مرة أخرى.", "We couldn't subscribe you right now. Please try again."); m.hidden = false;
     } finally { btn.disabled = false; }
   });
 })();

@@ -726,3 +726,43 @@ button.vc-cta:hover { text-decoration: underline; }
 .sub-row button:disabled { opacity: .7; cursor: default; }
 .sub #subBody, .sub .sub-done { grid-template-columns: minmax(0, 1fr); }
 .sub-row input { width: 100%; }
+
+/* English pages (/en/, dir="ltr"): mirror the parts that are placed with left/right */
+[dir="ltr"] .st { left: auto; right: var(--x); }
+[dir="ltr"] .st-bar { transform: scaleX(-1); }
+[dir="ltr"] .st-card { direction: ltr; }
+[dir="ltr"] .st-board { height: 380px; }
+[dir="ltr"] img[src*="ic-arrow-left"] { transform: scaleX(-1); }
+[dir="ltr"] .pg[data-dir="prev"] { order: -1; }
+[dir="ltr"] .pg[data-dir="next"] { order: 1; }
+[dir="ltr"] .qc blockquote.en { flex-direction: row; justify-content: flex-start; }
+[dir="ltr"] .qc blockquote.en .qm { order: -1; }
+[dir="ltr"] .wa-float { left: auto; right: 24px; }
+@media (min-width: 861px) {
+  [dir="ltr"] .hero { height: auto; min-height: 491px; }
+  [dir="ltr"] .hero-in { min-height: 491px; padding-block: 40px; box-sizing: border-box; }
+  [dir="ltr"] .hero-vis { left: auto; right: 42px; }
+  [dir="ltr"] .hero-shot { left: auto; right: 0; }
+  [dir="ltr"] .appcta-phone { left: auto; right: 0; filter: drop-shadow(48px -12px 30px rgba(0,0,0,.13)); }
+}
+@media (min-width: 861px) and (max-width: 1200px) {
+  [dir="ltr"] .hero-vis { right: 0; }
+  [dir="ltr"] .hero-shot { right: auto; left: 0; }
+}
+@media (max-width: 860px) { [dir="ltr"] .wa-float { right: 16px; } }
+@media (max-width: 860px) {
+  [dir="ltr"] .hero .tags { flex-wrap: wrap; }
+  [dir="ltr"] .hero-btns { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  [dir="ltr"] .hero-text { min-width: 0; }
+}
+@media (max-width: 860px) { [dir="ltr"] .hero .display { line-height: 1.3; } }
+
+/* Booking sent: order number small in the top corner, check, title, text, OK button */
+.bk-done { display: grid; justify-items: center; text-align: center; gap: 12px; padding-top: 8px; }
+.bk-done[hidden] { display: none; }
+.bk-done .bk-ref { position: absolute; top: 18px; inset-inline-start: 24px; margin: 0; font-size: .8125rem; color: #6c737f; }
+.bk-done .bk-ref b { font-weight: 500; letter-spacing: .3px; }
+.bk-done .bk-ok { color: #12a37f; display: grid; margin-top: 16px; }
+.bk-done h2 { color: #0b6b5c; font-size: 1.625rem; line-height: 1.4; }
+.bk-done .dlg-sub { font-size: 1rem; line-height: 1.7; margin: 0; }
+.bk-done .btn { margin-top: 8px; border-radius: 999px; height: 52px; }
