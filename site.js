@@ -102,6 +102,7 @@
   if (wa) ext(wf, wa); else wf.addEventListener("click", e => { e.preventDefault(); openBook(); });
   const tel = String(C.phone || "").replace(/[^\d+]/g, "");
   $$("[data-call]").forEach(a => { if (tel) { a.href = "tel:" + tel; a.hidden = false; } });
+  $$("[data-phone]").forEach(a => { if (tel) { a.href = "tel:" + tel; a.textContent = C.phone; a.closest("[data-phone-row]").hidden = false; } });
   if (C.crNumber) ["crNo", "crNo2"].forEach(k => { if ($(k)) $(k).textContent = C.crNumber; });
   $$("[data-soon]").forEach(a => a.addEventListener("click", e => { e.preventDefault(); toast("هذه الصفحة قيد البناء في الورشة"); }));
   if (C.vatNumber && $("vatNo")) $("vatNo").textContent = C.vatNumber;
@@ -177,6 +178,14 @@
     if (!$("bkSvc").value) return bad($("bkSvc"), "اختر الخدمة.");
     return true;
   }
+  // Home page lead form (name, mobile, service): fills the booking form and sends it, so errors and the confirmation show in the same popup.
+  const lead = $("leadForm");
+  if (lead) lead.addEventListener("submit", e => {
+    e.preventDefault();
+    $("bkName").value = $("ldName").value; $("bkMobile").value = $("ldMobile").value.replace(/\D/g, "");
+    openBook($("ldSvc").value);
+    form.requestSubmit();
+  });
   form.addEventListener("submit", async e => {
     e.preventDefault();
     if (!valid()) return;
