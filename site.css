@@ -951,3 +951,10 @@ button.vc-cta:hover { text-decoration: underline; }
   .btn-call img, .btn-white img[src*="ic-whatsapp-btn"] { animation: none; }
   .sc.why, .sc.why .fi, .rv, .fc.rv .fc-ic { transition: none; }
   .sx-blob, .sx-ic, .sx-ic::after, .sx-emo, .sx-float, }
+
+/* "بل نقدم شعوراً …" line: bigger, last word cycles */
+.feat-tag { font-family: var(--fh); font-size: 2rem; font-weight: 700; color: var(--heading); margin-top: 48px; line-height: 1.6; }
+.ft-w { display: inline-block; min-width: 5.5em; text-align: start; color: #12a37f; transition: opacity .35s ease, transform .35s ease; }
+.ft-w.out { opacity: 0; transform: translateY(-14px); }
+[dir="ltr"] .ft-w { min-width: 6.5em; }
+@media (max-width: 860px) { .feat-tag { font-size: 1.375rem; margin-top: 28px; } }
