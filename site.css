@@ -622,8 +622,8 @@ button.vc-cta:hover { text-decoration: underline; }
 /* Hero: red call button (right) + booking (left), store badges below */
 .hero-acts { flex-direction: column; align-items: flex-start; }
 .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
-.btn-call { background: #d92d20; color: #fff; height: 48px; padding: 0 20px; font-size: 1rem; font-weight: 600; box-shadow: 0 6px 16px -6px rgba(217,45,32,.6); }
-.btn-call:hover { background: #b42318; }
+.btn-call { background: #d4573a; color: #fff; height: 48px; padding: 0 20px; font-size: 1rem; font-weight: 700; box-shadow: 0 6px 16px -6px rgba(212,87,58,.55); }
+.btn-call:hover { background: #bd4a2f; }
 .btn-call[hidden] { display: none; }
 @media (max-width: 860px) {
   .hero-btns { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
