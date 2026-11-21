@@ -630,3 +630,28 @@ button.vc-cta:hover { text-decoration: underline; }
   .hero-btns .btn { width: 100%; height: 48px; padding: 0 10px; font-size: .9375rem; }
   .hero-btns:has(.btn-call[hidden]) { grid-template-columns: 1fr; }
 }
+
+/* Home content from the client's text file (Nov 2026) */
+.hero-lines { display: grid; gap: 4px; }
+.hero-lines span { display: block; }
+.hero-lines b { color: var(--navy, #0b3a55); font-weight: 700; }
+.call-note { font-size: .8125rem; color: #6c737f; margin: -4px 0 0; }
+.hero-btns:has(.btn-call[hidden]) + .call-note, .appcta-btns:has(.btn-call[hidden]) + .call-note { display: none; }
+.feat-tag { text-align: center; font-size: 1.25rem; font-weight: 600; color: #161616; margin-top: 40px; }
+.feat-tag b { color: #0b6b5c; }
+.app-feats { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.app-feats li { position: relative; padding-inline-start: 28px; font-size: 1rem; line-height: 1.5rem; color: #161616; }
+.app-feats li::before { content: ""; position: absolute; inset-inline-start: 0; top: 4px; width: 18px; height: 18px; border-radius: 50%; background: #12a37f url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/12px no-repeat; }
+.appcta-head { display: grid; gap: 16px; justify-items: center; }
+.appcta-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.appcta-btns .btn { height: 48px; }
+.faq-more { margin-top: 16px; font-size: 1rem; font-weight: 600; color: #161616; }
+.faq-more a { color: #0b6b5c; text-decoration: underline; text-underline-offset: 4px; }
+@media (max-width: 860px) {
+  .feat-tag { font-size: 1.0625rem; margin-top: 24px; }
+  .appcta-btns { width: 100%; display: grid; grid-template-columns: 1fr 1fr; padding: 0 16px; }
+  .appcta-btns:has(.btn-call[hidden]) { grid-template-columns: 1fr; }
+  .call-note { text-align: center; width: 100%; }
+}
+.hero .hero-lines b { color: #fff; }
+.hero .call-note { color: rgba(255,255,255,.85); }
