@@ -442,17 +442,39 @@ function gtmEvent(event, extra) {
   rows.forEach(r => spy.observe(r));
 })();
 
-// "بل نقدم شعوراً …": the last word cycles through the three things we focus on.
+// "بل نقدم شعوراً …": the last word sits in a green pill and changes between the three things we focus on,
+// with a blur-out, a pill that closes and opens again, a shine, a ring and a few sparkles.
 (() => {
   const w = document.querySelector(".ft-w[data-words]");
   if (!w) return;
   const words = w.dataset.words.split("|");
   const en = { "بالأمان": "of safety", "بالراحة": "of comfort", "بالطمأنينة": "of peace of mind" };
   const list = document.documentElement.lang === "en" ? words.map(x => en[x] || x) : words;
+  const t = document.createElement("span"); t.className = "ft-t"; t.textContent = w.textContent;
+  w.textContent = ""; w.appendChild(t);
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  let n = 0;
-  setInterval(() => {
+  const burst = () => {
+    const ring = document.createElement("span"); ring.className = "ft-ring"; w.appendChild(ring);
+    ["✨", "💚", "✨", "💚", "✨", "💚"].forEach((s, i) => {
+      const sp = document.createElement("span"); sp.className = "ft-spark"; sp.textContent = s;
+      const a = (i / 6) * Math.PI * 2 + .3, r = 1.6 + (i % 2) * .5;
+      sp.style.setProperty("--dx", Math.cos(a) * r * 2 + "em"); sp.style.setProperty("--dy", Math.sin(a) * r + "em"); sp.style.setProperty("--r", (i % 2 ? 40 : -40) + "deg");
+      w.appendChild(sp);
+    });
+    setTimeout(() => w.querySelectorAll(".ft-ring, .ft-spark").forEach(x => x.remove()), 1000);
+  };
+  let n = 0, seen = false;
+  const step = () => {
     w.classList.add("out");
-    setTimeout(() => { n = (n + 1) % list.length; w.textContent = list[n]; w.classList.remove("out"); }, 350);
-  }, 2200);
+    setTimeout(() => {
+      n = (n + 1) % list.length; t.textContent = list[n];
+      w.classList.add("pre"); w.classList.remove("out");
+      void t.offsetWidth; w.classList.remove("pre");
+      w.classList.remove("shine"); void w.offsetWidth; w.classList.add("shine");
+      setTimeout(burst, 250);
+    }, 550);
+  };
+  // Start when the line is on screen, so the visitor sees the first change.
+  const io = new IntersectionObserver(es => { if (es[0].isIntersecting && !seen) { seen = true; setTimeout(step, 1200); setInterval(step, 3000); } }, { threshold: .6 });
+  io.observe(w);
 })();
