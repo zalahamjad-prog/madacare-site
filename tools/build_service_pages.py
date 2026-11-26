@@ -95,6 +95,114 @@ def cards(items, link=False):
     return "\n".join(f'      <div class="fact"><b>{b}</b><small>{s}</small></div>' for b, s in items)
 
 
+POSTS = [
+    {"slug": "home-blood-test-jeddah", "svc": "blood", "page": "/home-lab/", "page_name": "المختبر المنزلي", "icon": "svc-ic1.svg", "bg": "#fffaeb", "cat": "التحاليل المنزلية",
+     "date": "2026-11-26", "related": ["full-checkup-every-6-months", "home-doctor-visit", "iv-vitamins-benefits"],
+     "title": "تحليل الدم في البيت في جدة: كيف تتم الخدمة خطوة بخطوة",
+     "desc": "تبغى تسوي تحليل دم في البيت بجدة؟ تعرّف على خطوات سحب العينة في منزلك، وكيف تستعد، ومتى تستلم النتائج مع مختبر مدى كير المنزلي.",
+     "intro": ["مشوار المختبر والانتظار والزحام ممكن يأخذ نص يومك، خصوصاً لو التحليل يحتاج صيام أو المريض كبير بالسن. عشان كذا صار الكثير في جدة يفضلون تحليل الدم في البيت."],
+     "html": """
+      <p>مع مختبر مدى كير المنزلي، فني مختبر مرخص يجيك في الوقت اللي يناسبك، يسحب العينة خلال دقائق، والنتائج توصلك أونلاين بدون ما تطلع من بيتك.</p>
+      <h2>مين يستفيد من التحليل المنزلي؟</h2>
+      <ul><li>كبار السن ومن يصعب عليه التنقل.</li><li>مرضى الأمراض المزمنة اللي يحتاجون تحاليل دورية مثل السكري والغدة والكلى.</li><li>الحوامل والأمهات اللي معهم أطفال صغار.</li><li>الموظفين اللي وقتهم ضيق ويبغون يخلصون التحليل الصبح قبل الدوام.</li><li>العائلات اللي تبغى فحص لأكثر من شخص في نفس الزيارة.</li></ul>
+      <h2>كيف تتم الخدمة؟</h2>
+      <ol><li>تحجز من الموقع أو التطبيق وتكتب التحاليل المطلوبة، أو ترفق طلب الطبيب إذا عندك.</li><li>يتواصل معك فريقنا ويأكد الموعد، ويقول لك إذا في تحليل يحتاج صيام.</li><li>يوصلك فني مختبر مرخص في الوقت المتفق عليه، ومعه أدوات معقمة.</li><li>يسحب العينة خلال دقائق، وتنتقل للمختبر بطريقة تحافظ على جودتها.</li><li>تستلم النتائج أونلاين، ولو في شي يحتاج متابعة نقدر نرتب لك زيارة طبيب منزلية.</li></ol>
+      <h2>كيف تستعد قبل وصول الفني؟</h2>
+      <ul><li>لو التحليل يحتاج صيام، خله أول شي الصبح، والموية مسموحة.</li><li>اشرب موية كفاية قبلها بساعات، يسهل سحب الدم.</li><li>جهز قائمة بالأدوية اللي تاخذها، واسأل طبيبك إذا في دواء لازم تأجله لبعد التحليل.</li><li>البس لبس بأكمام سهلة الرفع.</li></ul>
+""",
+     "faq": [("هل نتائج التحليل المنزلي دقيقة مثل المختبر؟", "نعم، العينة نفسها تنحلل في مختبر معتمد، الفرق بس إن السحب يصير في بيتك."),
+             ("متى تطلع النتائج؟", "يختلف حسب نوع التحليل، وفريقنا يبلغك بموعد النتائج عند تأكيد الحجز، وتستلمها أونلاين."),
+             ("هل أحتاج طلب من طبيب؟", "مو شرط للتحاليل العامة مثل الفحص الشامل، لكن لو عندك طلب من طبيبك رفقه عشان نسوي التحاليل اللي يبغاها بالضبط.")]},
+    {"slug": "home-doctor-visit", "svc": "doctor", "page": "/home-doctor/", "page_name": "زيارة طبيب منزلية", "icon": "svc-ic4.svg", "bg": "#eff8ff", "cat": "زيارة الطبيب",
+     "title": "زيارة الطبيب المنزلي: راحة وأمان ورعاية صحية أفضل داخل منزلك",
+     "desc": "لماذا يفضل الكثير زيارة الطبيب في المنزل؟ تعرّف على فوائد زيارة الطبيب المنزلي في جدة لكبار السن والمرضى، وكيف تحجزها مع مدى كير.",
+     "intro": ["أصبحت خدمة زيارة الطبيب المنزلي من أكثر الخدمات الصحية طلباً في السعودية، خاصةً لكبار السن والمرضى الذين يحتاجون رعاية مستمرة دون عناء الذهاب للمستشفى.",
+               "في مدى كير نوفر خدمة طبيب منزلي في جدة بأعلى معايير الجودة والخصوصية، مع سرعة استجابة وفريق طبي محترف."],
+     "h2": "لماذا يفضل الكثير زيارة الطبيب في المنزل؟",
+     "list": ["تقليل خطر العدوى داخل المستشفيات.", "راحة أكبر للمريض وأسرته.", "متابعة صحية دقيقة داخل بيئة المريض.", "توفير الوقت والجهد، خاصة لكبار السن."],
+     "outro": "إذا كنت تبحث عن كشف طبي منزلي أو زيارة طبيب للمنزل في جدة، فمدى كير توفر لك الرعاية الصحية أينما كنت."},
+    {"slug": "wound-dressing-at-home", "svc": "nursing", "page": "/home-nursing/", "page_name": "التمريض المنزلي", "icon": "svc-ic3.svg", "bg": "#f8edff", "cat": "التمريض المنزلي",
+     "title": "تغيير الجروح والضمادات في المنزل بطريقة صحيحة لتجنب المضاعفات",
+     "desc": "متى تحتاج إلى ممرض منزلي لتغيير الجروح والضمادات؟ تعرّف على أهمية العناية الصحيحة بالجروح بعد العمليات ولمرضى السكري، وخدمة التمريض المنزلي في جدة.",
+     "intro": ["يُعد تغيير الجروح في المنزل من أهم الخدمات التمريضية التي تحتاج إلى عناية دقيقة لمنع الالتهابات وتسريع الشفاء.",
+               "عدم تنظيف الجرح أو تغيير الضماد بشكل صحيح قد يؤدي إلى مضاعفات خطيرة وتأخر التئام الجروح."],
+     "h2": "متى تحتاج إلى ممرض منزلي لتغيير الجروح؟",
+     "list": ["بعد العمليات الجراحية.", "مرضى السكري وتقرحات القدم.", "الجروح العميقة أو المزمنة.", "الحروق والإصابات الجلدية."],
+     "outro": "في مدى كير نقدم خدمة تمريض منزلي في جدة وتغيير ضمادات منزلية بواسطة طاقم تمريضي مؤهل يضمن لك الراحة والأمان داخل منزلك."},
+    {"slug": "full-checkup-every-6-months", "svc": "blood", "page": "/home-lab/", "page_name": "المختبر المنزلي", "icon": "svc-ic1.svg", "bg": "#fffaeb", "cat": "التحاليل المنزلية",
+     "title": "أهمية الفحص الشامل كل 6 أشهر للحفاظ على صحتك",
+     "desc": "الفحص الشامل الدوري يساعد على اكتشاف الأمراض مبكراً. تعرّف لماذا تحتاج فحصاً شاملاً كل 6 أشهر، وكيف تسوي تحاليلك في البيت مع مختبر مدى كير المنزلي في جدة.",
+     "intro": ["القيام بالفحص الشامل الدوري يساعد على اكتشاف الكثير من الأمراض مبكراً قبل ظهور الأعراض، مما يزيد فرص العلاج ويحافظ على جودة الحياة."],
+     "h2": "لماذا تحتاج إلى فحص شامل؟",
+     "list": ["الكشف المبكر عن السكري والضغط.", "متابعة صحة القلب والكوليسترول.", "الاطمئنان على وظائف الجسم والفيتامينات.", "الوقاية من الأمراض المزمنة."],
+     "outro": "توفر مدى كير خدمة مختبر منزلي في جدة وتحاليل منزلية بكل سهولة وخصوصية، حيث يصل فريقنا إلى منزلك لسحب العينات دون الحاجة لزيارة المختبر."},
+    {"slug": "iv-vitamins-benefits", "svc": "iv", "page": "/iv-therapy/", "page_name": "الفيتامينات الوريدية", "icon": "svc-ic2.svg", "bg": "#fef3f2", "cat": "الفيتامينات الوريدية",
+     "title": "فوائد الفيتامينات الوريدية لتعزيز الطاقة والمناعة",
+     "desc": "ما فوائد الفيتامينات الوريدية IV Therapy؟ تعرّف على دورها في دعم النشاط والترطيب والمناعة، وجلسات الفيتامينات الوريدية في منزلك بجدة مع مدى كير.",
+     "intro": ["أصبحت جلسات الفيتامينات الوريدية IV Therapy من أكثر الخدمات الصحية انتشاراً لما لها من دور في دعم النشاط والترطيب وتعزيز المناعة."],
+     "h2": "ما فوائد الفيتامينات الوريدية؟",
+     "list": ["زيادة الطاقة وتقليل الإرهاق.", "دعم المناعة وتحسين التركيز.", "تعويض نقص الفيتامينات بسرعة.", "تحسين الترطيب وصحة البشرة."],
+     "outro": "في مدى كير نقدم خدمة فيتامينات وريدية منزلية داخل منزلك بأمان تام وعلى يد مختصين، لتستمتع بتجربة صحية مريحة واحترافية."},
+]
+POST_DATE = "2026-11-21"
+POST_DATE_AR = "21 نوفمبر 2026"
+
+
+AR_MONTHS = ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"]
+
+
+def post_date(p):
+    return p.get("date", POST_DATE)
+
+
+def post_date_ar(p):
+    y, m, d = post_date(p).split("-")
+    return f"{int(d)} {AR_MONTHS[int(m) - 1]} {y}"
+
+
+def read_min(p):
+    if "html" in p:
+        text = re.sub(r"<[^>]+>", " ", p["html"]) + " " + " ".join(q + " " + a for q, a in p.get("faq", []))
+        words = len(text.split()) + len(p["intro"][0].split())
+    else:
+        words = sum(len(x.split()) for x in p["intro"] + p["list"] + [p["outro"], p["h2"]])
+    n = max(1, round(words / 180))
+    return {1: "دقيقة واحدة", 2: "دقيقتان"}.get(n, f"{n} دقائق")
+
+
+def post_cover(p, big=False):
+    return f'<div class="post-cover{" post-cover-lg" if big else ""}" style="--pc:{p["bg"]}" aria-hidden="true"><span class="vi"><img src="/assets/{p["icon"]}" alt="" width="40" height="40"></span></div>'
+
+
+def post_card(p):
+    return f'''      <article class="post-card">
+        <a class="post-card-a" href="/blog/{p["slug"]}/">{post_cover(p)}</a>
+        <div class="post-card-b">
+          <p class="post-meta"><span class="post-cat">{p["cat"]}</span><span>قراءة {read_min(p)}</span></p>
+          <h3><a href="/blog/{p["slug"]}/">{p["title"]}</a></h3>
+          <p>{p["desc"]}</p>
+          <a class="post-more" href="/blog/{p["slug"]}/">اقرأ المقال<img src="/assets/ic-arrow-left.svg" alt="" width="18" height="18" loading="lazy" decoding="async"></a>
+        </div>
+      </article>'''
+
+
+def svc_posts(sv):
+    """Articles about this service, linked from its page (internal links help SEO)."""
+    ps = [p for p in POSTS if p["page"] == f"/{sv['slug']}/"][:3]
+    if not ps:
+        return ""
+    return f'''<section class="svc" id="articles">
+  <div class="wrap stack32">
+    <div class="sec-head"><p class="eyebrow">من المدونة</p><h2 class="h2">مقالات عن {sv["short"]}</h2></div>
+    <div class="post-grid">
+{chr(10).join(post_card(p) for p in ps)}
+    </div>
+  </div>
+</section>
+
+'''
+
+
 def page(sv):
     url = f"{SITE}/{sv['slug']}/"
     faq = [FAQ_STAFF, faq_book(sv["cta"]), *sv["faq_extra"], FAQ_AREA, FAQ_RELATIVE]
@@ -240,7 +348,7 @@ def page(sv):
   </div>
 </section>
 
-<section class="tint" id="more">
+{svc_posts(sv)}<section class="tint" id="more">
   <div class="wrap stack32">
     <div class="sec-head center"><p class="eyebrow">خدمات أخرى</p><h2 class="h2">رعاية متكاملة لكل العائلة</h2></div>
     <div class="cards4">
@@ -579,62 +687,6 @@ os.makedirs("book", exist_ok=True)
 open("book/index.html", "w", encoding="utf-8").write(book_page())
 print("wrote book")
 
-POSTS = [
-    {"slug": "home-doctor-visit", "svc": "doctor", "page": "/home-doctor/", "page_name": "زيارة طبيب منزلية", "icon": "svc-ic4.svg", "bg": "#eff8ff", "cat": "زيارة الطبيب",
-     "title": "زيارة الطبيب المنزلي: راحة وأمان ورعاية صحية أفضل داخل منزلك",
-     "desc": "لماذا يفضل الكثير زيارة الطبيب في المنزل؟ تعرّف على فوائد زيارة الطبيب المنزلي في جدة لكبار السن والمرضى، وكيف تحجزها مع مدى كير.",
-     "intro": ["أصبحت خدمة زيارة الطبيب المنزلي من أكثر الخدمات الصحية طلباً في السعودية، خاصةً لكبار السن والمرضى الذين يحتاجون رعاية مستمرة دون عناء الذهاب للمستشفى.",
-               "في مدى كير نوفر خدمة طبيب منزلي في جدة بأعلى معايير الجودة والخصوصية، مع سرعة استجابة وفريق طبي محترف."],
-     "h2": "لماذا يفضل الكثير زيارة الطبيب في المنزل؟",
-     "list": ["تقليل خطر العدوى داخل المستشفيات.", "راحة أكبر للمريض وأسرته.", "متابعة صحية دقيقة داخل بيئة المريض.", "توفير الوقت والجهد، خاصة لكبار السن."],
-     "outro": "إذا كنت تبحث عن كشف طبي منزلي أو زيارة طبيب للمنزل في جدة، فمدى كير توفر لك الرعاية الصحية أينما كنت."},
-    {"slug": "wound-dressing-at-home", "svc": "nursing", "page": "/home-nursing/", "page_name": "التمريض المنزلي", "icon": "svc-ic3.svg", "bg": "#f8edff", "cat": "التمريض المنزلي",
-     "title": "تغيير الجروح والضمادات في المنزل بطريقة صحيحة لتجنب المضاعفات",
-     "desc": "متى تحتاج إلى ممرض منزلي لتغيير الجروح والضمادات؟ تعرّف على أهمية العناية الصحيحة بالجروح بعد العمليات ولمرضى السكري، وخدمة التمريض المنزلي في جدة.",
-     "intro": ["يُعد تغيير الجروح في المنزل من أهم الخدمات التمريضية التي تحتاج إلى عناية دقيقة لمنع الالتهابات وتسريع الشفاء.",
-               "عدم تنظيف الجرح أو تغيير الضماد بشكل صحيح قد يؤدي إلى مضاعفات خطيرة وتأخر التئام الجروح."],
-     "h2": "متى تحتاج إلى ممرض منزلي لتغيير الجروح؟",
-     "list": ["بعد العمليات الجراحية.", "مرضى السكري وتقرحات القدم.", "الجروح العميقة أو المزمنة.", "الحروق والإصابات الجلدية."],
-     "outro": "في مدى كير نقدم خدمة تمريض منزلي في جدة وتغيير ضمادات منزلية بواسطة طاقم تمريضي مؤهل يضمن لك الراحة والأمان داخل منزلك."},
-    {"slug": "full-checkup-every-6-months", "svc": "blood", "page": "/home-lab/", "page_name": "المختبر المنزلي", "icon": "svc-ic1.svg", "bg": "#fffaeb", "cat": "التحاليل المنزلية",
-     "title": "أهمية الفحص الشامل كل 6 أشهر للحفاظ على صحتك",
-     "desc": "الفحص الشامل الدوري يساعد على اكتشاف الأمراض مبكراً. تعرّف لماذا تحتاج فحصاً شاملاً كل 6 أشهر، وكيف تسوي تحاليلك في البيت مع مختبر مدى كير المنزلي في جدة.",
-     "intro": ["القيام بالفحص الشامل الدوري يساعد على اكتشاف الكثير من الأمراض مبكراً قبل ظهور الأعراض، مما يزيد فرص العلاج ويحافظ على جودة الحياة."],
-     "h2": "لماذا تحتاج إلى فحص شامل؟",
-     "list": ["الكشف المبكر عن السكري والضغط.", "متابعة صحة القلب والكوليسترول.", "الاطمئنان على وظائف الجسم والفيتامينات.", "الوقاية من الأمراض المزمنة."],
-     "outro": "توفر مدى كير خدمة مختبر منزلي في جدة وتحاليل منزلية بكل سهولة وخصوصية، حيث يصل فريقنا إلى منزلك لسحب العينات دون الحاجة لزيارة المختبر."},
-    {"slug": "iv-vitamins-benefits", "svc": "iv", "page": "/iv-therapy/", "page_name": "الفيتامينات الوريدية", "icon": "svc-ic2.svg", "bg": "#fef3f2", "cat": "الفيتامينات الوريدية",
-     "title": "فوائد الفيتامينات الوريدية لتعزيز الطاقة والمناعة",
-     "desc": "ما فوائد الفيتامينات الوريدية IV Therapy؟ تعرّف على دورها في دعم النشاط والترطيب والمناعة، وجلسات الفيتامينات الوريدية في منزلك بجدة مع مدى كير.",
-     "intro": ["أصبحت جلسات الفيتامينات الوريدية IV Therapy من أكثر الخدمات الصحية انتشاراً لما لها من دور في دعم النشاط والترطيب وتعزيز المناعة."],
-     "h2": "ما فوائد الفيتامينات الوريدية؟",
-     "list": ["زيادة الطاقة وتقليل الإرهاق.", "دعم المناعة وتحسين التركيز.", "تعويض نقص الفيتامينات بسرعة.", "تحسين الترطيب وصحة البشرة."],
-     "outro": "في مدى كير نقدم خدمة فيتامينات وريدية منزلية داخل منزلك بأمان تام وعلى يد مختصين، لتستمتع بتجربة صحية مريحة واحترافية."},
-]
-POST_DATE = "2026-11-21"
-POST_DATE_AR = "21 نوفمبر 2026"
-
-
-def read_min(p):
-    words = sum(len(x.split()) for x in p["intro"] + p["list"] + [p["outro"], p["h2"]])
-    n = max(1, round(words / 180))
-    return {1: "دقيقة واحدة", 2: "دقيقتان"}.get(n, f"{n} دقائق")
-
-
-def post_cover(p, big=False):
-    return f'<div class="post-cover{" post-cover-lg" if big else ""}" style="--pc:{p["bg"]}" aria-hidden="true"><span class="vi"><img src="/assets/{p["icon"]}" alt="" width="40" height="40"></span></div>'
-
-
-def post_card(p):
-    return f'''      <article class="post-card">
-        <a class="post-card-a" href="/blog/{p["slug"]}/">{post_cover(p)}</a>
-        <div class="post-card-b">
-          <p class="post-meta"><span class="post-cat">{p["cat"]}</span><span>قراءة {read_min(p)}</span></p>
-          <h3><a href="/blog/{p["slug"]}/">{p["title"]}</a></h3>
-          <p>{p["desc"]}</p>
-          <a class="post-more" href="/blog/{p["slug"]}/">اقرأ المقال<img src="/assets/ic-arrow-left.svg" alt="" width="18" height="18" loading="lazy" decoding="async"></a>
-        </div>
-      </article>'''
 
 
 def blog_hero(crumbs, h1, lead, meta=""):
@@ -675,7 +727,7 @@ def blog_index():
 '''
     ld_blog = {"@context": "https://schema.org", "@type": "Blog", "@id": SITE + "/blog/#blog", "name": "مدونة مدى كير", "url": SITE + "/blog/", "inLanguage": "ar",
                "publisher": {"@id": SITE + "/#org"},
-               "blogPost": [{"@type": "BlogPosting", "headline": p["title"], "url": f"{SITE}/blog/{p['slug']}/", "datePublished": POST_DATE} for p in POSTS]}
+               "blogPost": [{"@type": "BlogPosting", "headline": p["title"], "url": f"{SITE}/blog/{p['slug']}/", "datePublished": post_date(p)} for p in POSTS]}
     html = policy_page("blog", "المدونة", "مدونة مدى كير | نصائح صحية للرعاية المنزلية في جدة",
                        "مقالات ونصائح صحية من مدى كير: زيارة الطبيب المنزلي، التمريض والعناية بالجروح، الفحص الشامل والتحاليل المنزلية، والفيتامينات الوريدية.",
                        "", body, hero=hero, tail=BLOG_TAIL)
@@ -685,21 +737,29 @@ def blog_index():
 def blog_post(p):
     url = f"{SITE}/blog/{p['slug']}/"
     meta = f'''
-      <p class="post-meta post-meta-h"><span class="post-cat">{p["cat"]}</span><span>فريق مدى كير</span><time datetime="{POST_DATE}">{POST_DATE_AR}</time><span>قراءة {read_min(p)}</span></p>'''
+      <p class="post-meta post-meta-h"><span class="post-cat">{p["cat"]}</span><span>فريق مدى كير</span><time datetime="{post_date(p)}">{post_date_ar(p)}</time><span>قراءة {read_min(p)}</span></p>'''
     hero = blog_hero(f'<a href="/">الرئيسية</a><span aria-hidden="true">›</span><a href="/blog/">المدونة</a><span aria-hidden="true">›</span><span aria-current="page">{p["cat"]}</span>',
                      p["title"], p["intro"][0], meta)
     intro = "".join(f"<p>{x}</p>" for x in p["intro"][1:])
-    items = "".join(f"<li>{x}</li>" for x in p["list"])
-    others = [o for o in POSTS if o is not p][:3]
+    if "html" in p:
+        # Longer article: free HTML body (h2/h3/p/ul/ol/table) plus an optional FAQ.
+        content = intro + p["html"]
+        if p.get("faq"):
+            content += '\n      <h2>أسئلة شائعة</h2>\n' + "".join(f'      <h3>{q}</h3>\n      <p>{a}</p>\n' for q, a in p["faq"])
+    else:
+        items = "".join(f"<li>{x}</li>" for x in p["list"])
+        content = f"""{intro}
+      <h2>{p["h2"]}</h2>
+      <ul>{items}</ul>
+      <p>{p["outro"]}</p>"""
+    rel_slugs = p.get("related")
+    others = ([o for s in rel_slugs for o in POSTS if o["slug"] == s] if rel_slugs else [o for o in POSTS if o is not p])[:3]
     rel = "\n".join(post_card(o) for o in others)
     body = f'''<section class="svc" id="article">
   <div class="wrap">
     <article class="post">
       {post_cover(p, True)}
-      {intro}
-      <h2>{p["h2"]}</h2>
-      <ul>{items}</ul>
-      <p>{p["outro"]}</p>
+      {content}
       <aside class="post-cta">
         <div><b>{p["page_name"]} في جدة</b><p>اعرف تفاصيل الخدمة وكيف تحجزها من صفحتها.</p></div>
         <div class="post-cta-acts"><a class="btn btn-primary" href="#book" data-book data-svc="{p["svc"]}"><span>احجز موعدك الآن</span></a><a class="btn btn-neutral" href="{p["page"]}">صفحة الخدمة</a></div>
@@ -720,13 +780,18 @@ def blog_post(p):
 </section>
 '''
     ld_post = {"@context": "https://schema.org", "@type": "BlogPosting", "@id": url + "#post", "mainEntityOfPage": url, "headline": p["title"], "description": p["desc"],
-               "inLanguage": "ar", "datePublished": POST_DATE, "dateModified": POST_DATE, "image": SITE + "/assets/og-image.jpg",
+               "inLanguage": "ar", "datePublished": post_date(p), "dateModified": p.get("modified", post_date(p)), "image": SITE + "/assets/og-image.jpg",
                "author": {"@type": "Organization", "name": "فريق مدى كير", "url": SITE + "/"}, "publisher": {"@id": SITE + "/#org"},
                "about": {"@type": "MedicalBusiness", "@id": SITE + "/#org"}}
     html = policy_page(f"blog/{p['slug']}", p["title"], f"{p['title']} | مدونة مدى كير", p["desc"], "", body, hero=hero, tail="",
                        crumbs=[("المدونة", SITE + "/blog/"), (p["title"], url)])
     html = html.replace('<meta property="og:type" content="website">', '<meta property="og:type" content="article">', 1)
-    return html.replace("</script>\n</head>", "</script>\n<script type=\"application/ld+json\">\n" + json.dumps(ld_post, ensure_ascii=False, indent=1) + "\n</script>\n</head>", 1)
+    lds = [ld_post]
+    if p.get("faq"):
+        lds.append({"@context": "https://schema.org", "@type": "FAQPage", "@id": url + "#faq",
+                    "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in p["faq"]]})
+    tags = "".join("<script type=\"application/ld+json\">\n" + json.dumps(x, ensure_ascii=False, indent=1) + "\n</script>\n" for x in lds)
+    return html.replace("</script>\n</head>", "</script>\n" + tags + "</head>", 1)
 
 
 os.makedirs("blog", exist_ok=True)
@@ -914,7 +979,18 @@ os.makedirs("cancellation-policy", exist_ok=True)
 open("cancellation-policy/index.html", "w", encoding="utf-8").write(cancel_page())
 print("wrote cancellation-policy")
 
+def lastmod(path):
+    """Real last-change dates so search engines know what is new: posts use their own date,
+    pages that list posts use the newest post shown on them, the rest keep the site date."""
+    base = "2026-11-26"
+    for p in POSTS:
+        if path == f"blog/{p['slug']}/":
+            return p.get("modified", post_date(p))
+    listed = POSTS if path == "blog/" else [p for p in POSTS if p["page"] == f"/{path}"]
+    return max([base] + [p.get("modified", post_date(p)) for p in listed])
+
+
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
 for path in [""] + [s["slug"] + "/" for s in SERVICES] + ["patient-rights/", "cancellation-policy/", "privacy-policy/", "book/", "blog/", "contact/", "about/", "services/"] + [f"blog/{p['slug']}/" for p in POSTS]:
-    sm += f"  <url>\n    <loc>{SITE}/{path}</loc>\n    <lastmod>2026-11-19</lastmod>\n  </url>\n"
+    sm += f"  <url>\n    <loc>{SITE}/{path}</loc>\n    <lastmod>{lastmod(path)}</lastmod>\n  </url>\n"
 open("sitemap.xml", "w").write(sm + "</urlset>\n")

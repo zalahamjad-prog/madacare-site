@@ -602,6 +602,11 @@ button.vc-cta:hover { text-decoration: underline; }
 .post h2 { font-family: var(--fh); font-size: 1.5rem; color: var(--heading); margin: 32px 0 12px; line-height: 1.5; }
 .post ul { margin: 0 0 20px; padding-inline-start: 22px; display: grid; gap: 6px; }
 .post li::marker { color: #12a37f; }
+.post h3 { font-family: var(--fh); font-size: 1.1875rem; color: var(--heading); margin: 24px 0 8px; line-height: 1.6; }
+.post ol { margin: 0 0 20px; padding-inline-start: 22px; display: grid; gap: 6px; }
+.post table { width: 100%; border-collapse: collapse; margin: 0 0 24px; font-size: .9375rem; line-height: 1.7; display: block; overflow-x: auto; }
+.post th, .post td { border: 1px solid var(--b2); padding: 10px 12px; text-align: start; vertical-align: top; }
+.post th { background: #f3faf7; color: var(--heading); font-weight: 700; }
 .post-cta { margin: 32px 0 20px; padding: 22px 24px; border-radius: var(--r-lg); background: #f3faf7; border: 1px solid #d5ede3; display: flex; gap: 16px 24px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
 .post-cta b { color: var(--heading); font-size: 1.125rem; }
 .post-cta p { margin: 4px 0 0; font-size: .9375rem; color: var(--para); line-height: 1.7; }

@@ -186,6 +186,7 @@ T = {
     "اتصل الآن": "Call now", "موقعنا": "Our location", "جدة، المملكة العربية السعودية.": "Jeddah, Saudi Arabia.",
     "6895 طاهر العمراني، حي أبحر الجنوبية، جدة 23734": "6895 Taher Al-Omrani, Abhur Al-Janubiyah, Jeddah 23734",
     "مدى كير – نرعاكم كأهلنا 💚": "Mada Care – We care for you like family 💚",
+    "انضم لفريقنا": "Join our team",
 }
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -273,10 +274,12 @@ for ar_path, en_path in PAGES.items():
 
 # Sitemap: add the English pages.
 sm = open("sitemap.xml", encoding="utf-8").read()
-for en_path in PAGES.values():
+for ar_path, en_path in PAGES.items():
     loc = f"<loc>https://madacare.sa{en_path}</loc>"
     if loc not in sm:
-        sm = sm.replace("</urlset>", f"  <url>{loc}</url>\n</urlset>")
+        m = re.search(rf"<loc>https://madacare\.sa{re.escape(ar_path)}</loc>\s*<lastmod>([^<]+)</lastmod>", sm)
+        mod = f"<lastmod>{m.group(1)}</lastmod>" if m else ""
+        sm = sm.replace("</urlset>", f"  <url>{loc}{mod}</url>\n</urlset>")
 open("sitemap.xml", "w", encoding="utf-8").write(sm)
 
 if missing:
