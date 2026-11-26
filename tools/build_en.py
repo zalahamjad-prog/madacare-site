@@ -186,6 +186,7 @@ T = {
     "اتصل الآن": "Call now", "موقعنا": "Our location", "جدة، المملكة العربية السعودية.": "Jeddah, Saudi Arabia.",
     "6895 طاهر العمراني، حي أبحر الجنوبية، جدة 23734": "6895 Taher Al-Omrani, Abhur Al-Janubiyah, Jeddah 23734",
     "مدى كير – نرعاكم كأهلنا 💚": "Mada Care – We care for you like family 💚",
+    "انضم لفريقنا": "Join our team",
 }
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

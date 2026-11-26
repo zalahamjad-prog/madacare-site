@@ -615,8 +615,24 @@ POST_DATE = "2026-11-21"
 POST_DATE_AR = "21 نوفمبر 2026"
 
 
+AR_MONTHS = ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"]
+
+
+def post_date(p):
+    return p.get("date", POST_DATE)
+
+
+def post_date_ar(p):
+    y, m, d = post_date(p).split("-")
+    return f"{int(d)} {AR_MONTHS[int(m) - 1]} {y}"
+
+
 def read_min(p):
-    words = sum(len(x.split()) for x in p["intro"] + p["list"] + [p["outro"], p["h2"]])
+    if "html" in p:
+        text = re.sub(r"<[^>]+>", " ", p["html"]) + " " + " ".join(q + " " + a for q, a in p.get("faq", []))
+        words = len(text.split()) + len(p["intro"][0].split())
+    else:
+        words = sum(len(x.split()) for x in p["intro"] + p["list"] + [p["outro"], p["h2"]])
     n = max(1, round(words / 180))
     return {1: "دقيقة واحدة", 2: "دقيقتان"}.get(n, f"{n} دقائق")
 
@@ -675,7 +691,7 @@ def blog_index():
 '''
     ld_blog = {"@context": "https://schema.org", "@type": "Blog", "@id": SITE + "/blog/#blog", "name": "مدونة مدى كير", "url": SITE + "/blog/", "inLanguage": "ar",
                "publisher": {"@id": SITE + "/#org"},
-               "blogPost": [{"@type": "BlogPosting", "headline": p["title"], "url": f"{SITE}/blog/{p['slug']}/", "datePublished": POST_DATE} for p in POSTS]}
+               "blogPost": [{"@type": "BlogPosting", "headline": p["title"], "url": f"{SITE}/blog/{p['slug']}/", "datePublished": post_date(p)} for p in POSTS]}
     html = policy_page("blog", "المدونة", "مدونة مدى كير | نصائح صحية للرعاية المنزلية في جدة",
                        "مقالات ونصائح صحية من مدى كير: زيارة الطبيب المنزلي، التمريض والعناية بالجروح، الفحص الشامل والتحاليل المنزلية، والفيتامينات الوريدية.",
                        "", body, hero=hero, tail=BLOG_TAIL)
@@ -685,21 +701,29 @@ def blog_index():
 def blog_post(p):
     url = f"{SITE}/blog/{p['slug']}/"
     meta = f'''
-      <p class="post-meta post-meta-h"><span class="post-cat">{p["cat"]}</span><span>فريق مدى كير</span><time datetime="{POST_DATE}">{POST_DATE_AR}</time><span>قراءة {read_min(p)}</span></p>'''
+      <p class="post-meta post-meta-h"><span class="post-cat">{p["cat"]}</span><span>فريق مدى كير</span><time datetime="{post_date(p)}">{post_date_ar(p)}</time><span>قراءة {read_min(p)}</span></p>'''
     hero = blog_hero(f'<a href="/">الرئيسية</a><span aria-hidden="true">›</span><a href="/blog/">المدونة</a><span aria-hidden="true">›</span><span aria-current="page">{p["cat"]}</span>',
                      p["title"], p["intro"][0], meta)
     intro = "".join(f"<p>{x}</p>" for x in p["intro"][1:])
-    items = "".join(f"<li>{x}</li>" for x in p["list"])
-    others = [o for o in POSTS if o is not p][:3]
+    if "html" in p:
+        # Longer article: free HTML body (h2/h3/p/ul/ol/table) plus an optional FAQ.
+        content = intro + p["html"]
+        if p.get("faq"):
+            content += '\n      <h2>أسئلة شائعة</h2>\n' + "".join(f'      <h3>{q}</h3>\n      <p>{a}</p>\n' for q, a in p["faq"])
+    else:
+        items = "".join(f"<li>{x}</li>" for x in p["list"])
+        content = f"""{intro}
+      <h2>{p["h2"]}</h2>
+      <ul>{items}</ul>
+      <p>{p["outro"]}</p>"""
+    rel_slugs = p.get("related")
+    others = ([o for s in rel_slugs for o in POSTS if o["slug"] == s] if rel_slugs else [o for o in POSTS if o is not p])[:3]
     rel = "\n".join(post_card(o) for o in others)
     body = f'''<section class="svc" id="article">
   <div class="wrap">
     <article class="post">
       {post_cover(p, True)}
-      {intro}
-      <h2>{p["h2"]}</h2>
-      <ul>{items}</ul>
-      <p>{p["outro"]}</p>
+      {content}
       <aside class="post-cta">
         <div><b>{p["page_name"]} في جدة</b><p>اعرف تفاصيل الخدمة وكيف تحجزها من صفحتها.</p></div>
         <div class="post-cta-acts"><a class="btn btn-primary" href="#book" data-book data-svc="{p["svc"]}"><span>احجز موعدك الآن</span></a><a class="btn btn-neutral" href="{p["page"]}">صفحة الخدمة</a></div>
@@ -720,13 +744,18 @@ def blog_post(p):
 </section>
 '''
     ld_post = {"@context": "https://schema.org", "@type": "BlogPosting", "@id": url + "#post", "mainEntityOfPage": url, "headline": p["title"], "description": p["desc"],
-               "inLanguage": "ar", "datePublished": POST_DATE, "dateModified": POST_DATE, "image": SITE + "/assets/og-image.jpg",
+               "inLanguage": "ar", "datePublished": post_date(p), "dateModified": p.get("modified", post_date(p)), "image": SITE + "/assets/og-image.jpg",
                "author": {"@type": "Organization", "name": "فريق مدى كير", "url": SITE + "/"}, "publisher": {"@id": SITE + "/#org"},
                "about": {"@type": "MedicalBusiness", "@id": SITE + "/#org"}}
     html = policy_page(f"blog/{p['slug']}", p["title"], f"{p['title']} | مدونة مدى كير", p["desc"], "", body, hero=hero, tail="",
                        crumbs=[("المدونة", SITE + "/blog/"), (p["title"], url)])
     html = html.replace('<meta property="og:type" content="website">', '<meta property="og:type" content="article">', 1)
-    return html.replace("</script>\n</head>", "</script>\n<script type=\"application/ld+json\">\n" + json.dumps(ld_post, ensure_ascii=False, indent=1) + "\n</script>\n</head>", 1)
+    lds = [ld_post]
+    if p.get("faq"):
+        lds.append({"@context": "https://schema.org", "@type": "FAQPage", "@id": url + "#faq",
+                    "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in p["faq"]]})
+    tags = "".join("<script type=\"application/ld+json\">\n" + json.dumps(x, ensure_ascii=False, indent=1) + "\n</script>\n" for x in lds)
+    return html.replace("</script>\n</head>", "</script>\n" + tags + "</head>", 1)
 
 
 os.makedirs("blog", exist_ok=True)
