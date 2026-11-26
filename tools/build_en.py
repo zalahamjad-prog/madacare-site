@@ -274,10 +274,12 @@ for ar_path, en_path in PAGES.items():
 
 # Sitemap: add the English pages.
 sm = open("sitemap.xml", encoding="utf-8").read()
-for en_path in PAGES.values():
+for ar_path, en_path in PAGES.items():
     loc = f"<loc>https://madacare.sa{en_path}</loc>"
     if loc not in sm:
-        sm = sm.replace("</urlset>", f"  <url>{loc}</url>\n</urlset>")
+        m = re.search(rf"<loc>https://madacare\.sa{re.escape(ar_path)}</loc>\s*<lastmod>([^<]+)</lastmod>", sm)
+        mod = f"<lastmod>{m.group(1)}</lastmod>" if m else ""
+        sm = sm.replace("</urlset>", f"  <url>{loc}{mod}</url>\n</urlset>")
 open("sitemap.xml", "w", encoding="utf-8").write(sm)
 
 if missing:

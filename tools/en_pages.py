@@ -441,4 +441,11 @@ T2 = {
     "هل أحتاج طلب من طبيب؟": "Do I need a doctor's request?",
     "مو شرط للتحاليل العامة مثل الفحص الشامل، لكن لو عندك طلب من طبيبك رفقه عشان نسوي التحاليل اللي يبغاها بالضبط.":
         "Not for general tests such as a full checkup, but if you have one from your doctor, attach it so we do exactly the tests they want.",
+    # Service pages: articles section
+    "من المدونة": "From the blog",
+    "مقالات عن زيارة طبيب منزلية": "Articles about home doctor visits",
+    "مقالات عن التمريض المنزلي": "Articles about home nursing",
+    "مقالات عن المختبر المنزلي": "Articles about the home lab",
+    "مقالات عن الفيتامينات الوريدية": "Articles about IV vitamins",
+    "مقالات عن علاج طبيعي": "Articles about physiotherapy",
 }
